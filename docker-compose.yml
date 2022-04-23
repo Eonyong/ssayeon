@@ -1,0 +1,17 @@
+version: "3"
+services:
+    web:
+        image: nginx:latest
+        # build: /mnt/c/hotsixturtles/nginx
+        ports:
+          - 80:80
+        volumes:
+          - ./nginx/conf.d:/etc/nginx/conf.d
+          - ./front/dist
+        depends_on:
+          - application
+
+    application:
+        build: ./back
+        ports:
+          - 8080:8080
