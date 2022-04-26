@@ -1,8 +1,10 @@
 package a204.ssayeon.db.entity.balance;
 
-import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class BalanceCommentsLikes extends BaseEntity {
+public class BalanceCommentsLikes {
 
     @Id @GeneratedValue
     @Column(name="balance_comments_likes_id")

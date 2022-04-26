@@ -1,8 +1,10 @@
 package a204.ssayeon.db.entity.balance;
 
-import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class BalanceSelected extends BaseEntity {
+public class BalanceSelected {
 
     @Id @GeneratedValue
     @Column(name="balance_selected_id")
@@ -24,5 +26,6 @@ public class BalanceSelected extends BaseEntity {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
+    @Column(nullable = false)
     private Boolean selected;
 }
