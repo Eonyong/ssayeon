@@ -1,7 +1,5 @@
 package a204.ssayeon.db.entity.preference;
 
-import a204.ssayeon.db.entity.BaseEntity;
-
 import a204.ssayeon.db.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,14 +12,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Preference{
+public class PreferenceOptionsUserSelected {
 
     @Id @GeneratedValue
-    @Column(name="preference_id")
+    @Column(name="preference_options_user_selected_id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "preference_id")
+    private Preference preference;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 }
-

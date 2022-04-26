@@ -1,16 +1,21 @@
 package a204.ssayeon.db.entity.user;
 
 import a204.ssayeon.db.entity.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
+@Getter @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Getter
-@Setter
 public class TechStack extends BaseEntity {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tech_stack_id")
+    private Long id;
+
+    @Column(nullable = false)
     private String description;
 
 }
