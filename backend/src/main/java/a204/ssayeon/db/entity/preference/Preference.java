@@ -1,13 +1,13 @@
 package a204.ssayeon.db.entity.preference;
 
 import a204.ssayeon.db.entity.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 
+@Getter @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Getter
-@Setter
 public class Preference extends BaseEntity {
 }

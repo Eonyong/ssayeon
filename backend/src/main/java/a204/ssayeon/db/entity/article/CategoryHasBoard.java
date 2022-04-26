@@ -1,7 +1,6 @@
 package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
-import a204.ssayeon.db.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,16 +9,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ArticleLikes extends BaseEntity {
+public class CategoryHasBoard extends BaseEntity {
     @Id @GeneratedValue
-    @Column(name = "article_likes_id")
+    @Column(name="category_has_board")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id",nullable = false)
-    private User user;
+    @JoinColumn(name="category_id",nullable = false)
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="article_id",nullable = false)
-    private Article article;
+    @JoinColumn(name="board_id",nullable = false)
+    private Board board;
 }

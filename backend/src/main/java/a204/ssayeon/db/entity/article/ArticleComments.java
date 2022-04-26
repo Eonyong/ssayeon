@@ -5,15 +5,19 @@ import a204.ssayeon.db.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ArticleLikes extends BaseEntity {
+public class ArticleComments extends BaseEntity {
+
     @Id @GeneratedValue
-    @Column(name = "article_likes_id")
+    @Column(name="article_comments_id")
     private Long id;
+
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)
