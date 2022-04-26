@@ -21,11 +21,11 @@ public class Message extends BaseEntity {
     @Column(nullable = false, name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name="senderId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name="sender_id")
     private User sender;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name="receiverId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name="receiver_id")
     private User receiver;
 }

@@ -2,10 +2,12 @@ package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter @Builder
 @AllArgsConstructor
@@ -17,7 +19,9 @@ public class Article extends BaseEntity {
     @Column(name="article_id")
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String content;
     private Integer views;
 

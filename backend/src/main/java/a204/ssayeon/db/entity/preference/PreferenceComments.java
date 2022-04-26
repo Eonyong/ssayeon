@@ -16,14 +16,14 @@ import javax.persistence.*;
 public class PreferenceComments extends BaseEntity {
 
     @Id @GeneratedValue
-    @Column(name="preferece_comments")
+    @Column(name="preference_comments_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "preference_id")
     private Preference preference;
 

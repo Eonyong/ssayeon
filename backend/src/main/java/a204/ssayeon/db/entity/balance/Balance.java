@@ -19,7 +19,7 @@ public class Balance extends BaseEntity {
     @Column(name="balance_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

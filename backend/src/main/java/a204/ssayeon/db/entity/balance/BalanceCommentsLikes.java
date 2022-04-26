@@ -18,11 +18,11 @@ public class BalanceCommentsLikes {
     @Column(name="balance_comments_likes_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "balance_comments_id")
     private BalanceComments balanceComments;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 }

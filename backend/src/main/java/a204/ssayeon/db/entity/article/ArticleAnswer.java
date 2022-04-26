@@ -2,10 +2,12 @@ package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter @Builder
 @AllArgsConstructor
@@ -17,16 +19,13 @@ public class ArticleAnswer extends BaseEntity {
     @Column(name="article_answer_id")
     private Long id;
 
+    @Column(nullable = false)
     private String description;
     private Boolean isSelected;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="article_id",nullable = false)
     private Article article;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id",nullable = false)
-    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)

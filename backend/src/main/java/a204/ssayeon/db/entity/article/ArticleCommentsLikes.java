@@ -1,8 +1,10 @@
 package a204.ssayeon.db.entity.article;
 
-import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ArticleCommentLikes{
+public class ArticleCommentsLikes {
     @Id @GeneratedValue
     @Column(name="article_comments_likes_id")
     private Long id;

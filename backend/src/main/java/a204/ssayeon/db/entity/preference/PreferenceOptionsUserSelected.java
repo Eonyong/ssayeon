@@ -18,11 +18,11 @@ public class PreferenceOptionsUserSelected {
     @Column(name="preference_options_user_selected_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "preference_id")
     private Preference preference;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 }

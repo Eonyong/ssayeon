@@ -15,14 +15,14 @@ import javax.persistence.*;
 public class PreferenceCommentsLikes{
 
     @Id @GeneratedValue
-    @Column(name="preference_comment_likes_id")
+    @Column(name="preference_comments_likes_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "preference_comments_id")
     private PreferenceComments preferenceComments;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 }

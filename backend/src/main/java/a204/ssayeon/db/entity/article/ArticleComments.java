@@ -5,7 +5,6 @@ import a204.ssayeon.db.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter @Builder
 @AllArgsConstructor

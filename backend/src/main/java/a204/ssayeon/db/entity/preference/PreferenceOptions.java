@@ -17,7 +17,7 @@ public class PreferenceOptions{
     @Column(name="preference_options_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "preference_id")
     private Preference preference;
 

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 public class CategoryHasBoard extends BaseEntity {
     @Id @GeneratedValue
-    @Column(name="category_has_board")
+    @Column(name="category_has_board_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

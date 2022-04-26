@@ -19,11 +19,11 @@ public class BalanceComments extends BaseEntity {
     @Column(name="balance_comments_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "balance_id")
     private Balance balance;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
