@@ -3,9 +3,6 @@ package a204.ssayeon.db.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @Getter
@@ -13,8 +10,5 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = null;
 
 }

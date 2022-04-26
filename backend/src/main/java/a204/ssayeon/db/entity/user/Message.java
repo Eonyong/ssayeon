@@ -1,25 +1,31 @@
 package a204.ssayeon.db.entity.user;
 
 import a204.ssayeon.db.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
+@Getter @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Getter
-@Setter
 public class Message extends BaseEntity {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id")
+    private Long id;
+
+    @Column(nullable = false, name = "description")
     private String description;
-    private LocalDateTime date;
+
     @ManyToOne
-    @JoinColumn(name="senderId")
+    @JoinColumn(nullable = false, name="senderId")
     private User sender;
+
     @ManyToOne
-    @JoinColumn(name="receiverId")
+    @JoinColumn(nullable = false, name="receiverId")
     private User receiver;
 }
