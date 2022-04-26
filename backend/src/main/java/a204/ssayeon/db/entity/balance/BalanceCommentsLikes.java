@@ -5,23 +5,22 @@ import a204.ssayeon.db.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Balance extends BaseEntity {
+public class BalanceCommentsLikes extends BaseEntity {
 
     @Id @GeneratedValue
-    @Column(name="balance_id")
+    @Column(name="balance_comments_likes_id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "balance_comments_id")
+    private BalanceComments balanceComments;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
-    private String description;
-    private String leftDescription;
-    private String rightDescription;
 }
