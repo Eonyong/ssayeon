@@ -1,16 +1,8 @@
 import React from 'react';
-import { Divider } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, Button, Container, Divider } from '@mui/material';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import styled from  'styled-components';
-
-const Side = styled.div`
-  display: flex;
-  border-right: 1px solid #e0e0e0;
-  flex-direction: column;
-  justify-content: center;
-  width: 20%;
-`
 
 function SideBar() {
   
@@ -27,8 +19,23 @@ function SideBar() {
   };
   
   return(
-    <Side>
-      
+    <Container>
+      <Box orientation='vertical' sx={{ width: '100%', my:3 }}>
+        <Link to='/accounts/login'>
+          <Button
+            sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
+          >
+            로 그 인
+          </Button>
+        </Link>
+        <Link to='/accounts/signup'>
+          <Button
+            sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
+          >
+            회 원 가 입
+          </Button>
+        </Link>
+      </Box>
       <Divider />
       <ListItemButton sx={{ py: 2 }}>공지사항</ListItemButton>
       {/* 게시판 리스트 버튼 */}
@@ -37,7 +44,7 @@ function SideBar() {
       </ListItemButton>
       <Collapse in={openBoards} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, py: 2 }}>
+          <ListItemButton sx={{ pl: 4, py: 2 }} to='/'>
             <ListItemText primary="💚 자유 게시판" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4, py: 2 }}>
@@ -65,7 +72,7 @@ function SideBar() {
       </Collapse>
 
       <ListItemButton sx={{ py: 2 }}>모임</ListItemButton>
-    </Side>
+    </Container>
   );
 };
 
