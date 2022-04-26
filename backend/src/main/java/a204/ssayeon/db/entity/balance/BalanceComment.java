@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.article;
+package a204.ssayeon.db.entity.balance;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class ArticleComment extends BaseEntity {
+public class BalanceComment extends BaseEntity {
+
     private String description;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 }

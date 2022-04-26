@@ -9,8 +9,5 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class TechStack extends BaseEntity {
-
-    private String description;
-
+public class UserTech extends BaseEntity {
 }

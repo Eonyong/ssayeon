@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.Article;
+package a204.ssayeon.db.entity.preference;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -9,7 +9,5 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class BalanceSelected extends BaseEntity {
-
-    boolean selected;
+public class PreferenceOptionSelected extends BaseEntity {
 }

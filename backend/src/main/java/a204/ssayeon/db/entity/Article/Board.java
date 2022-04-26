@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.user;
+package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class TechStack extends BaseEntity {
+public class Board extends BaseEntity {
 
-    private String description;
-
+    private String name;
 }

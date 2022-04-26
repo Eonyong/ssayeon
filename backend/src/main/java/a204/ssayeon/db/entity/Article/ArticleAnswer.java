@@ -8,14 +8,12 @@ import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
 @Setter
-public class Article extends BaseEntity {
+@Getter
+public class ArticleAnswer extends BaseEntity {
 
-    private String title;
-    private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Integer views;
-
+    private String description;
+    private Boolean isSelected;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 }

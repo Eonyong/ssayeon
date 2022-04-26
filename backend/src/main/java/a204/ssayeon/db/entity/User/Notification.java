@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.User;
+package a204.ssayeon.db.entity.user;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 @Setter
 public class Notification extends BaseEntity {
 
-    String description;
-    boolean read;
+    private String description;
+    private String url;
+    private Boolean read;
 }

@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.User;
+package a204.ssayeon.db.entity.user;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -11,10 +11,10 @@ import javax.persistence.Entity;
 @Setter
 public class User extends BaseEntity {
 
-    String nickname;
-    String email;
-    String password;
-    String company;
-    String picture;
+    private String nickname;
+    private String email;
+    private String password;
+    private String company;
+    private String picture;
 
 }

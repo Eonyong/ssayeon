@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.Board;
+package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -9,7 +9,5 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class Board extends BaseEntity {
-
-    String name;
+public class ArticleLikes extends BaseEntity {
 }

@@ -1,4 +1,4 @@
-package a204.ssayeon.db.entity.Article;
+package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import lombok.Getter;
@@ -9,5 +9,8 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class Preference extends BaseEntity {
+public class Tag extends BaseEntity {
+
+    private String name;
+    private Integer count;
 }
