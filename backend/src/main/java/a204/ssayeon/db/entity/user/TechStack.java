@@ -1,7 +1,9 @@
 package a204.ssayeon.db.entity.user;
 
-import a204.ssayeon.db.entity.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class TechStack extends BaseEntity {
+public class TechStack {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tech_stack_id")
