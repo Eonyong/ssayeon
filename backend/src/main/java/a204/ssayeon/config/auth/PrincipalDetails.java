@@ -1,6 +1,6 @@
 package a204.ssayeon.config.auth;
 
-import a204.ssayeon.domain.user.User;
+import a204.ssayeon.db.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,7 +33,6 @@ public class PrincipalDetails implements UserDetails {
         this.user = user;
         this.authorities = authorities;
     }
-
     public static PrincipalDetails create(User user) {
         List<GrantedAuthority> authorities = Collections.
                 singletonList(new SimpleGrantedAuthority(ROLE_USER));

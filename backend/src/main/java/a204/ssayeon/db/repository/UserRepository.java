@@ -1,5 +1,7 @@
-package a204.ssayeon.domain.user;
+package a204.ssayeon.db.repository;
 
+
+import a204.ssayeon.db.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
