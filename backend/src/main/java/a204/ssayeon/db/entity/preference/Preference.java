@@ -1,5 +1,7 @@
 package a204.ssayeon.db.entity.preference;
 
+import a204.ssayeon.db.entity.BaseEntity;
+
 import a204.ssayeon.db.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
