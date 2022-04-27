@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.time.LocalDateTime;
-
 @ControllerAdvice
 @ResponseBody
 public class ExceptionsHandler {
@@ -21,7 +19,6 @@ public class ExceptionsHandler {
                 .code(HttpStatus.BAD_REQUEST)
                 .message(e.getErrorMessage().getMessage())
                 .status(e.getErrorMessage().getStatus())
-                .timestamp(LocalDateTime.now())
                 .build();
     }
 }
