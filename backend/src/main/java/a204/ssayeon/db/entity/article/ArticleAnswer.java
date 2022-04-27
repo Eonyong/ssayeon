@@ -10,7 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@RequiredArgsConstructor
 public class ArticleAnswer extends BaseEntity {
 
     @Id @GeneratedValue

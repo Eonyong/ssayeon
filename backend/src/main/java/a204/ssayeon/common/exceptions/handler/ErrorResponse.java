@@ -12,5 +12,4 @@ public class ErrorResponse {
     private final HttpStatus code;
     private final int status;
     private final String message;
-    private final LocalDateTime timestamp;
 }
