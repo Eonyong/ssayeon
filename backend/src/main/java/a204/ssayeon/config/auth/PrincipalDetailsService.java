@@ -1,8 +1,7 @@
 package a204.ssayeon.config.auth;
 
-
-import a204.ssayeon.domain.user.User;
-import a204.ssayeon.domain.user.UserRepository;
+import a204.ssayeon.db.entity.user.User;
+import a204.ssayeon.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
