@@ -1,6 +1,14 @@
 import { Box, Button, Grid, TextField, Typography, Container } from "@mui/material";
+import axios from "axios";
 
 export default function Signup() {
+  axios.post('http://localhost:3000/auth/signup', {
+    email: email,
+    password: password,
+    nickname: nickname,
+    name: name,
+    studentId:studentId,
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -67,30 +75,16 @@ export default function Signup() {
           <Box
             noValidate container component='form' onSubmit={ handleSubmit }
           >
-            {/* 닉네임, 중복확인 Field Start */}
-            <Grid
-              container spacing={2}
-              sx={{ alignItems: 'center' }}
-            >
-              <Grid item xs={9}>
-                <TextField
-                  id='nickname' name="nickname" autoComplete="nickname" margin='normal'
-                  type='text' placeholder="닉네임" label='닉네임'
-                  fullWidth required
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  type="submit" variant='text'
-                >
-                  중복 확인
-                </Button>
-              </Grid>
-            </Grid>
+            {/* 닉네임 Field Start */}
+            <TextField
+              id='nickname' name="nickname" autoComplete="nickname" margin='normal'
+              type='text' placeholder="닉네임" label='닉네임'
+              fullWidth required
+            />
 
             {/* Email 작성 Field */}
             <Grid
-              container spacing={2}
+              container spacing={1}
               sx={{ alignItems: 'center' }}
             >
               <Grid item xs={9}>
@@ -104,11 +98,17 @@ export default function Signup() {
                 <Button
                   type="submit" variant='text'
                 >
-                  중복 확인
+                  이메일 인증하기
                 </Button>
               </Grid>
             </Grid>
 
+            {/* 이메일 인증번호 Field */}
+            <TextField
+              id='validation' name="validation" autoComplete="validation"
+              type='password' placeholder="인증번호" label='이메일 인증 확인'
+              fullWidth required sx={{ mb: 1 }}
+            />
             
 
             {/* Password Form Field */}

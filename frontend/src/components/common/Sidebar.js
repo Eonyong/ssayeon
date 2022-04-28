@@ -21,14 +21,14 @@ function SideBar() {
   return(
     <Container>
       <Box orientation='vertical' sx={{ width: '100%', my:3 }}>
-        <Link to='/accounts/login'>
+        <Link to='/auth/login'>
           <Button
             sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
           >
             로 그 인
           </Button>
         </Link>
-        <Link to='/accounts/singup'>
+        <Link to='/auth/join'>
           <Button
             sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
           >
