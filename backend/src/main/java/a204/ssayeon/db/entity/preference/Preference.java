@@ -1,5 +1,6 @@
 package a204.ssayeon.db.entity.preference;
 
+import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Preference{
+public class Preference extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name="preference_id")
