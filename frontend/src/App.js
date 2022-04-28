@@ -5,6 +5,7 @@ import './App.css';
 
 import SideBar from './components/common/Sidebar'
 import Login from './components/main/accounts/Login';
+import NoticeList from './components/main/boards/notice/NoticeList';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Grid flexItem xs={8} sx={{ textAlign:'-webkit-center' }}>
           <Routes>
             <Route path='/accounts/login' element={ <Login /> }/>
+            <Route path='/boards/notice' element={ <NoticeList />}/>
           </Routes>
         </Grid>
       </Grid>

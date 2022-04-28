@@ -37,14 +37,14 @@ function SideBar() {
         </Link>
       </Box>
       <Divider />
-      <ListItemButton sx={{ py: 2 }}>공지사항</ListItemButton>
+      <ListItemButton sx={{ py: 2 }} component={Link} to="/boards/notice">공지사항</ListItemButton>
       {/* 게시판 리스트 버튼 */}
       <ListItemButton onClick={ handleBoardsClick }>
         <ListItemText primary="게시판" /> {openBoards ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={openBoards} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, py: 2 }} to='/'>
+          <ListItemButton sx={{ pl: 4, py: 2 }}>
             <ListItemText primary="💚 자유 게시판" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4, py: 2 }}>
