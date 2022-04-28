@@ -16,7 +16,6 @@ public class ExceptionsHandler {
     @ExceptionHandler(NotExistException.class)
     public ErrorResponse notFound(CustomException e){
         return ErrorResponse.builder()
-                .code(HttpStatus.BAD_REQUEST)
                 .message(e.getErrorMessage().getMessage())
                 .status(e.getErrorMessage().getStatus())
                 .build();
