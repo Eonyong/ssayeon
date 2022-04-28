@@ -1,12 +1,12 @@
 package a204.ssayeon.api.controller;
 
 import a204.ssayeon.api.request.AuthDuplicateNicknameReq;
+import a204.ssayeon.api.request.AuthJoinReq;
 import a204.ssayeon.api.request.AuthVerifyEmailReq;
 import a204.ssayeon.api.service.AuthService;
+import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
-import a204.ssayeon.common.model.response.BaseResponseBody;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,15 +20,37 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @PostMapping("/join")
+    public AdvancedResponseBody<String> join(@RequestBody AuthJoinReq authJoinReq) {
+        return AdvancedResponseBody.of(Status.OK, authService.join(authJoinReq));
+    }
+
     @PostMapping("/duplicate-nickname")
-    public ResponseEntity<? extends BaseResponseBody> duplicateNickname(@RequestBody AuthDuplicateNicknameReq authDuplicateNicknameReq) {
+    public AdvancedResponseBody<String> duplicateNickname(@RequestBody AuthDuplicateNicknameReq authDuplicateNicknameReq) {
         authService.duplicateNickname(authDuplicateNicknameReq.getNickname());
-        return ResponseEntity.status(200).body(new BaseResponseBody(200, "사용 가능한 닉네임입니다"));
+        return AdvancedResponseBody.of(Status.OK);
     }
 
     @PostMapping("/verify-email")
-    public ResponseEntity<? extends BaseResponseBody> verifyEmail(@RequestBody AuthVerifyEmailReq authVerifyEmailReq) throws Exception {
-        return ResponseEntity.status(200).body(new AdvancedResponseBody(200, "사용 가능한 이메일입니다", authService.verifyEmail(authVerifyEmailReq.getEmail())));
+    public AdvancedResponseBody<String> verifyEmail(@RequestBody AuthVerifyEmailReq authVerifyEmailReq) throws Exception {
+        return AdvancedResponseBody.of(Status.OK, authService.verifyEmail(authVerifyEmailReq.getEmail()));
     }
+
+//    @PostMapping("/verify-user")
+//    public ResponseEntity<? extends BaseResponseBody> verifyUser() {
+//        return ResponseEntity.status(200).body(AdvancedResponseBody.of("success", authService.verifyUser()));
+//    }
+//
+//    @PostMapping("/verify-user-alternate")
+//    public ResponseEntity<? extends BaseResponseBody> verifyUserAlternate() {
+//        return ResponseEntity.status(200).body(AdvancedResponseBody.of("success", authService.verifyUserAlternate()));
+//    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<? extends BaseResponseBody> login() {
+//        return ResponseEntity.status(200).body(AdvancedResponseBody.of("success", authService.login()));
+//    }
+
+
 
 }
