@@ -1,5 +1,6 @@
 package a204.ssayeon.common.exceptions.handler;
 
+import a204.ssayeon.common.exceptions.AlreadyExistException;
 import a204.ssayeon.common.exceptions.CustomException;
 import a204.ssayeon.common.exceptions.NotExistException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,16 @@ public class ExceptionsHandler {
     public ErrorResponse notFound(CustomException e){
         return ErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST)
+                .message(e.getErrorMessage().getMessage())
+                .status(e.getErrorMessage().getStatus())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(AlreadyExistException.class)
+    public ErrorResponse alreadyExist(CustomException e){
+        return ErrorResponse.builder()
+                .code(HttpStatus.CONFLICT)
                 .message(e.getErrorMessage().getMessage())
                 .status(e.getErrorMessage().getStatus())
                 .build();
