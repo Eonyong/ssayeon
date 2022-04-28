@@ -1,4 +1,4 @@
-package a204.ssayeon.api.request;
+package a204.ssayeon.api.request.auth;
 
 import a204.ssayeon.db.entity.user.User;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package a204.ssayeon.api.request;
+package a204.ssayeon.api.request.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

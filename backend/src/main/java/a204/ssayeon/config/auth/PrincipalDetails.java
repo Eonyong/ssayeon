@@ -25,7 +25,7 @@ public class PrincipalDetails implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public PrincipalDetails(User member) {
+    public PrincipalDetails(User user) {
         this.user = user;
     }
 
@@ -40,8 +40,8 @@ public class PrincipalDetails implements UserDetails {
         return new PrincipalDetails(user, authorities);
     }
 
-    public static PrincipalDetails create(User member, Map<String, Object> attributes) {
-        PrincipalDetails userPrincipal = PrincipalDetails.create(member);
+    public static PrincipalDetails create(User user, Map<String, Object> attributes) {
+        PrincipalDetails userPrincipal = PrincipalDetails.create(user);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
     }

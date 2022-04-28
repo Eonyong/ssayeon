@@ -1,8 +1,9 @@
 package a204.ssayeon.api.controller;
 
-import a204.ssayeon.api.request.AuthDuplicateNicknameReq;
-import a204.ssayeon.api.request.AuthJoinReq;
-import a204.ssayeon.api.request.AuthVerifyEmailReq;
+import a204.ssayeon.api.request.auth.AuthDuplicateNicknameReq;
+import a204.ssayeon.api.request.auth.AuthJoinReq;
+import a204.ssayeon.api.request.auth.AuthLoginReq;
+import a204.ssayeon.api.request.auth.AuthVerifyEmailReq;
 import a204.ssayeon.api.service.AuthService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
@@ -22,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/join")
     public AdvancedResponseBody<String> join(@RequestBody AuthJoinReq authJoinReq) {
-        return AdvancedResponseBody.of(Status.OK, authService.join(authJoinReq));
+        return AdvancedResponseBody.of(Status.CREATED, authService.join(authJoinReq));
     }
 
     @PostMapping("/duplicate-nickname")
@@ -37,20 +38,18 @@ public class AuthController {
     }
 
 //    @PostMapping("/verify-user")
-//    public ResponseEntity<? extends BaseResponseBody> verifyUser() {
-//        return ResponseEntity.status(200).body(AdvancedResponseBody.of("success", authService.verifyUser()));
+//    public AdvancedResponseBody<String> verifyUser() {
+//        return AdvancedResponseBody.of(Status.OK, authService.verifyUser());
 //    }
 //
 //    @PostMapping("/verify-user-alternate")
-//    public ResponseEntity<? extends BaseResponseBody> verifyUserAlternate() {
-//        return ResponseEntity.status(200).body(AdvancedResponseBody.of("success", authService.verifyUserAlternate()));
-//    }
-//
-//    @PostMapping("/login")
-//    public ResponseEntity<? extends BaseResponseBody> login() {
-//        return ResponseEntity.status(200).body(AdvancedResponseBody.of("success", authService.login()));
+//    public AdvancedResponseBody<String> verifyUserAlternate() {
+//        return AdvancedResponseBody.of(Status.OK, authService.verifyUserAlternate());
 //    }
 
-
+    @PostMapping("/login")
+    public AdvancedResponseBody<String> login(@RequestBody AuthLoginReq authLoginReq) {
+        return AdvancedResponseBody.of(Status.OK, authService.login(authLoginReq));
+    }
 
 }
