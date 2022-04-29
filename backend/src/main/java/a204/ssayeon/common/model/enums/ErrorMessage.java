@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum ErrorMessage {
     //401
     USER_DOES_NOT_EXIST(401,"로그인 실패"),
-
+    ARTICLE_DOES_NOT_EXIST(401,"해당 게시글이 존재하지 않습니다."),
 
 
     //409
