@@ -27,7 +27,6 @@ public class ExceptionsHandler {
     @ExceptionHandler(NotJoinedUserException.class)
     public ErrorResponse notJoinedUser(CustomException e){
         return ErrorResponse.builder()
-                .code(HttpStatus.UNAUTHORIZED)
                 .message(e.getErrorMessage().getMessage())
                 .status(e.getErrorMessage().getStatus())
                 .build();
@@ -37,7 +36,6 @@ public class ExceptionsHandler {
     @ExceptionHandler(AlreadyExistException.class)
     public ErrorResponse alreadyExist(CustomException e){
         return ErrorResponse.builder()
-                .code(HttpStatus.CONFLICT)
                 .message(e.getErrorMessage().getMessage())
                 .status(e.getErrorMessage().getStatus())
                 .build();
