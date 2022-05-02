@@ -169,5 +169,19 @@ public class ArticleService {
         return categoryRes;
     }
 
+    public ArticleComments createComment(Long articleId, CommentCreateReq commentCreateReq) {
 
+        Article article = articleRepository.findById(articleId).orElse(null);
+        System.out.println("article = " + article);
+        if (article == null) {
+            return null;
+        }
+
+        ArticleComments comment = ArticleComments.builder()
+                .description(commentCreateReq.getDescription())
+                .article(article)
+                .build();
+        comment = commentRepository.save(comment);
+        return comment;
+    }
 }

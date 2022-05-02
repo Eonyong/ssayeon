@@ -2,6 +2,7 @@ package a204.ssayeon.api.controller;
 
 import a204.ssayeon.api.request.article.ArticleCreateReq;
 import a204.ssayeon.api.request.article.ArticleUpdateReq;
+import a204.ssayeon.api.request.article.CommentCreateReq;
 import a204.ssayeon.api.response.article.ArticleRes;
 import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
@@ -9,6 +10,7 @@ import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.common.model.response.BaseResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.article.Article;
+import a204.ssayeon.db.entity.article.ArticleComments;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,10 @@ public class ArticleController {
         return AdvancedResponseBody.of(Status.OK, articleListRes);
     }
 
-
+    @PostMapping("/{articleId}/comment")
+    public AdvancedResponseBody<ArticleComments> createComment(@PathVariable Long articleId, @RequestBody CommentCreateReq commentCreateReq) {
+        ArticleComments comment = articleService.createComment(articleId, commentCreateReq);
+        return AdvancedResponseBody.of(Status.OK, comment);
+    }
 
 }
