@@ -1,5 +1,7 @@
 package a204.ssayeon.config.auth;
 
+import a204.ssayeon.common.exceptions.NotJoinedUserException;
+import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.db.entity.user.User;
 import a204.ssayeon.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Transactional
     public PrincipalDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("이메일 " + email + "를 가진 사용자가 없습니다.")
+                () -> new NotJoinedUserException(ErrorMessage.USER_DOES_NOT_EXIST)
         );
         return new PrincipalDetails(user);
     }

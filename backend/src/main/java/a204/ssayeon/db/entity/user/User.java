@@ -1,9 +1,6 @@
 package a204.ssayeon.db.entity.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +17,9 @@ public class User {
 
     @Column(nullable = false)
     private String nickname;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String email;

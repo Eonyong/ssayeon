@@ -15,11 +15,9 @@ import lombok.Setter;
 public class BaseResponseBody {
 
     private int code;
-    private String message;
 
     public BaseResponseBody(Status status) {
         this.code = status.getCode();
-        this.message = status.getMessage();
     }
 }
 

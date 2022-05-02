@@ -3,7 +3,6 @@ package a204.ssayeon.common.model.response;
 import a204.ssayeon.common.model.enums.Status;
 import lombok.*;
 
-//메시지 + 데이터를 response 하고 싶을 때
 @Getter
 @Setter
 @NoArgsConstructor
