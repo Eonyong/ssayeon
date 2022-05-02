@@ -11,12 +11,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Tag {
+public class ArticleHasTag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="tag_id")
+    @Column(name="article_has_tag_id")
     private Long id;
 
-    private String name;
-    private Integer count;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="article_id",nullable = false)
+    private Article article;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="tag_id",nullable = false)
+    private Tag tag;
 }

@@ -1,19 +1,19 @@
 package a204.ssayeon.db.entity.article;
 
-import a204.ssayeon.db.entity.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Board extends BaseEntity {
-    @Id @GeneratedValue
+public class Board {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="board_id")
     private Long id;
 
