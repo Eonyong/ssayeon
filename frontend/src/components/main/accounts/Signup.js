@@ -1,16 +1,132 @@
 import { Box, Button, Grid, TextField, Typography, Container } from "@mui/material";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Signup() {
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+  
+  // 변수
+  const [Name, setName] = useState("");
+  const [ClassId, setClassId] = useState("");
+  const [IsClassId, setIsClassId] = useState(false);
+  const [Nickname, setNickname] = useState("");
+  const [IsNickname, setIsNickname] = useState(false);
+  const [Email, setEmail] = useState("");
+  const [IsEmail, setIsEmail] = useState(false);
+  const [Password, setPassword] = useState("");
+  const [ConfirmPasword, setConfirmPasword] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  // Handler 함수
+  const onEmailHandler = e => {
+    setEmail(e.currentTarget.value);
   };
 
+  const onNameHandler = e => {
+    setName(e.currentTarget.value);
+  };
+
+  const onNicknameHandler = e => {
+    setNickname(e.currentTarget.value);
+  };
+
+  const onClassIdHandler = e => {
+    setClassId(e.currentTarget.value);
+  };
+
+  const onPasswordHanlder = e => {
+    setPassword(e.currentTarget.value);
+  };
+
+  const onConfirmPasswordHandler = e => {
+    setConfirmPasword(e.currentTarget.value);
+  };
+
+  // SSAFY 회원정보 확인
+  const onIsInClassIdHandler = e => {
+    e.preventDefault();
+    axios({
+      url: API_BASE_URL + '/auth/verify-user',
+      method: 'POST',
+      data: {
+        class_id: ClassId,
+      }
+    })
+    .then(()=>{
+      setIsClassId(true);
+    })
+    .catch(()=>alert('싸피 학번을 확인해주세요.'))
+  }
+
+  // 닉네임 중복확인 함수
+  const onDuplicationNickname = e => {
+    e.preventDefault();
+    axios({
+      url: API_BASE_URL + '/api/auth/duplicate-nickname',
+      method: 'POST',
+      data: {
+        nickname: Nickname,
+      }
+    })
+    .then(() => {
+      setIsNickname(true);
+      console.log('닉네임 통과');
+    })
+    .catch(e => {
+      if (e.response.status === 409) {
+        alert('이미 존재하는 닉네임입니다.');
+      }
+    })
+  }
+  
+  // 이메일 중복 확인 함수
+  const onDuplicationEmail = e => {
+    e.preventDefault();
+    axios({
+      url: API_BASE_URL + '/api/auth/verify-email',
+      method: 'POST',
+      data: {
+        email: Email,
+      }
+    })
+    .then(() => {
+      setIsEmail(true);
+      console.log('이메일 통과');
+    })
+    .catch(e => {
+      if (e.response.status === 409) {
+        alert('이미 존재하는 이메일입니다.');
+      }
+    })
+  };
+  
+  
+  // 회원가입하기 Click 시 함수
+  const onSubmitHandler = e => {
+    e.preventDefault();
+    axios({
+      url: API_BASE_URL + '/api/auth/join',
+      method: 'POST',
+      data: {
+        name: Name,
+        nickname: Nickname,
+        email: Email,
+        class_id: ClassId,
+        password: Password,
+      }
+    })
+    .then((res)=> {
+      if(IsClassId && IsEmail && IsNickname) {
+        alert('회원가입이 완료 되었습니다.');
+        console.log(res);
+      };
+    })
+    .catch(e => {
+      if (e.response.status === 409) {
+        alert('회원인증을 해주세요\n이메일 중복 확인을 해주세요.\n닉네임 중복 확인을 해주세요.');
+      }
+    })
+  };
+  // UI 디자인 시작
   return (
     <Container>
       <Box
@@ -27,20 +143,21 @@ export default function Signup() {
           {/* 이름, 학번 입력 Field */}
           <Box
             noValidate container component='form'
-            sx={{ mt: 3, mb: 5 }} onSubmit={ handleSubmit }
+            // action="/auth/join" method="POST"
+            sx={{ mt: 3, mb: 5 }} onSubmit={ onIsInClassIdHandler }
           >
 
             {/* 이름 입력 Field */}
             <TextField
-              id='name' name="name" autoComplete="name" margin='normal'
-              type='text' placeholder="이름" label='name'
+              id='Name' name="Name" autoComplete="Name" margin='normal'
+              type='text' placeholder="이름" label='Name' value={ Name } onChange={ onNameHandler }
               fullWidth required autoFocus sx={{ mb: 1 }}
             />
 
             {/* 학번 입력 Field */}
             <TextField
-              id="studentId" name="studentId" autoComplete='current-studentId'
-              type='number' placeholder="0000000" label='학번'
+              id="ClassId" name="ClassId" autoComplete='current-classId'
+              type='number' placeholder="0000000" label='학번' value={ ClassId } onChange={ onClassIdHandler }
               fullWidth required sx={{ mt: 1 }}
             />
 
@@ -65,7 +182,7 @@ export default function Signup() {
       >
         <Grid container direction='column'>
           <Box
-            noValidate container component='form' onSubmit={ handleSubmit }
+            noValidate container component='form' onSubmit={ onSubmitHandler }
           >
             {/* 닉네임, 중복확인 Field Start */}
             <Grid
@@ -74,15 +191,13 @@ export default function Signup() {
             >
               <Grid item xs={9}>
                 <TextField
-                  id='nickname' name="nickname" autoComplete="nickname" margin='normal'
-                  type='text' placeholder="닉네임" label='닉네임'
+                  id='Nickname' name="Nickname" autoComplete="Nickname" margin='normal'
+                  type='text' placeholder="닉네임" label='닉네임' value={ Nickname } onChange={ onNicknameHandler }
                   fullWidth required
                 />
               </Grid>
               <Grid item xs={3}>
-                <Button
-                  type="submit" variant='text'
-                >
+                <Button onClick={ onDuplicationNickname } variant='text'>
                   중복 확인
                 </Button>
               </Grid>
@@ -95,15 +210,14 @@ export default function Signup() {
             >
               <Grid item xs={9}>
                 <TextField
-                  id='email' name="email" autoComplete="email" margin='normal'
+                  id='Email' name="Email" autoComplete="Email" margin='normal'
                   type='email' placeholder="Email@email.com" label='Email'
+                  value={ Email } onChange={ onEmailHandler }
                   fullWidth required sx={{ mb: 1 }}
                 />
               </Grid>
               <Grid item xs={3}>
-                <Button
-                  type="submit" variant='text'
-                >
+                <Button onClick={ onDuplicationEmail } variant='text'>
                   중복 확인
                 </Button>
               </Grid>
@@ -120,13 +234,15 @@ export default function Signup() {
                 <TextField
                   id="password" name="password" autoComplete='current-password'
                   type='password' placeholder="패스워드를 입력해주세요" label='Password'
+                  value={ Password } onChange={ onPasswordHanlder }
                   fullWidth required 
                   />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  id="passwordConfirm" name="passwordConfirm" autoComplete='current-passwordConfirm'
+                  id="ConfirmPasword" name="ConfirmPasword" autoComplete='current-passwordConfirm'
                   type='password' placeholder="패스워드를 입력해주세요" label='Password 확인'
+                  value={ ConfirmPasword } onChange={ onConfirmPasswordHandler }
                   fullWidth required
                   />
               </Grid>
