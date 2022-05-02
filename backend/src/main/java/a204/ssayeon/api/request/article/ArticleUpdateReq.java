@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleCreateReq {
+public class ArticleUpdateReq {
 
     private String title;
     private String content;
-    private Long boardId;
     private Long categoryId;
 }
