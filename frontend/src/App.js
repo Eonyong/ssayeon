@@ -1,25 +1,30 @@
 import { Divider, Grid } from '@mui/material';
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import axios from 'axios';
 import './App.css';
 
 import SideBar from './components/common/Sidebar'
 import Signup from './components/main/accounts/Signup';
 import Login from './components/main/accounts/Login';
+import Profile from './components/main/accounts/Profile';
+import Main from './components/common/Main';
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
         <Grid container>
-          <Grid>
+          <Grid item>
             <SideBar />
           </Grid>
           <Divider orientation='vertical' flexItem />
-          <Grid sx={{ textAlign:'-webkit-center' }}>
+          <Grid item sx={{ textAlign:'-webkit-center' }}>
             <Routes>
-              <Route path='accounts/singup' element={ <Signup /> } />
-              <Route path='accounts/login' element={ <Login /> } />
+              <Route path='/' element={ <Main /> } />
+              <Route path='auth/login' element={ <Login /> } />
+              <Route path='auth/join' element={ <Signup /> } />
+              <Route path='/profile' element={ <Profile /> } />
             </Routes>
           </Grid>
         </Grid>

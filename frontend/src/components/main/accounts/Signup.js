@@ -205,7 +205,7 @@ export default function Signup() {
 
             {/* Email 작성 Field */}
             <Grid
-              container spacing={2}
+              container spacing={1}
               sx={{ alignItems: 'center' }}
             >
               <Grid item xs={9}>
@@ -223,6 +223,12 @@ export default function Signup() {
               </Grid>
             </Grid>
 
+            {/* 이메일 인증번호 Field */}
+            <TextField
+              id='validation' name="validation" autoComplete="validation"
+              type='password' placeholder="인증번호" label='이메일 인증 확인'
+              fullWidth required sx={{ mb: 1 }}
+            />
             
 
             {/* Password Form Field */}
