@@ -10,6 +10,6 @@ import java.lang.annotation.*;
 @Target(ElementType.PARAMETER)
 // 익명 사용자인 경우에는 null로, 익명 사용자가 아닌 경우에는 실제 account 객체로
 // Principal 을 다이나믹 하게 꺼내기 위해 @CurrentUser 생성
-@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account")
+@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : user")
 public @interface CurrentUser {
 }

@@ -1,15 +1,25 @@
 import { Link } from "react-router-dom";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Login () {
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    axios({
+      url: API_BASE_URL + '/auth/login',
+      method: 'POST',
+      data: {
+        email: Email,
+        password: Password,
+      }
+    })
   };
 
   return (
