@@ -19,7 +19,7 @@ public class ExceptionsHandler {
     public ErrorResponse notFound(CustomException e){
         return ErrorResponse.builder()
                 .message(e.getErrorMessage().getMessage())
-                .status(e.getErrorMessage().getStatus())
+                .code(e.getErrorMessage().getStatus())
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class ExceptionsHandler {
     public ErrorResponse notJoinedUser(CustomException e){
         return ErrorResponse.builder()
                 .message(e.getErrorMessage().getMessage())
-                .status(e.getErrorMessage().getStatus())
+                .code(e.getErrorMessage().getStatus())
                 .build();
     }
 
@@ -37,7 +37,7 @@ public class ExceptionsHandler {
     public ErrorResponse alreadyExist(CustomException e){
         return ErrorResponse.builder()
                 .message(e.getErrorMessage().getMessage())
-                .status(e.getErrorMessage().getStatus())
+                .code(e.getErrorMessage().getStatus())
                 .build();
     }
 }

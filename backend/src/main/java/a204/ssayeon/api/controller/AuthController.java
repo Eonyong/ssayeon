@@ -4,6 +4,7 @@ import a204.ssayeon.api.request.auth.AuthDuplicateNicknameReq;
 import a204.ssayeon.api.request.auth.AuthJoinReq;
 import a204.ssayeon.api.request.auth.AuthLoginReq;
 import a204.ssayeon.api.request.auth.AuthVerifyEmailReq;
+import a204.ssayeon.api.response.auth.AuthJoinRes;
 import a204.ssayeon.api.service.AuthService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
@@ -22,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/join")
-    public AdvancedResponseBody<String> join(@RequestBody AuthJoinReq authJoinReq) {
+    public AdvancedResponseBody<AuthJoinRes> join(@RequestBody AuthJoinReq authJoinReq) {
         return AdvancedResponseBody.of(Status.CREATED, authService.join(authJoinReq));
     }
 
@@ -32,7 +33,6 @@ public class AuthController {
         return AdvancedResponseBody.of(Status.OK);
     }
 
-    //todo : https://www.google.com/search?q=%EC%9E%90%EB%B0%94+smtp+%EC%8A%A4%ED%8C%B8&oq=%EC%9E%90%EB%B0%94+smtp+%EC%8A%A4%ED%8C%B8+&aqs=chrome..69i57j0i546l3.3466j0j7&sourceid=chrome&ie=UTF-8
     @PostMapping("/verify-email")
     public AdvancedResponseBody<String> verifyEmail(@RequestBody AuthVerifyEmailReq authVerifyEmailReq) throws Exception {
         return AdvancedResponseBody.of(Status.OK, authService.verifyEmail(authVerifyEmailReq.getEmail()));
