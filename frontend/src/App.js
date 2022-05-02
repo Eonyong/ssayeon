@@ -6,6 +6,7 @@ import './App.css';
 import SideBar from './components/common/Sidebar'
 import Login from './components/main/accounts/Login';
 import NoticeList from './components/main/boards/notice/NoticeList';
+import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
           <Routes>
             <Route path='/accounts/login' element={ <Login /> }/>
             <Route path='/boards/notice' element={ <NoticeList />}/>
+            {/* id값으로 rerouting */}
+            <Route path='/boards/notice/detail' element={<NoticeDetail />} />
           </Routes>
         </Grid>
       </Grid>
