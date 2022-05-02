@@ -2,6 +2,7 @@ package a204.ssayeon.api.service;
 
 import a204.ssayeon.api.request.auth.AuthJoinReq;
 import a204.ssayeon.api.request.auth.AuthLoginReq;
+import a204.ssayeon.api.response.auth.AuthJoinRes;
 import a204.ssayeon.common.exceptions.AlreadyExistException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.config.jwt.TokenProvider;
@@ -29,7 +30,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
 
 
-    public String join(AuthJoinReq authJoinReq) {
+    public AuthJoinRes join(AuthJoinReq authJoinReq) {
         duplicateEmail(authJoinReq.getEmail());
         duplicateNickname(authJoinReq.getNickname());
 
@@ -37,7 +38,7 @@ public class AuthService {
         User user = authJoinReq.toUser(passwordEncoder.encode(authJoinReq.getPassword()));
         userRepository.save(user);
 
-        return user.getNickname();
+        return AuthJoinRes.builder().nickname(user.getNickname()).build();
     }
 
     @Transactional(readOnly = true)
