@@ -22,5 +22,8 @@ public class Preference extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
+
+    @Column(nullable = false)
+    private String description;
 }
 

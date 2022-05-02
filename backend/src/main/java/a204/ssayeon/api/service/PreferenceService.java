@@ -13,8 +13,15 @@ public class PreferenceService {
     @Autowired
     private PreferenceRepository preferenceRepository;
 
+    public void registerPreference(Preference preference) {
+        preferenceRepository.save(preference);
+    }
+
     public List<Preference> getAllPreferences() {
         return preferenceRepository.findAll();
     }
 
+    public void deletePreference(Long preferenceId) {
+        preferenceRepository.deleteById(preferenceId);
+    }
 }

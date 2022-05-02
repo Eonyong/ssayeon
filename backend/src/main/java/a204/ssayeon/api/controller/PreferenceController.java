@@ -1,5 +1,6 @@
 package a204.ssayeon.api.controller;
 
+import a204.ssayeon.api.request.preference.PreferenceApiRequest;
 import a204.ssayeon.api.response.preference.PreferenceApiResponse;
 import a204.ssayeon.api.service.PreferenceService;
 import a204.ssayeon.common.model.enums.Status;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +23,29 @@ public class PreferenceController {
     @Autowired
     private PreferenceService preferenceService;
 
+    // 게임 등록
+    @PostMapping
+    public AdvancedResponseBody<String> registerPreference(@RequestBody PreferenceApiRequest preferenceApiRequest) {
+        Preference preference = Preference.builder()
+                .id(preferenceApiRequest.getPreferenceId())
+                // user 넣기
+                .description(preferenceApiRequest.getDescription())
+                .build();
+        preference.setCreatedAt(LocalDateTime.now());
+        preferenceService.registerPreference(preference);
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
+    //    게임 읽기
+    @GetMapping(value = {"/{preference_id}"})
+    public AdvancedResponseBody<String> getGame() {
+        return AdvancedResponseBody.of(Status.OK);
+
+    }
+
     // 전체 불러오기
     @GetMapping
     public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreference(){
-
         List<Preference> preferences = preferenceService.getAllPreferences();
         List<PreferenceApiResponse> list = new ArrayList<>();
         for(Preference preference : preferences) {
@@ -38,27 +59,10 @@ public class PreferenceController {
         return AdvancedResponseBody.of(Status.OK, list);
     }
 
-    // 게임 등록
-    @PostMapping
-    public AdvancedResponseBody<String> registerPreference() {
-        return AdvancedResponseBody.of(Status.OK);
-    }
-
-    //    투표 등록
-    @PostMapping(value = {"/poll"})
-    public AdvancedResponseBody<String> registerPoll() {
-        return AdvancedResponseBody.of(Status.OK);
-    }
-
-    //    게임 읽기
-    @GetMapping(value = {"/{preference_id}"})
-    public AdvancedResponseBody<String> getGame() {
-        return AdvancedResponseBody.of(Status.OK);
-    }
-
     //    게임 삭제
     @DeleteMapping(value = {"/{preference_id}"})
-    public AdvancedResponseBody<String> deleteGame() {
+    public AdvancedResponseBody<String> deleteGame(@PathVariable Long preferenceId) {
+        preferenceService.deletePreference(preferenceId);
         return AdvancedResponseBody.of(Status.OK);
     }
 
