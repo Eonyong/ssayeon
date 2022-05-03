@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Login () {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
@@ -9,17 +9,24 @@ export default function Login () {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
+  const onEmailHandler = e => {
+    setEmail(e.currentTarget.value);
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onPasswordHandler = e => {
+    setPassword(e.currentTarget.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
     axios({
-      url: API_BASE_URL + '/auth/login',
+      url: API_BASE_URL + '/api/auth/login',
       method: 'POST',
       data: {
         email: Email,
         password: Password,
       }
-    })
+    }).then(res => console.log(res))
   };
 
   return (
@@ -40,14 +47,16 @@ export default function Login () {
             sx={{ my: 5 }} onSubmit={ handleSubmit }
           >
             <TextField
-              id='email' name="email" autoComplete="email"
+              id='Email' name="Email" autoComplete="Email" margin='normal'
               type='email' placeholder="Email@email.com" label='Email'
-              fullWidth margin='normal' required autoFocus sx={{ mb: 1 }}
+              value={ Email } onChange={ onEmailHandler }
+              fullWidth sx={{ mb: 1 }}
             />
             <TextField
-              id="password" name="password" autoComplete='current-password'
-              type='password' placeholder="패스워드를 입력해주세요" label='Password'
-              fullWidth sx={{ mt: 1 }}
+              id="Password" name="Password" autoComplete='current-Password'
+              type='Password' placeholder="패스워드를 입력해주세요" label='Password'
+              value={ Password } onChange={ onPasswordHandler }
+              fullWidth sx={{ mb: 1 }}
             />
             <FormControlLabel
               control={<Checkbox value='remember' color="primary" />}

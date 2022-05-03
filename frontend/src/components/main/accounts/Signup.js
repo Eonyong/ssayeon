@@ -17,26 +17,22 @@ export default function Signup() {
   const [ConfirmPasword, setConfirmPasword] = useState("");
 
   // Handler 함수
-  const onEmailHandler = e => {
-    setEmail(e.currentTarget.value);
-  };
-
+  
   const onNameHandler = e => {
     setName(e.currentTarget.value);
   };
-
-  const onNicknameHandler = e => {
-    setNickname(e.currentTarget.value);
-  };
-
   const onClassIdHandler = e => {
     setClassId(e.currentTarget.value);
   };
-
-  const onPasswordHanlder = e => {
+  const onNicknameHandler = e => {
+    setNickname(e.currentTarget.value);
+  };
+  const onEmailHandler = e => {
+    setEmail(e.currentTarget.value);
+  };
+  const onPasswordHandler = e => {
     setPassword(e.currentTarget.value);
   };
-
   const onConfirmPasswordHandler = e => {
     setConfirmPasword(e.currentTarget.value);
   };
@@ -67,9 +63,11 @@ export default function Signup() {
         nickname: Nickname,
       }
     })
-    .then(() => {
-      setIsNickname(true);
-      console.log('닉네임 통과');
+    .then(res => {
+      if (res.status === 200) {
+        setIsNickname(true);
+        console.log('닉네임 통과');
+      }
     })
     .catch(e => {
       if (e.response.status === 409) {
@@ -126,6 +124,7 @@ export default function Signup() {
       }
     })
   };
+
   // UI 디자인 시작
   return (
     <Container>
@@ -149,9 +148,9 @@ export default function Signup() {
 
             {/* 이름 입력 Field */}
             <TextField
-              id='Name' name="Name" autoComplete="Name" margin='normal'
+              id='Name' name="Name" autoComplete="Name" margin='normal' 
               type='text' placeholder="이름" label='Name' value={ Name } onChange={ onNameHandler }
-              fullWidth required autoFocus sx={{ mb: 1 }}
+              fullWidth required autoFocus sx={{ mb: 1 }} helperText='hihi'
             />
 
             {/* 학번 입력 Field */}
@@ -192,6 +191,7 @@ export default function Signup() {
               <Grid item xs={9}>
                 <TextField
                   id='Nickname' name="Nickname" autoComplete="Nickname" margin='normal'
+                  color = { IsNickname ? 'primary' : 'error' }
                   type='text' placeholder="닉네임" label='닉네임' value={ Nickname } onChange={ onNicknameHandler }
                   fullWidth required
                 />
@@ -212,7 +212,7 @@ export default function Signup() {
                 <TextField
                   id='Email' name="Email" autoComplete="Email" margin='normal'
                   type='email' placeholder="Email@email.com" label='Email'
-                  value={ Email } onChange={ onEmailHandler }
+                  value={ Email } onChange={ onEmailHandler } color={ IsEmail ? 'primary' : 'error' }
                   fullWidth required sx={{ mb: 1 }}
                 />
               </Grid>
@@ -224,11 +224,13 @@ export default function Signup() {
             </Grid>
 
             {/* 이메일 인증번호 Field */}
-            <TextField
-              id='validation' name="validation" autoComplete="validation"
-              type='password' placeholder="인증번호" label='이메일 인증 확인'
-              fullWidth required sx={{ mb: 1 }}
-            />
+            { IsEmail ?
+              <TextField
+                id='validation' name="validation" autoComplete="validation"
+                type='password' placeholder="인증번호" label='이메일 인증 확인'
+                fullWidth required sx={{ mb: 1 }}
+              />:<></>
+            }
             
 
             {/* Password Form Field */}
@@ -238,9 +240,9 @@ export default function Signup() {
             >
               <Grid item xs={12} sm={6} >
                 <TextField
-                  id="password" name="password" autoComplete='current-password'
-                  type='password' placeholder="패스워드를 입력해주세요" label='Password'
-                  value={ Password } onChange={ onPasswordHanlder }
+                  id="Password" name="Password" autoComplete='current-Password'
+                  type='Password' placeholder="패스워드를 입력해주세요" label='Password'
+                  value={ Password } onChange={ onPasswordHandler }
                   fullWidth required 
                   />
               </Grid>

@@ -1,6 +1,5 @@
 import { Divider, Grid } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import axios from 'axios';
 import './App.css';
 
 import SideBar from './components/common/Sidebar'
