@@ -6,26 +6,25 @@ import axios from "axios";
 export default function Login () {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [InputValue, setInputValue] = useState({
+    email: '',
+    password: '',
+  })
 
-  const onEmailHandler = e => {
-    setEmail(e.currentTarget.value);
-  };
-
-  const onPasswordHandler = e => {
-    setPassword(e.currentTarget.value);
-  };
+  const onInputHandler = e => {
+    const {name, value} = e.target;
+    setInputValue({
+      ...InputValue,
+      [ name ]: value,
+    });
+  }
 
   const handleSubmit = e => {
     e.preventDefault();
     axios({
-      url: API_BASE_URL + '/api/auth/login',
+      url: API_BASE_URL + '/auth/login',
       method: 'POST',
-      data: {
-        email: Email,
-        password: Password,
-      }
+      data: InputValue,
     }).then(res => console.log(res))
   };
 
@@ -49,13 +48,13 @@ export default function Login () {
             <TextField
               id='Email' name="Email" autoComplete="Email" margin='normal'
               type='email' placeholder="Email@email.com" label='Email'
-              value={ Email } onChange={ onEmailHandler }
+              value={ InputValue.email } onChange={ onInputHandler }
               fullWidth sx={{ mb: 1 }}
             />
             <TextField
               id="Password" name="Password" autoComplete='current-Password'
               type='Password' placeholder="패스워드를 입력해주세요" label='Password'
-              value={ Password } onChange={ onPasswordHandler }
+              value={ InputValue.password } onChange={ onInputHandler }
               fullWidth sx={{ mb: 1 }}
             />
             <FormControlLabel

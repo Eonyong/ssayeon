@@ -5,7 +5,7 @@ import axios from "axios";
 export default function Signup() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
   
-  // 변수
+  // 회원가입 입력 변수
   const [InputValue, setInputValue] = useState({
     name: '',
     class_id: '',
@@ -15,7 +15,6 @@ export default function Signup() {
     confirmPasword: '',
   });
 
-  
   // Handler 함수
   const onInputHandler = e => {
     const { name, value } = e.target;
@@ -23,9 +22,9 @@ export default function Signup() {
       ...InputValue,
       [ name ]: value,
     });
-    console.log(VerifyState);
   };
   
+  // 중복확인 변수
   const [VerifyState, setVerifyState] = useState({
     IsClassId: false,
     IsNickname: false,
@@ -39,6 +38,7 @@ export default function Signup() {
       url: API_BASE_URL + '/auth/verify-user',
       method: 'POST',
       data: {
+        name: InputValue.name,
         class_id: InputValue.class_id,
       }
     })
@@ -48,40 +48,44 @@ export default function Signup() {
         IsClassId: true,
       })
     })
-    .catch(()=>alert('싸피 학번을 확인해주세요.'))
+    .catch((e)=>{
+      console.log(e);
+    })
   }
 
   // 닉네임 중복확인 함수
   const onDuplicationNickname = e => {
     e.preventDefault();
-    axios({
-      url: API_BASE_URL + '/api/auth/duplicate-nickname',
-      method: 'POST',
-      data: {
-        nickname: InputValue.nickname,
-      }
-    })
-    .then(res => {
-      if (res.status === 200) {
-        setVerifyState({
-          ...VerifyState,
-          IsNickname: true,
-        })
-        console.log('닉네임 통과');
-      }
-    })
-    .catch(e => {
-      if (e.response.status === 409) {
-        alert('이미 존재하는 닉네임입니다.');
-      }
-    })
+    if (InputValue.nickname.length > 0) {
+      axios({
+        url: API_BASE_URL + '/auth/duplicate-nickname',
+        method: 'POST',
+        data: {
+          nickname: InputValue.nickname,
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setVerifyState({
+            ...VerifyState,
+            IsNickname: true,
+          })
+          console.log('닉네임 통과');
+        }
+      })
+      .catch(e => {
+        if (e.response.status === 409) {
+          alert('이미 존재하는 닉네임입니다.');
+        }
+      })
+    }
   }
   
   // 이메일 중복 확인 함수
   const onDuplicationEmail = e => {
     e.preventDefault();
     axios({
-      url: API_BASE_URL + '/api/auth/verify-email',
+      url: API_BASE_URL + '/auth/verify-email',
       method: 'POST',
       data: {
         email: InputValue.email,
@@ -95,6 +99,7 @@ export default function Signup() {
       console.log('이메일 통과');
     })
     .catch(e => {
+      console.log(e);
       if (e.response.status === 409) {
         alert('이미 존재하는 이메일입니다.');
       } else {
@@ -109,7 +114,7 @@ export default function Signup() {
     e.preventDefault();
     console.log();
     axios({
-      url: API_BASE_URL + '/api/auth/join',
+      url: API_BASE_URL + '/auth/join',
       method: 'POST',
       data: InputValue,
     })
@@ -145,7 +150,6 @@ export default function Signup() {
           {/* 이름, 학번 입력 Field */}
           <Box
             noValidate container component='form'
-            // action="/auth/join" method="POST"
             sx={{ mt: 3, mb: 5 }} onSubmit={ onIsInClassIdHandler }
           >
 
@@ -219,7 +223,7 @@ export default function Signup() {
                   type='email' placeholder="email@email.com" label='email'
                   value={ InputValue.email } onChange={ onInputHandler }
                   color={ VerifyState.IsEmail ? 'primary' : 'error' }
-                  helperText = { VerifyState.IsEmail ? '사용가능한 이메일 입니다.':'' }
+                  helperText = { VerifyState.IsEmail ? '사용가능한 이메일 입니다.':false }
                   disabled = { VerifyState.IsEmail ? true:false }
                   fullWidth required sx={{ mb: 1 }}
                 />
@@ -246,21 +250,29 @@ export default function Signup() {
               container spacing={2}
               sx={{ alignItems: 'center', mt: 1, mb: 3  }}
             >
-              <Grid item xs={12} sm={6} >
+              {/* 패스워드 입력 field */}
+              <Grid item xs={12} >
                 <TextField
                   id="password" name="password" autoComplete='current-password'
                   type='password' placeholder="패스워드를 입력해주세요" label='password'
                   value={ InputValue.password } onChange={ onInputHandler }
-                  fullWidth required 
-                  />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id="confirmPasword" name="confirmPasword" autoComplete='current-passwordConfirm'
-                  type='password' placeholder="패스워드를 입력해주세요" label='Password 확인'
-                  value={ InputValue.confirmPasword } onChange={ onInputHandler }
                   fullWidth required
-                  />
+                />
+              </Grid>
+              {/* 패스워드 확인 Field */}
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth required
+                  id="confirmPasword" name="confirmPasword" autoComplete='current-passwordConfirm'
+                  type='password' placeholder="패스워드를 입력해주세요" label='password 확인'
+                  value={ InputValue.confirmPasword } onChange={ onInputHandler }
+                  color={(InputValue.confirmPasword === InputValue.password) ? 'primary':'error'}
+                  helperText={
+                    ((InputValue.confirmPasword === InputValue.password) &&
+                      InputValue.confirmPasword.length > 0)
+                    ?'비밀번호가 일치합니다.':false
+                  }
+                />
               </Grid>
             </Grid>
 
