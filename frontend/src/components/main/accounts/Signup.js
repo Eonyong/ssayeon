@@ -6,36 +6,31 @@ export default function Signup() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
   
   // 변수
-  const [Name, setName] = useState("");
-  const [ClassId, setClassId] = useState("");
-  const [IsClassId, setIsClassId] = useState(false);
-  const [Nickname, setNickname] = useState("");
-  const [IsNickname, setIsNickname] = useState(false);
-  const [Email, setEmail] = useState("");
-  const [IsEmail, setIsEmail] = useState(false);
-  const [Password, setPassword] = useState("");
-  const [ConfirmPasword, setConfirmPasword] = useState("");
+  const [InputValue, setInputValue] = useState({
+    name: '',
+    class_id: '',
+    nickname: '',
+    email: '',
+    password: '',
+    confirmPasword: '',
+  });
 
-  // Handler 함수
   
-  const onNameHandler = e => {
-    setName(e.currentTarget.value);
+  // Handler 함수
+  const onInputHandler = e => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...InputValue,
+      [ name ]: value,
+    });
+    console.log(VerifyState);
   };
-  const onClassIdHandler = e => {
-    setClassId(e.currentTarget.value);
-  };
-  const onNicknameHandler = e => {
-    setNickname(e.currentTarget.value);
-  };
-  const onEmailHandler = e => {
-    setEmail(e.currentTarget.value);
-  };
-  const onPasswordHandler = e => {
-    setPassword(e.currentTarget.value);
-  };
-  const onConfirmPasswordHandler = e => {
-    setConfirmPasword(e.currentTarget.value);
-  };
+  
+  const [VerifyState, setVerifyState] = useState({
+    IsClassId: false,
+    IsNickname: false,
+    IsEmail: false,
+  })
 
   // SSAFY 회원정보 확인
   const onIsInClassIdHandler = e => {
@@ -44,11 +39,14 @@ export default function Signup() {
       url: API_BASE_URL + '/auth/verify-user',
       method: 'POST',
       data: {
-        class_id: ClassId,
+        class_id: InputValue.class_id,
       }
     })
     .then(()=>{
-      setIsClassId(true);
+      setVerifyState({
+        ...VerifyState,
+        IsClassId: true,
+      })
     })
     .catch(()=>alert('싸피 학번을 확인해주세요.'))
   }
@@ -60,12 +58,15 @@ export default function Signup() {
       url: API_BASE_URL + '/api/auth/duplicate-nickname',
       method: 'POST',
       data: {
-        nickname: Nickname,
+        nickname: InputValue.nickname,
       }
     })
     .then(res => {
       if (res.status === 200) {
-        setIsNickname(true);
+        setVerifyState({
+          ...VerifyState,
+          IsNickname: true,
+        })
         console.log('닉네임 통과');
       }
     })
@@ -83,16 +84,21 @@ export default function Signup() {
       url: API_BASE_URL + '/api/auth/verify-email',
       method: 'POST',
       data: {
-        email: Email,
+        email: InputValue.email,
       }
     })
     .then(() => {
-      setIsEmail(true);
+      setVerifyState({
+        ...VerifyState,
+        IsEmail: true,
+      })
       console.log('이메일 통과');
     })
     .catch(e => {
       if (e.response.status === 409) {
         alert('이미 존재하는 이메일입니다.');
+      } else {
+        console.log('사용이 불가한 이메일 입니다.');
       }
     })
   };
@@ -101,19 +107,14 @@ export default function Signup() {
   // 회원가입하기 Click 시 함수
   const onSubmitHandler = e => {
     e.preventDefault();
+    console.log();
     axios({
       url: API_BASE_URL + '/api/auth/join',
       method: 'POST',
-      data: {
-        name: Name,
-        nickname: Nickname,
-        email: Email,
-        class_id: ClassId,
-        password: Password,
-      }
+      data: InputValue,
     })
     .then((res)=> {
-      if(IsClassId && IsEmail && IsNickname) {
+      if(VerifyState.IsEmail && VerifyState.IsNickname) {
         alert('회원가입이 완료 되었습니다.');
         console.log(res);
       };
@@ -121,6 +122,8 @@ export default function Signup() {
     .catch(e => {
       if (e.response.status === 409) {
         alert('회원인증을 해주세요\n이메일 중복 확인을 해주세요.\n닉네임 중복 확인을 해주세요.');
+      } else {
+        console.log(e);
       }
     })
   };
@@ -148,16 +151,16 @@ export default function Signup() {
 
             {/* 이름 입력 Field */}
             <TextField
-              id='Name' name="Name" autoComplete="Name" margin='normal' 
-              type='text' placeholder="이름" label='Name' value={ Name } onChange={ onNameHandler }
-              fullWidth required autoFocus sx={{ mb: 1 }} helperText='hihi'
+              id='name' name="name" autoComplete="name" margin='normal' 
+              type='text' placeholder="이름" label='name' value={ InputValue.name } onChange={ onInputHandler }
+              fullWidth required autoFocus sx={{ mb: 1 }}
             />
 
             {/* 학번 입력 Field */}
             <TextField
-              id="ClassId" name="ClassId" autoComplete='current-classId'
-              type='number' placeholder="0000000" label='학번' value={ ClassId } onChange={ onClassIdHandler }
-              fullWidth required sx={{ mt: 1 }}
+              id="class_id" name="class_id" autoComplete='current-classId' 
+              type='number' placeholder="0000000" label='학번' value={ InputValue.class_id } onChange={ onInputHandler }
+              fullWidth required sx={{ mt: 1 }} helperText='학번을 입력해주세요.'
             />
 
             {/* 인증하기 Button Field */}
@@ -190,9 +193,11 @@ export default function Signup() {
             >
               <Grid item xs={9}>
                 <TextField
-                  id='Nickname' name="Nickname" autoComplete="Nickname" margin='normal'
-                  color = { IsNickname ? 'primary' : 'error' }
-                  type='text' placeholder="닉네임" label='닉네임' value={ Nickname } onChange={ onNicknameHandler }
+                  id='nickname' name="nickname" autoComplete="nickname" margin='normal'
+                  color = { VerifyState.IsNickname ? 'primary' : 'error' }
+                  helperText = { VerifyState.IsNickname ? '사용가능한 닉네임 입니다.':'' }
+                  disabled = { VerifyState.IsNickname ? true:false }
+                  type='text' placeholder="닉네임" label='닉네임' value={ InputValue.nickname } onChange={ onInputHandler }
                   fullWidth required
                 />
               </Grid>
@@ -210,9 +215,12 @@ export default function Signup() {
             >
               <Grid item xs={9}>
                 <TextField
-                  id='Email' name="Email" autoComplete="Email" margin='normal'
-                  type='email' placeholder="Email@email.com" label='Email'
-                  value={ Email } onChange={ onEmailHandler } color={ IsEmail ? 'primary' : 'error' }
+                  id='email' name="email" autoComplete="email" margin='normal'
+                  type='email' placeholder="email@email.com" label='email'
+                  value={ InputValue.email } onChange={ onInputHandler }
+                  color={ VerifyState.IsEmail ? 'primary' : 'error' }
+                  helperText = { VerifyState.IsEmail ? '사용가능한 이메일 입니다.':'' }
+                  disabled = { VerifyState.IsEmail ? true:false }
                   fullWidth required sx={{ mb: 1 }}
                 />
               </Grid>
@@ -224,11 +232,11 @@ export default function Signup() {
             </Grid>
 
             {/* 이메일 인증번호 Field */}
-            { IsEmail ?
+            { VerifyState.IsEmail ?
               <TextField
                 id='validation' name="validation" autoComplete="validation"
                 type='password' placeholder="인증번호" label='이메일 인증 확인'
-                fullWidth required sx={{ mb: 1 }}
+                fullWidth sx={{ mb: 1 }}
               />:<></>
             }
             
@@ -240,17 +248,17 @@ export default function Signup() {
             >
               <Grid item xs={12} sm={6} >
                 <TextField
-                  id="Password" name="Password" autoComplete='current-Password'
-                  type='Password' placeholder="패스워드를 입력해주세요" label='Password'
-                  value={ Password } onChange={ onPasswordHandler }
+                  id="password" name="password" autoComplete='current-password'
+                  type='password' placeholder="패스워드를 입력해주세요" label='password'
+                  value={ InputValue.password } onChange={ onInputHandler }
                   fullWidth required 
                   />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  id="ConfirmPasword" name="ConfirmPasword" autoComplete='current-passwordConfirm'
+                  id="confirmPasword" name="confirmPasword" autoComplete='current-passwordConfirm'
                   type='password' placeholder="패스워드를 입력해주세요" label='Password 확인'
-                  value={ ConfirmPasword } onChange={ onConfirmPasswordHandler }
+                  value={ InputValue.confirmPasword } onChange={ onInputHandler }
                   fullWidth required
                   />
               </Grid>
