@@ -1,9 +1,6 @@
 package a204.ssayeon.api.controller;
 
-import a204.ssayeon.api.request.auth.AuthDuplicateNicknameReq;
-import a204.ssayeon.api.request.auth.AuthJoinReq;
-import a204.ssayeon.api.request.auth.AuthLoginReq;
-import a204.ssayeon.api.request.auth.AuthVerifyEmailReq;
+import a204.ssayeon.api.request.auth.*;
 import a204.ssayeon.api.response.auth.AuthJoinRes;
 import a204.ssayeon.api.service.AuthService;
 import a204.ssayeon.common.model.enums.Status;
@@ -38,11 +35,12 @@ public class AuthController {
         return AdvancedResponseBody.of(Status.OK, authService.verifyEmail(authVerifyEmailReq.getEmail()));
     }
 
-//    @PostMapping("/verify-user")
-//    public AdvancedResponseBody<String> verifyUser() {
-//        return AdvancedResponseBody.of(Status.OK, authService.verifyUser());
-//    }
-//
+    @PostMapping("/verify-user")
+    public AdvancedResponseBody<String> verifyUser(@RequestBody AuthVerifyUserReq authVerifyUserReq) {
+        authService.verifyUser(authVerifyUserReq);
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
 //    @PostMapping("/verify-user-alternate")
 //    public AdvancedResponseBody<String> verifyUserAlternate() {
 //        return AdvancedResponseBody.of(Status.OK, authService.verifyUserAlternate());

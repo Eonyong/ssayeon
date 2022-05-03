@@ -6,7 +6,7 @@ import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.db.entity.balance.Balance;
 import a204.ssayeon.db.entity.user.User;
 import a204.ssayeon.db.repository.BalanceRepository;
-import a204.ssayeon.db.repository.UserRepository;
+import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
