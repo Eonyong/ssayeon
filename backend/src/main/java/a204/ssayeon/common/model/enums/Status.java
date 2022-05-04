@@ -6,6 +6,8 @@ import lombok.Getter;
 public enum Status {
     OK(200, "성공"),
     CREATED(201,"생성 성공"),
+    NO_CONTENT(204, "삭제 성공"),
+
     NOT_MODIFIED(304,"요청된 리소스를 재전송할 필요가 없음"),
     BAD_REQUEST(400,"요청된 정보를 이해할 수 없음"),
     UN_AUTHORIZED(401,"유효한 인증 자격 증명이 없음"),
