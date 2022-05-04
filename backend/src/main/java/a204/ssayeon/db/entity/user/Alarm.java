@@ -11,10 +11,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Notification {
+public class Alarm {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notification_id")
+    @Column(name = "alarm_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

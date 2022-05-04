@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseBody
 public class ExceptionsHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotExistException.class)
     public ErrorResponse notFound(CustomException e){
         return ErrorResponse.builder()

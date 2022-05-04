@@ -1,7 +1,6 @@
 package a204.ssayeon.api.controller;
 
 import a204.ssayeon.api.service.BalanceService;
-import a204.ssayeon.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,9 +25,6 @@ class BalanceControllerTest {
 
     @Autowired
     private BalanceController balanceController;
-
-    @Autowired
-    private SecurityConfig securityConfig;
 
     // test for balanceController is injected
     @Test
