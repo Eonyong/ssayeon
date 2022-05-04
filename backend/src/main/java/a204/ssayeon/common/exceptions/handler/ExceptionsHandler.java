@@ -1,9 +1,6 @@
 package a204.ssayeon.common.exceptions.handler;
 
-import a204.ssayeon.common.exceptions.AlreadyExistException;
-import a204.ssayeon.common.exceptions.CustomException;
-import a204.ssayeon.common.exceptions.NotExistException;
-import a204.ssayeon.common.exceptions.NotJoinedUserException;
+import a204.ssayeon.common.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

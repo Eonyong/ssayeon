@@ -26,5 +26,5 @@ public class Alarm {
 
     private String url;
 
-    private Boolean read;
+    private Boolean isRead;
 }
