@@ -1,9 +1,7 @@
 package a204.ssayeon.db.entity.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,6 +15,7 @@ public class Alarm {
     @Column(name = "alarm_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
@@ -28,3 +27,4 @@ public class Alarm {
 
     private Boolean isRead;
 }
+
