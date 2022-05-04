@@ -28,7 +28,7 @@ function SideBar() {
             로 그 인
           </Button>
         </Link>
-        <Link to='/accounts/signup'>
+        <Link to='/accounts/singup'>
           <Button
             sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
           >

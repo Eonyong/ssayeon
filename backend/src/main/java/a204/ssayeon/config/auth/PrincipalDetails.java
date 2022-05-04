@@ -1,6 +1,6 @@
 package a204.ssayeon.config.auth;
 
-import a204.ssayeon.domain.user.User;
+import a204.ssayeon.db.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +25,7 @@ public class PrincipalDetails implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public PrincipalDetails(User member) {
+    public PrincipalDetails(User user) {
         this.user = user;
     }
 
@@ -33,7 +33,6 @@ public class PrincipalDetails implements UserDetails {
         this.user = user;
         this.authorities = authorities;
     }
-
     public static PrincipalDetails create(User user) {
         List<GrantedAuthority> authorities = Collections.
                 singletonList(new SimpleGrantedAuthority(ROLE_USER));
@@ -41,8 +40,8 @@ public class PrincipalDetails implements UserDetails {
         return new PrincipalDetails(user, authorities);
     }
 
-    public static PrincipalDetails create(User member, Map<String, Object> attributes) {
-        PrincipalDetails userPrincipal = PrincipalDetails.create(member);
+    public static PrincipalDetails create(User user, Map<String, Object> attributes) {
+        PrincipalDetails userPrincipal = PrincipalDetails.create(user);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
     }

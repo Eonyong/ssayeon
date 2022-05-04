@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, TableCell, TableHead, TableRow, Container, TextField, Button } from "@mui/material";
 
+import NoticeContent from './NoticeContent';
+import Pagination from './Pagination';
+
 function NoticeList() {
+  const [list, setList] = useState([]);
+
   return (
     <div>
       <>
@@ -64,6 +69,8 @@ function NoticeList() {
                   ></TableCell>
                 </TableRow>
               </TableHead>
+              <NoticeContent list={list} />
+              <Pagination setList={ setList }/>
             </Table>
           </Container>
         </>
