@@ -35,7 +35,7 @@ public class ArticleController {
     @PostMapping()
     public AdvancedResponseBody<Article> createArticle(@RequestBody ArticleCreateReq articleCreateReq, @CurrentUser User user) {
         Article article = articleService.createArticle(articleCreateReq, user);
-        return AdvancedResponseBody.of(Status.OK, article);
+        return AdvancedResponseBody.of(Status.CREATED, article);
     }
 
     @GetMapping("/{articleId}")
@@ -53,11 +53,11 @@ public class ArticleController {
 
         // 에러처리
         if (statusCode == 404) {
+
             baseResponseBody.setCode(statusCode);
-            baseResponseBody.setMessage("해당 게시글이 없습니다.");
+
         } else if (statusCode == 200) {
             baseResponseBody.setCode(statusCode);
-            baseResponseBody.setMessage("게시글이 삭제되었습니다.");
         }
 
         return baseResponseBody;

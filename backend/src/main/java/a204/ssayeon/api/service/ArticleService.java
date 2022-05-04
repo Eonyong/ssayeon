@@ -172,7 +172,7 @@ public class ArticleService {
     public ArticleComments createComment(Long articleId, CommentCreateReq commentCreateReq) {
 
         Article article = articleRepository.findById(articleId).orElse(null);
-        System.out.println("article = " + article);
+
         if (article == null) {
             return null;
         }
