@@ -8,6 +8,7 @@ import a204.ssayeon.api.response.article.ArticleRes;
 import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
+import a204.ssayeon.common.model.response.BaseResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.article.Article;
 import a204.ssayeon.db.entity.article.ArticleComments;
@@ -68,9 +69,17 @@ public class ArticleController {
     }
 
     @PostMapping("/likes/{articleId}")
-    public AdvancedResponseBody<String> likeArticle(@PathVariable Long articleId, @CurrentUser User user) {
+    public BaseResponseBody likeArticle(@PathVariable Long articleId, @CurrentUser User user) {
         articleService.likeArticle(articleId, user);
-        return AdvancedResponseBody.of(Status.OK);
+        BaseResponseBody baseResponseBody = new BaseResponseBody(Status.OK);
+        return baseResponseBody;
+    }
+
+    @PostMapping("/scrap/{articleId}")
+    public BaseResponseBody scrapArticle(@PathVariable Long articleId, @CurrentUser User user) {
+        articleService.scrapArticle(articleId, user);
+        BaseResponseBody baseResponseBody = new BaseResponseBody(Status.OK);
+        return baseResponseBody;
     }
 
     @GetMapping("/{articleId}/comments/list")

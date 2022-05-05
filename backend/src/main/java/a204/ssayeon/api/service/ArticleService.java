@@ -37,6 +37,8 @@ public class ArticleService {
 
     private final ArticleLikesRepository articleLikesRepository;
 
+    private final ArticleScrapRepository articleScrapRepository;
+
     private final ArticleCommentsRepository articleCommentsRepository;
 
     private final ArticleCommentsLikesRepository articleCommentsLikesRepository;
@@ -199,6 +201,24 @@ public class ArticleService {
         }
     }
 
+    // 게시글 스크랩
+    public void scrapArticle(Long articleId, User user) {
+        articleRepository.findById(articleId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        ArticleScrap articleScrap = articleScrapRepository.findByArticleIdAndUserId(articleId, user.getId());
+
+        if (articleScrap == null) {
+            ArticleScrap scrap = ArticleScrap.builder()
+                    .article(articleRepository.getById(articleId))
+                    .user(user)
+                    .build();
+            articleScrapRepository.save(scrap);
+        } else {
+            articleScrapRepository.delete(articleScrap);
+        }
+    }
+
     public BoardRes getBoardRes(Long boardId) {
         Board board = boardRepository.getById(boardId);
         BoardRes boardRes = BoardRes.builder()
@@ -298,5 +318,9 @@ public class ArticleService {
         }
     }
 
+    // 스크랩
 
+    // 태그 검색
+
+    // 태그로 게시글 검색
 }
