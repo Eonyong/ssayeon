@@ -23,7 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String userEmail = token.getName();
         String userPw = (String) token.getCredentials(); // UserDetailsService를 통해 DB에서 아이디로 사용자 조회
         PrincipalDetails userDetailsVO = (PrincipalDetails) userDetailsService.loadUserByUsername(userEmail);
-        if (!passwordEncoder.matches(userPw, userDetailsVO.getPassword())) {
+        if (!passwordEncoder.matches(userPw, userDetailsVO.getPassword())) { //비밀번호 불일치 에러
             throw new NotJoinedUserException(ErrorMessage.USER_PASSWORD_INCORRET);
         }
         return new UsernamePasswordAuthenticationToken(userDetailsVO, userPw, userDetailsVO.getAuthorities());

@@ -11,6 +11,9 @@ public enum ErrorMessage {
     ARTICLE_DOES_NOT_EXIST(401,"해당 게시글이 존재하지 않습니다."),
 
 
+    //404
+    USER_CERTIFICATION_INCORRECT(404, "인증 오류"),
+
     //409
     USER_ALREADY_EXIST(409,"이미 존재하는 유저입니다"),
     NICKNAME_ALREADY_EXIST(409,"닉네임 중복"),

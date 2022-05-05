@@ -33,5 +33,15 @@ public class User {
     private String company;
 
     private String picture;
+    private Boolean isAlarm;
+
+    private Boolean alarmSend;
+
+    public void setAlarmSend(){
+        if(alarmSend)
+            alarmSend=false;
+        else
+            alarmSend=true;
+    }
 
 }
