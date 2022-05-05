@@ -17,8 +17,10 @@ public class ArticleRes {
     private String content;
     private Integer views;
 
+    private Long userId;
     private String nickname;
-    // private User user;
+    private Boolean isLiked;
+
     private BoardRes board;
     private CategoryRes category;
 

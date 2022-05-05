@@ -7,7 +7,6 @@ import a204.ssayeon.api.response.article.ArticleRes;
 import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
-import a204.ssayeon.common.model.response.BaseResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.article.Article;
 import a204.ssayeon.db.entity.article.ArticleComments;
@@ -39,38 +38,24 @@ public class ArticleController {
     }
 
     @GetMapping("/{articleId}")
-    public AdvancedResponseBody<ArticleRes> getArticleById(@PathVariable Long articleId) {
+    public AdvancedResponseBody<ArticleRes> getArticleById(@PathVariable Long articleId, @CurrentUser User user) {
 
-        ArticleRes articleRes = articleService.getArticleById(articleId);
+        ArticleRes articleRes = articleService.getArticleById(articleId, user);
 
         return AdvancedResponseBody.of(Status.OK, articleRes);
     }
 
     @DeleteMapping("/{articleId}")
-    public BaseResponseBody deleteArticleById(@PathVariable Long articleId) {
-        Integer statusCode = articleService.deleteArticle(articleId);
-        BaseResponseBody baseResponseBody = new BaseResponseBody();
+    public AdvancedResponseBody<String> deleteArticleById(@PathVariable Long articleId, @CurrentUser User user) {
+        articleService.deleteArticle(articleId, user);
 
-        // 에러처리
-        if (statusCode == 404) {
-
-            baseResponseBody.setCode(statusCode);
-
-        } else if (statusCode == 200) {
-            baseResponseBody.setCode(statusCode);
-        }
-
-        return baseResponseBody;
+        return AdvancedResponseBody.of(Status.NO_CONTENT);
     }
 
     @PatchMapping("/{articleId}")
     public AdvancedResponseBody<Article> updateArticleById(@PathVariable Long articleId, @RequestBody ArticleUpdateReq articleUpdateReq, @CurrentUser User user) {
         Article article = articleService.updateArticle(articleId, articleUpdateReq, user);
 
-        if (article == null) {
-
-            return AdvancedResponseBody.of(Status.NOT_FOUND, null);
-        }
         return AdvancedResponseBody.of(Status.OK, article);
 
     }
@@ -81,10 +66,17 @@ public class ArticleController {
         return AdvancedResponseBody.of(Status.OK, articleListRes);
     }
 
+    @PostMapping("/likes/{articleId}")
+    public AdvancedResponseBody<String> likeArticle(@PathVariable Long articleId, @CurrentUser User user) {
+        articleService.likeArticle(articleId, user);
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
     @PostMapping("/{articleId}/comment")
     public AdvancedResponseBody<ArticleComments> createComment(@PathVariable Long articleId, @RequestBody CommentCreateReq commentCreateReq) {
         ArticleComments comment = articleService.createComment(articleId, commentCreateReq);
         return AdvancedResponseBody.of(Status.OK, comment);
     }
+
 
 }

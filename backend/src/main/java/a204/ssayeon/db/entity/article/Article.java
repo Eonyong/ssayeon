@@ -1,5 +1,6 @@
 package a204.ssayeon.db.entity.article;
 
+import a204.ssayeon.api.request.article.ArticleUpdateReq;
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,4 +41,10 @@ public class Article extends BaseEntity {
     @JoinColumn(name="category_id",nullable = false)
     @JsonIgnore
     private Category category;
+
+    public void update(ArticleUpdateReq articleUpdateReq, Category category) {
+        this.title = articleUpdateReq.getTitle();
+        this.content = articleUpdateReq.getContent();
+        this.category = category;
+    }
 }

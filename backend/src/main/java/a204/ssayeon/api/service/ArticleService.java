@@ -7,34 +7,39 @@ import a204.ssayeon.api.response.article.ArticleRes;
 import a204.ssayeon.api.response.article.BoardRes;
 import a204.ssayeon.api.response.article.CategoryRes;
 import a204.ssayeon.api.response.article.TagRes;
+import a204.ssayeon.common.exceptions.ForbiddenException;
+import a204.ssayeon.common.exceptions.NotExistException;
+import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.db.entity.article.*;
 import a204.ssayeon.db.entity.user.User;
+import a204.ssayeon.db.repository.UserRepository;
 import a204.ssayeon.db.repository.article.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class ArticleService {
-    @Autowired
-    ArticleRepository articleRepository;
 
-    @Autowired
-    BoardRepository boardRepository;
+    private final ArticleRepository articleRepository;
 
-    @Autowired
-    ArticleHasTagRepository articleHasTagRepository;
+    private final BoardRepository boardRepository;
 
-    @Autowired
-    TagRepository tagRepository;
+    private final ArticleHasTagRepository articleHasTagRepository;
 
-    @Autowired
-    CategoryRepository categoryRepository;
+    private final TagRepository tagRepository;
 
-    @Autowired
-    CommentRepository commentRepository;
+    private final CategoryRepository categoryRepository;
+
+    private final CommentRepository commentRepository;
+
+    private final UserRepository userRepository;
+
+    private final ArticleLikesRepository articleLikesRepository;
+
 
     public List<ArticleRes> getAllArticles() {
         List<Article> articles = articleRepository.findAll();
@@ -45,6 +50,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
                     .category(getCategoryRes(article.getCategory().getId()))
@@ -54,6 +60,7 @@ public class ArticleService {
     }
 
     public Article createArticle(ArticleCreateReq articleCreateReq, User user) {
+
         Article article = Article.builder()
                 .title(articleCreateReq.getTitle())
                 .content(articleCreateReq.getContent())
@@ -62,15 +69,21 @@ public class ArticleService {
                 .category(categoryRepository.getById(articleCreateReq.getCategoryId()))
                 .build();
         article = articleRepository.save(article);
+
+        List<Long> tagList = articleCreateReq.getTagList();
+        for(Long tagId : tagList) {
+            ArticleHasTag articleHasTag = ArticleHasTag.builder()
+                    .article(articleRepository.getById(article.getId()))
+                    .tag(tagRepository.getById(tagId))
+                    .build();
+            articleHasTagRepository.save(articleHasTag);
+        }
         return article;
     }
 
-    public ArticleRes getArticleById(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElse(null);
-        // 이 경우에 예외처리
-        if (article == null) {
-            return null;
-        }
+    public ArticleRes getArticleById(Long articleId, User user) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
         List<ArticleHasTag> tagList = articleHasTagRepository.findByArticleId(article.getId());
         List<TagRes> tagListRes = new ArrayList<>();
@@ -81,12 +94,23 @@ public class ArticleService {
                     .build());
         }
 
+        Boolean isLiked = false;
+
+        if (user != null) {
+            ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
+            if ( articleLikes != null ) {
+                isLiked = true;
+            }
+        }
+
         ArticleRes articleRes = ArticleRes.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .views(article.getViews())
+                .userId(article.getUser().getId())
                 .nickname(article.getUser().getNickname())
+                .isLiked(isLiked)
                 .category(getCategoryRes(article.getCategory().getId()))
                 .board(getBoardRes(article.getBoard().getId()))
                 .tagList(tagListRes)
@@ -94,41 +118,46 @@ public class ArticleService {
         return articleRes;
     }
 
-    public Article updateArticle(Long id, ArticleUpdateReq articleUpdateReq, User user) {
+    public Article updateArticle(Long articleId, ArticleUpdateReq articleUpdateReq, User user) {
 
-        Article article = articleRepository.findById(id).orElse(null);
-        if (article == null) {
-            return null;
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+            new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+
+        articleRepository.findByIdAndUser(articleId, user).orElseThrow(() ->
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
+
+
+        article.update(articleUpdateReq, categoryRepository.getById(articleUpdateReq.getCategoryId()));
+        articleRepository.save(article);
+
+        List<ArticleHasTag> tagList = articleHasTagRepository.findByArticleId(article.getId());
+        for(ArticleHasTag articleHasTag : tagList) {
+            articleHasTagRepository.delete(articleHasTag);
         }
 
-        // 여기서 자격 처리
-        if (user.getId() != article.getUser().getId()) {
-            return null;
+        List<Long> newTagList = articleUpdateReq.getTagList();
+        for(Long tagId : newTagList) {
+            ArticleHasTag articleHasTag = ArticleHasTag.builder()
+                    .article(articleRepository.getById(article.getId()))
+                    .tag(tagRepository.getById(tagId))
+                    .build();
+            articleHasTagRepository.save(articleHasTag);
         }
 
-        Article updatedArticle = Article.builder()
-                .id(article.getId())
-                .title(articleUpdateReq.getTitle())
-                .content(articleUpdateReq.getContent())
-                .category(categoryRepository.getById(articleUpdateReq.getCategoryId()))
-                .build();
-
-        articleRepository.save(updatedArticle);
-        return updatedArticle;
+        return article;
     }
 
-    public Integer deleteArticle(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElse(null);
+    public void deleteArticle(Long articleId, User user) {
 
-        // 이 경우에 예외처리
-        if (article == null) {
-            return 403;
-        }
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
-        // 작성자가 아닐 때
+        articleRepository.findByIdAndUser(articleId, user).orElseThrow(() ->
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
 
         articleRepository.delete(article);
-        return 200;
+
     }
 
     // 보드 아이디 별로 아이디 가져오기
@@ -141,6 +170,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
                     .category(getCategoryRes(article.getCategory().getId()))
@@ -150,6 +180,23 @@ public class ArticleService {
     }
 
     // 게시글 좋아요
+    public void likeArticle(Long articleId, User user) {
+
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
+
+        if (articleLikes == null) {
+            ArticleLikes articleLike = ArticleLikes.builder()
+                    .article(articleRepository.getById(articleId))
+                    .user(user)
+                    .build();
+            articleLikesRepository.save(articleLike);
+        } else {
+            articleLikesRepository.delete(articleLikes);
+        }
+    }
 
     public BoardRes getBoardRes(Long boardId) {
         Board board = boardRepository.getById(boardId);
