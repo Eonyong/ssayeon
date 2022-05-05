@@ -3,6 +3,7 @@ package a204.ssayeon.api.controller;
 import a204.ssayeon.api.request.article.ArticleCreateReq;
 import a204.ssayeon.api.request.article.ArticleUpdateReq;
 import a204.ssayeon.api.request.article.CommentCreateReq;
+import a204.ssayeon.api.response.article.ArticleCommentsRes;
 import a204.ssayeon.api.response.article.ArticleRes;
 import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
@@ -72,11 +73,33 @@ public class ArticleController {
         return AdvancedResponseBody.of(Status.OK);
     }
 
-    @PostMapping("/{articleId}/comment")
-    public AdvancedResponseBody<ArticleComments> createComment(@PathVariable Long articleId, @RequestBody CommentCreateReq commentCreateReq) {
-        ArticleComments comment = articleService.createComment(articleId, commentCreateReq);
+    @GetMapping("/{articleId}/comments/list")
+    public AdvancedResponseBody<List<ArticleCommentsRes>> getCommentsList(@PathVariable Long articleId, @CurrentUser User user) {
+        List<ArticleCommentsRes> articleCommentsResList = articleService.getCommentsByArticleId(articleId, user);
+        return AdvancedResponseBody.of(Status.OK, articleCommentsResList);
+    }
+
+    @PostMapping("/{articleId}/comments")
+    public AdvancedResponseBody<ArticleComments> createComment(@PathVariable Long articleId, @RequestBody CommentCreateReq commentCreateReq, @CurrentUser User user) {
+        ArticleComments comment = articleService.createComment(articleId, commentCreateReq, user);
         return AdvancedResponseBody.of(Status.OK, comment);
     }
 
+    @PatchMapping("/comments/{commentId}")
+    public AdvancedResponseBody<ArticleComments> updateComment(@PathVariable Long commentId, @RequestBody CommentCreateReq commentCreateReq, @CurrentUser User user) {
+        ArticleComments articleComment = articleService.updateComment(commentId, commentCreateReq, user);
+        return AdvancedResponseBody.of(Status.OK, articleComment);
+    }
 
+    @DeleteMapping("/comments/{commentId}")
+    public AdvancedResponseBody<ArticleComments> deleteComment(@PathVariable Long commentId, @CurrentUser User user) {
+        articleService.deleteComment(commentId, user);
+        return AdvancedResponseBody.of(Status.NO_CONTENT);
+    }
+
+    @PostMapping("/comments/likes/{commentId}")
+    public AdvancedResponseBody<String> likeComment(@PathVariable Long commentId, @CurrentUser User user){
+        articleService.likeComment(commentId, user);
+        return AdvancedResponseBody.of(Status.OK);
+    }
 }

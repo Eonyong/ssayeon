@@ -1,5 +1,6 @@
 package a204.ssayeon.db.entity.article;
 
+import a204.ssayeon.api.request.article.CommentCreateReq;
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,4 +29,8 @@ public class ArticleComments extends BaseEntity {
     @JoinColumn(name="article_id",nullable = false)
     @JsonIgnore
     private Article article;
+
+    public void update(CommentCreateReq commentCreateReq) {
+        this.description = commentCreateReq.getDescription();
+    }
 }

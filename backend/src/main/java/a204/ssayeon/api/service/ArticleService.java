@@ -3,10 +3,7 @@ package a204.ssayeon.api.service;
 import a204.ssayeon.api.request.article.ArticleCreateReq;
 import a204.ssayeon.api.request.article.ArticleUpdateReq;
 import a204.ssayeon.api.request.article.CommentCreateReq;
-import a204.ssayeon.api.response.article.ArticleRes;
-import a204.ssayeon.api.response.article.BoardRes;
-import a204.ssayeon.api.response.article.CategoryRes;
-import a204.ssayeon.api.response.article.TagRes;
+import a204.ssayeon.api.response.article.*;
 import a204.ssayeon.common.exceptions.ForbiddenException;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
@@ -39,6 +36,10 @@ public class ArticleService {
     private final UserRepository userRepository;
 
     private final ArticleLikesRepository articleLikesRepository;
+
+    private final ArticleCommentsRepository articleCommentsRepository;
+
+    private final ArticleCommentsLikesRepository articleCommentsLikesRepository;
 
 
     public List<ArticleRes> getAllArticles() {
@@ -182,7 +183,7 @@ public class ArticleService {
     // 게시글 좋아요
     public void likeArticle(Long articleId, User user) {
 
-        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+        articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
         ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
@@ -216,19 +217,86 @@ public class ArticleService {
         return categoryRes;
     }
 
-    public ArticleComments createComment(Long articleId, CommentCreateReq commentCreateReq) {
+    public List<ArticleCommentsRes> getCommentsByArticleId(Long articleId, User user) {
+        List<ArticleComments> commentsList = articleCommentsRepository.findByArticleId(articleId);
+        List<ArticleCommentsRes> articleCommentsListRes = new ArrayList<>();
 
-        Article article = articleRepository.findById(articleId).orElse(null);
-
-        if (article == null) {
-            return null;
+        for(ArticleComments articleComments : commentsList) {
+            Boolean isLiked = false;
+            ArticleCommentsLikes articleCommentsLikes = articleCommentsLikesRepository.findByArticleCommentsIdAndUser(articleComments.getId(), user);
+            if (articleCommentsLikes != null) {
+                isLiked = true;
+            }
+            articleCommentsListRes.add(ArticleCommentsRes.builder()
+                    .id(articleComments.getId())
+                    .description(articleComments.getDescription())
+                    .userId(articleComments.getUser().getId())
+                    .nickname(articleComments.getUser().getNickname())
+                    .isLiked(isLiked)
+                    .build());
         }
+
+        return articleCommentsListRes;
+    }
+
+    public ArticleComments createComment(Long articleId, CommentCreateReq commentCreateReq, User user) {
+
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
 
         ArticleComments comment = ArticleComments.builder()
                 .description(commentCreateReq.getDescription())
+                .user(user)
                 .article(article)
                 .build();
         comment = commentRepository.save(comment);
         return comment;
     }
+
+    public ArticleComments updateComment(Long commentId, CommentCreateReq commentCreateReq, User user) {
+
+        ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
+            new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
+
+        articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
+            new ForbiddenException(ErrorMessage.FORBIDDEN));
+
+        articleComment.update(commentCreateReq);
+        articleCommentsRepository.save(articleComment);
+
+        return articleComment;
+    }
+
+    public void deleteComment(Long commentId, User user) {
+
+        ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
+
+        articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
+
+        articleCommentsRepository.delete(articleComment);
+    }
+
+    // 댓글 좋아요
+    public void likeComment(Long commentId, User user) {
+
+        articleCommentsRepository.findById(commentId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
+
+        ArticleCommentsLikes articleCommentsLikes = articleCommentsLikesRepository.findByArticleCommentsIdAndUser(commentId, user);
+
+        if (articleCommentsLikes == null) {
+            ArticleCommentsLikes articleCommentsLike = ArticleCommentsLikes.builder()
+                    .articleComments(articleCommentsRepository.getById(commentId))
+                    .user(user)
+                    .build();
+            articleCommentsLikesRepository.save(articleCommentsLike);
+        } else {
+            articleCommentsLikesRepository.delete(articleCommentsLikes);
+        }
+    }
+
+
 }
