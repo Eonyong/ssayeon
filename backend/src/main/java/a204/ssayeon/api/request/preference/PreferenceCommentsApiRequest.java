@@ -5,15 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PreferenceApiRequest {
+public class PreferenceCommentsApiRequest {
 
-    private String description; // 선호도조사 질문
-    private List<String> optionList; // 선택지 리스트
+    private String description; // 댓글 내용
 
 }

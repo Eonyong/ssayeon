@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PreferenceCommentsLikesRepository extends JpaRepository<PreferenceCommentsLikes, Long> {
 
+    PreferenceCommentsLikes findByPreferenceCommentsIdAndUserId(Long preferenceCommentsId, Long userId);
 }

@@ -2,12 +2,10 @@ package a204.ssayeon.db.entity.preference;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+
 
 @Getter @Builder
 @AllArgsConstructor
@@ -25,5 +23,9 @@ public class Preference extends BaseEntity {
 
     @Column(nullable = false)
     private String description;
+
+    public void setDescription(String description){
+        this.description = description;
+    }
 }
 

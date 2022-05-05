@@ -6,18 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PreferenceApiResponse {
+public class PreferenceCommentsApiResponse {
 
-    private Long preferenceId; // PK
+    private Long preferenceCommentsId; // PK
     private Long userId; // 유저 id
-    private String writer; // 유저 이름
-    private List<PreferenceOptionsApiResponse> preferenceOptionsApiResponseList; // 선택지 리스트
+    private String writer; // 유저 닉네임
+    private String description; // 댓글 내용
     private LocalDateTime createAt; // 작성일자
     private LocalDateTime updatedAt; // 수정일자
 

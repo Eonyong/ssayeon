@@ -2,25 +2,33 @@ package a204.ssayeon.api.service;
 
 import a204.ssayeon.db.entity.preference.Preference;
 import a204.ssayeon.db.repository.preference.PreferenceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class PreferenceService {
 
-    @Autowired
-    private PreferenceRepository preferenceRepository;
+    private final PreferenceRepository preferenceRepository;
 
     public void registerPreference(Preference preference) {
         preferenceRepository.save(preference);
     }
 
+    public Preference getPreferenceById(Long preferenceId){
+        Optional<Preference> option = preferenceRepository.findById(preferenceId);
+        Preference preference = option.get();
+        return preference;
+    }
     public List<Preference> getAllPreferences() {
         return preferenceRepository.findAll();
     }
 
+    @Transactional
     public void deletePreference(Long preferenceId) {
         preferenceRepository.deleteById(preferenceId);
     }

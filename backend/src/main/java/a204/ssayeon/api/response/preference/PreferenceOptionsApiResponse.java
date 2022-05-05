@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PreferenceOptionsApiResponse {
 
-    private Long preferenceId; // PK
+    private Long preferenceOptionsId; // PK
     private String description; // 선택지 내용
 
 }
