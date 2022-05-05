@@ -12,12 +12,16 @@ import a204.ssayeon.api.service.BalanceService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
+import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.balance.Balance;
 import a204.ssayeon.db.entity.balance.BalanceComments;
 import a204.ssayeon.db.entity.balance.Poll;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,9 +42,11 @@ public class BalanceController {
     }
 
     @GetMapping("/list")
-    public AdvancedResponseBody<List<GetAllBalanceRes>> getAllBalance(){
-        List<Balance> allBalance = balanceService.getAllBalance();
+    public AdvancedResponseBody<List<GetAllBalanceRes>> getAllBalance(@PageableDefault Pageable pageable){
+        Page<Balance> allBalance = balanceService.getAllBalance(pageable);
         List<GetAllBalanceRes> getAllBalanceResList = new ArrayList<>();
+
+        Pagination pagination = getPagination(allBalance);
 
         allBalance.forEach((bal)->{
             GetAllBalanceRes res = GetAllBalanceRes.builder()
@@ -54,7 +60,7 @@ public class BalanceController {
                     .build();
             getAllBalanceResList.add(res);
         });
-        return AdvancedResponseBody.of(Status.OK,getAllBalanceResList);
+        return AdvancedResponseBody.of(Status.OK,getAllBalanceResList,pagination);
     }
 
     @GetMapping("/{balanceId}")
@@ -131,5 +137,14 @@ public class BalanceController {
                 .rightRatio(rightRatio)
                 .build();
         return AdvancedResponseBody.of(Status.OK,getBalanceStaticsRes);
+    }
+
+    private Pagination getPagination (Page<Balance> pagination){
+        return Pagination.builder()
+                .totalPages(pagination.getTotalPages())
+                .totalElements(pagination.getTotalElements())
+                .currentPage(pagination.getNumber())
+                .currentElements(pagination.getNumberOfElements())
+                .build();
     }
 }

@@ -15,6 +15,8 @@ import a204.ssayeon.db.repository.BalanceRepository;
 import a204.ssayeon.db.repository.BalanceSelectedRepository;
 import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,8 +53,8 @@ public class BalanceService {
         return balanceRepository.findById(balanceId).orElseThrow(()->new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
     }
 
-    public List<Balance> getAllBalance() {
-        return balanceRepository.findAll();
+    public Page<Balance> getAllBalance(Pageable pageable) {
+        return balanceRepository.findAll(pageable);
     }
 
     public void modifyBalance(User user,Long balanceId, ModifyBalanceReq req) {
