@@ -3,10 +3,9 @@ package a204.ssayeon.config.auth;
 import a204.ssayeon.common.exceptions.NotJoinedUserException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.db.entity.user.User;
-import a204.ssayeon.db.repository.UserRepository;
+import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,9 +21,9 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public PrincipalDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public PrincipalDetails loadUserByUsername(String email){
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new NotJoinedUserException(ErrorMessage.USER_DOES_NOT_EXIST)
+                () -> new NotJoinedUserException(ErrorMessage.USER_EMAIL_INCORRET) //이메일 불일치 에러
         );
         return new PrincipalDetails(user);
     }
