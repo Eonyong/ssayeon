@@ -11,6 +11,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseBody
 public class ExceptionsHandler {
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(InternalServerException.class)
+    public ErrorResponse internalServerException(CustomException e){
+        return ErrorResponse.builder()
+                .message(e.getErrorMessage().getMessage())
+                .code(e.getErrorMessage().getStatus())
+                .build();
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotExistException.class)
     public ErrorResponse notFound(CustomException e){

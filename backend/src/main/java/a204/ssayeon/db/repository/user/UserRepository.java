@@ -1,4 +1,4 @@
-package a204.ssayeon.db.repository;
+package a204.ssayeon.db.repository.user;
 
 
 import a204.ssayeon.db.entity.user.User;
