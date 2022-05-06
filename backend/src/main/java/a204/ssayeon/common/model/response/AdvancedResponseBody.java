@@ -8,9 +8,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdvancedResponseBody<T> extends BaseResponseBody {
+public class
+AdvancedResponseBody<T> extends BaseResponseBody {
     T data;
-    Pagination pagination;
 
     public static <T> AdvancedResponseBody<T> of(Status status, T data) {
         return (AdvancedResponseBody<T>) AdvancedResponseBody.
@@ -25,19 +25,10 @@ public class AdvancedResponseBody<T> extends BaseResponseBody {
                 status(status).
                 build();
     }
-    public static <T> AdvancedResponseBody<T> of(Status status, T data, Pagination pagination) {
-        return (AdvancedResponseBody<T>) AdvancedResponseBody.
-                builder().
-                status(status).
-                pagination(pagination).
-                data(data).
-                build();
-    }
 
     @Builder
-    public AdvancedResponseBody(Status status, T data,Pagination pagination) {
+    public AdvancedResponseBody(Status status, T data) {
         super(status);
         this.data = data;
-        this.pagination = pagination;
     }
 }
