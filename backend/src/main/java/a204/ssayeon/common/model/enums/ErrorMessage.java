@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorMessage {
     //401
-    USER_DOES_NOT_EXIST(401,""),
+    USER_DOES_NOT_EXIST(401,"로그인이 필요한 사용자입니다"),
     USER_EMAIL_INCORRET(401,"이메일 오류"),
     USER_PASSWORD_INCORRET(401,"비밀번호 오류"),
     ARTICLE_DOES_NOT_EXIST(401,"해당 게시글이 존재하지 않습니다."),

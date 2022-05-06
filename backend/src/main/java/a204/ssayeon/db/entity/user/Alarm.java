@@ -2,9 +2,11 @@ package a204.ssayeon.db.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
