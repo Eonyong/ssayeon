@@ -13,4 +13,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Optional<Article> findByIdAndUser(Long Id, User user);
 
+    List<Article> findByTitleContainsAndBoardId(String title, Long boardId);
+
+    List<Article> findByContentContainsAndBoardId(String content, Long boardId);
+
+    List<Article> findByUserIdAndBoardId(Long userId, Long boardId);
+
 }

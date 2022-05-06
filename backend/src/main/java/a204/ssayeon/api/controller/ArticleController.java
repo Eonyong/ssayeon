@@ -111,4 +111,10 @@ public class ArticleController {
         articleService.likeComment(commentId, user);
         return AdvancedResponseBody.of(Status.OK);
     }
+
+    @GetMapping("/{boardId}/{type}")
+    public AdvancedResponseBody<List<ArticleRes>> searchArticle(@PathVariable Long boardId, @PathVariable Integer type, @RequestParam String search) {
+        List<ArticleRes> articleListRes = articleService.getArticleBySearchWord(boardId, type, search);
+        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
 }

@@ -318,9 +318,36 @@ public class ArticleService {
         }
     }
 
-    // 스크랩
+    // 게시글 검색
+    public List<ArticleRes> getArticleBySearchWord(Long boardId, Integer type, String search) {
 
-    // 태그 검색
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        List<Article> articles = new ArrayList<>();
 
-    // 태그로 게시글 검색
+        // 1 = 제목, 2 = 내용, 3 = 작성자
+        if (type == 1) {
+            articles = articleRepository.findByTitleContainsAndBoardId(search, boardId);
+        } else if (type == 2) {
+            articles = articleRepository.findByContentContainsAndBoardId(search, boardId);
+        } else if (type == 3){
+            User user = userRepository.findByNickname(search).get();
+            System.out.println("user = " + user);
+            articles = articleRepository.findByUserIdAndBoardId(user.getId(), boardId);
+        }
+        
+        for(Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+
+        return articleListRes;
+    }
 }
