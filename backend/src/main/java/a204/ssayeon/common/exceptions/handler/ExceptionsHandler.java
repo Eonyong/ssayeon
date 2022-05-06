@@ -46,4 +46,22 @@ public class ExceptionsHandler {
                 .code(e.getErrorMessage().getStatus())
                 .build();
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public ErrorResponse forbidden(CustomException e){
+        return ErrorResponse.builder()
+                .message(e.getErrorMessage().getMessage())
+                .code(e.getErrorMessage().getStatus())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ErrorResponse unAuthorized(CustomException e){
+        return ErrorResponse.builder()
+                .message(e.getErrorMessage().getMessage())
+                .code(e.getErrorMessage().getStatus())
+                .build();
+    }
 }

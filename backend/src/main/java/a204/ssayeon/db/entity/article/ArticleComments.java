@@ -1,7 +1,9 @@
 package a204.ssayeon.db.entity.article;
 
+import a204.ssayeon.api.request.article.CommentCreateReq;
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @Entity
 public class ArticleComments extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="article_comments_id")
     private Long id;
 
@@ -20,9 +22,15 @@ public class ArticleComments extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)
+    @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="article_id",nullable = false)
+    @JsonIgnore
     private Article article;
+
+    public void update(CommentCreateReq commentCreateReq) {
+        this.description = commentCreateReq.getDescription();
+    }
 }

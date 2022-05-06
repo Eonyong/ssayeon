@@ -1,8 +1,11 @@
 package a204.ssayeon.db.entity.article;
 
-import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,21 +13,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ArticleAnswer extends BaseEntity {
+public class ArticleScrap {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="article_answer_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="scrap_id")
     private Long id;
-
-    @Column(nullable = false)
-    private String description;
-    private Boolean isSelected;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="article_id",nullable = false)
+    @JsonIgnore
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)
+    @JsonIgnore
     private User user;
+
 }
