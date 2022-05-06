@@ -36,8 +36,6 @@ public class User {
     private String picture;
     private Boolean isAlarm;
 
-    private Boolean isAlarm;
-
     public void setIsAlarm(){
         if(isAlarm)
             isAlarm=false;
