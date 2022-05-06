@@ -19,6 +19,15 @@ export default function Login () {
     });
   }
 
+  const onSubmit = e => {
+    axios({
+      url: API_BASE_URL + '/auth/login',
+      method: "POST",
+      data: InputValue,
+    })
+    .then(res => console.log(res))
+    .catch(e => console.log(e))
+  }
   
 
   return (
@@ -36,17 +45,17 @@ export default function Login () {
           <Typography>Sign in with your data that you entered during your registration.</Typography>
           <Box
             noValidate container component='form'
-            sx={{ my: 5 }} onSubmit={ handleSubmit }
+            sx={{ my: 5 }} onSubmit={ onSubmit }
           >
             <TextField
-              id='Email' name="Email" autoComplete="Email" margin='normal'
-              type='email' placeholder="Email@email.com" label='Email'
+              id='email' name="email" autoComplete="email" margin='normal'
+              type='email' placeholder="email@email.com" label='email'
               value={ InputValue.email } onChange={ onInputHandler }
               fullWidth sx={{ mb: 1 }}
             />
             <TextField
-              id="Password" name="Password" autoComplete='current-Password'
-              type='Password' placeholder="패스워드를 입력해주세요" label='Password'
+              id="password" name="password" autoComplete='current-password'
+              type='password' placeholder="패스워드를 입력해주세요" label='password'
               value={ InputValue.password } onChange={ onInputHandler }
               fullWidth sx={{ mb: 1 }}
             />
@@ -55,7 +64,7 @@ export default function Login () {
               label='Keep me logged in'
             />
             <Button
-              type="sumbmit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
+              type="submit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
               fullWidth variant="contained"
             >
               Sign In

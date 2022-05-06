@@ -1,5 +1,6 @@
 import { Box, Button, Grid, TextField, Typography, Container } from "@mui/material";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Signup() {
@@ -11,19 +12,17 @@ export default function Signup() {
     class_id: '',
     nickname: '',
     email: '',
-    password: '',
-    confirmPasword: '',
-    validation: '',
-    confirmValidation: '',
+    password: '', confirmPasword: '',
+    validation: '', confirmValidation: '',
   });
 
   // Handler 함수
   const onInputHandler = e => {
     const name = e.target.name;
     const value = e.target.value.trim();
-    if (name === 'password') {
-      passwordValidation(value);
-    }
+
+    if (name === 'password') passwordValidation(value);
+
     setInputValue({
       ...InputValue,
       [ name ]: value,
@@ -35,9 +34,11 @@ export default function Signup() {
     IsClassId: false,
     IsNickname: false,
     IsEmail: false,
+    IsPassword: false,
+    passwordWarnig: '',
   })
 
-  // SSAFY 회원정보 확인
+  // SSAFY 회원 인증
   const onIsInClassIdHandler = e => {
     e.preventDefault();
     axios({
@@ -48,13 +49,13 @@ export default function Signup() {
         class_id: InputValue.class_id,
       }
     })
-    .then(()=>{
+    .then(() => {
       setVerifyState({
         ...VerifyState,
         IsClassId: true,
       })
     })
-    .catch((e)=>{
+    .catch((e) => {
       console.log(e);
     })
   }
@@ -115,7 +116,7 @@ export default function Signup() {
     .catch(e => {
       console.log(e);
       if (e.response.status === 409) {
-        alert('이미 존재하는 이메일입니다.');
+        console.log('이미 존재하는 이메일입니다.');
       } else {
         console.log('사용이 불가한 이메일 입니다.');
       }
@@ -125,7 +126,6 @@ export default function Signup() {
   // 비밀번호 유효성 검사
   const passwordValidation = (prop) => {
     const prop_trim = prop.trim();
-    console.log(prop_trim);
     const upperCase = /(?=.*?[A-Z])/;
     const lowerCase = /(?=.*?[a-z])/;
     const digitCase = /(?=.*?[0-9])/;
@@ -133,21 +133,45 @@ export default function Signup() {
     const minlenCase = /.{8,}/;
 
     if (!minlenCase.test(prop_trim)) {
-      console.log('비밀번호는 8글자 이상입니다!!');
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: false,
+        passwordWarnig: '비밀번호는 8글자 이상입니다!!',
+      });
     }
     else if (!upperCase.test(prop_trim)) {
-      console.log('대문자 추가해줘!!');
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: false,
+        passwordWarnig: '대문자 추가해줘!!',
+      });
     }
     else if (!lowerCase.test(prop_trim)) {
-      console.log('소문자 추가해줘!!');
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: false,
+        passwordWarnig: '소문자 추가해줘!!',
+      });
     }
     else if (!digitCase.test(prop_trim)) {
-      console.log('숫자가 하나 이상 있어야합니다!!');
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: false,
+        passwordWarnig: '숫자가 하나 이상 있어야합니다!!',
+      });
     }
     else if (!specialCase.test(prop_trim)) {
-      console.log('특수문자를 추가해주세요!! 사용 가능한 문자는: #,?,!,@,$,%,^,&,*,-');
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: false,
+        passwordWarnig: '특수문자를 추가해주세요',
+      });
     } else {
-      console.log('만족스럽습니다');
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: true,
+        passwordWarnig: '만족스럽습니다',
+      });
     }
   };
   
@@ -207,7 +231,9 @@ export default function Signup() {
             <TextField
               id="class_id" name="class_id" autoComplete='current-classId' 
               type='number' placeholder="0000000" label='학번' value={ InputValue.class_id } onChange={ onInputHandler }
-              fullWidth required sx={{ mt: 1 }} helperText='학번을 입력해주세요.'
+              fullWidth required sx={{ mt: 1 }}
+              color={InputValue.class_id.length === 7 ? 'primary': 'error'}
+              helperText={ InputValue.class_id.length>0 ? '학번을 입력해주세요.': false}
             />
 
             {/* 인증하기 Button Field */}
@@ -282,7 +308,7 @@ export default function Signup() {
             { VerifyState.IsEmail ?
               <TextField
                 id='validation' name="validation" autoComplete="validation"
-                type='password' placeholder="인증번호" label='이메일 인증 확인'
+                type='text' placeholder="인증번호" label='이메일 인증 확인'
                 value={ InputValue.validation } onChange= { onInputHandler }
                 fullWidth sx={{ mb: 1 }}
                 color={ InputValue.validation === InputValue.confirmValidation ? 'primary':'error' }
@@ -301,7 +327,8 @@ export default function Signup() {
                   id="password" name="password" autoComplete='current-password'
                   type='password' placeholder="패스워드를 입력해주세요" label='password'
                   value={ InputValue.password } onChange={ onInputHandler }
-                  fullWidth required
+                  fullWidth required helperText={ VerifyState.passwordWarnig }
+                  color= { VerifyState.IsPassword ? 'primary': 'error' }
                 />
               </Grid>
               {/* 패스워드 확인 Field */}
