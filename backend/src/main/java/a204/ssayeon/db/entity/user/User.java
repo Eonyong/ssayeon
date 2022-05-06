@@ -43,4 +43,21 @@ public class User {
             isAlarm=true;
     }
 
+    public void setPassword(String password){
+        this.password=password;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname=nickname;
+    }
+
+    public void setPicture(String picture){
+        this.picture=picture;
+    }
+
+    public void setCompany(String company){
+        this.company=company;
+    }
+
+
 }
