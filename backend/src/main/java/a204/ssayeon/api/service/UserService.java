@@ -48,7 +48,7 @@ public class UserService {
 
             //userHasTechStack에 저장된 거 다 날리고 새로 저장
             List<UserHasTechStack> userHasTechStacks = userHasTechStackRepository.findByUser(user);
-            userHasTechStackRepository.deleteIn(userHasTechStacks);
+            userHasTechStackRepository.deleteAll(userHasTechStacks);
 
             techStacks.forEach(ts -> {
                 Optional<TechStack> opTechStack = techStackRepository.findByDescription(ts);

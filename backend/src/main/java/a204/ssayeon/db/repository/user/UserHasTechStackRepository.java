@@ -12,5 +12,5 @@ public interface UserHasTechStackRepository extends JpaRepository<UserHasTechSta
     Optional<UserHasTechStack> findByUserAndTechStack(User user, TechStack techStack);
     List<UserHasTechStack> findByUser(User user);
 
-    void deleteIn(List<UserHasTechStack> userHasTechStacks);
+    void deleteAll(List<UserHasTechStack> userHasTechStacks);
 }
