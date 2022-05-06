@@ -12,6 +12,9 @@ import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.preference.*;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,8 +83,9 @@ public class PreferenceController {
     // 선호도 조사 전체 불러오기
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreferences(){
-        List<Preference> preferences = preferenceService.getAllPreferences();
+    public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreferences(@PageableDefault(size = 10) Pageable pageable, @RequestParam("page") Integer page){
+        PageRequest pageRequest = PageRequest.of(page, pageable.getPageSize());
+        List<Preference> preferences = preferenceService.getAllPreferences(pageRequest);
         List<PreferenceApiResponse> list = new ArrayList<>();
         for(Preference preference : preferences) {
             list.add(PreferenceApiResponse.builder()
