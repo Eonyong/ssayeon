@@ -7,7 +7,6 @@ public enum ErrorMessage {
     //401
     USER_EMAIL_INCORRET(401,"이메일 오류"),
     USER_PASSWORD_INCORRET(401,"비밀번호 오류"),
-    USER_DOES_NOT_EXIST(401,"로그인 실패"),
     ARTICLE_DOES_NOT_EXIST(404,"해당 게시글이 존재하지 않습니다."),
     COMMENT_DOES_NOT_EXIST(404,"해당 댓글이 존재하지 않습니다."),
 
