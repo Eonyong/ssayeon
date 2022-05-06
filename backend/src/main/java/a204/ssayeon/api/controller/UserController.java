@@ -37,7 +37,7 @@ public class UserController {
         return AdvancedResponseBody.of(Status.OK, userService.showAlarm(user, pageable));
     }
 
-    @PostMapping("/send-alarm") //todo : user 두 번 select 하는 이유는?
+    @PostMapping("/send-alarm")
     public AdvancedResponseBody<String> sendAlarm(@CurrentUser User user) {
         userService.sendAlarm(user);
         return AdvancedResponseBody.of(Status.OK);

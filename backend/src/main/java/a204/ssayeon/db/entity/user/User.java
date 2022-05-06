@@ -1,14 +1,15 @@
 package a204.ssayeon.db.entity.user;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +36,13 @@ public class User {
     private String picture;
     private Boolean isAlarm;
 
-    private Boolean alarmSend;
+    private Boolean isAlarm;
 
-    public void setAlarmSend(){
-        if(alarmSend)
-            alarmSend=false;
+    public void setIsAlarm(){
+        if(isAlarm)
+            isAlarm=false;
         else
-            alarmSend=true;
+            isAlarm=true;
     }
 
 }
