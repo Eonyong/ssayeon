@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 @Getter @Builder
 @AllArgsConstructor
@@ -17,4 +18,13 @@ public class Pagination {
     private Integer currentPage;
     // 현재 페이지에 갖고 있는 element 수
     private Integer currentElements;
+
+    public static <T> Pagination getPagination(Page<T> pagination){
+        return Pagination.builder()
+                .totalPages(pagination.getTotalPages())
+                .totalElements(pagination.getTotalElements())
+                .currentPage(pagination.getNumber())
+                .currentElements(pagination.getNumberOfElements())
+                .build();
+    }
 }

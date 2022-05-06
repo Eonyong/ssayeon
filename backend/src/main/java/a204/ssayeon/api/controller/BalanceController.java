@@ -51,7 +51,7 @@ public class BalanceController {
         Page<Balance> allBalance = balanceService.getAllBalance(pageable);
         List<GetAllBalanceRes> getAllBalanceResList = new ArrayList<>();
 
-        Pagination pagination = getPagination(allBalance);
+        Pagination pagination = Pagination.getPagination(allBalance);
 
         allBalance.forEach((bal)->{
             GetAllBalanceRes res = GetAllBalanceRes.builder()
@@ -166,12 +166,5 @@ public class BalanceController {
         return AdvancedResponseBody.of(Status.OK,getBalanceStaticsRes);
     }
 
-    private <T> Pagination getPagination (Page<T> pagination){
-        return Pagination.builder()
-                .totalPages(pagination.getTotalPages())
-                .totalElements(pagination.getTotalElements())
-                .currentPage(pagination.getNumber())
-                .currentElements(pagination.getNumberOfElements())
-                .build();
-    }
+
 }
