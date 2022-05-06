@@ -3,11 +3,11 @@ package a204.ssayeon.api.service;
 import a204.ssayeon.db.entity.preference.Preference;
 import a204.ssayeon.db.repository.preference.PreferenceRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -25,8 +25,8 @@ public class PreferenceService {
         Preference preference = option.get();
         return preference;
     }
-    public List<Preference> getAllPreferences(PageRequest pageRequest) {
-        return preferenceRepository.findAll(pageRequest).getContent();
+    public Page<Preference> getAllPreferences(Pageable pageable) {
+        return preferenceRepository.findAll(pageable);
     }
 
     @Transactional

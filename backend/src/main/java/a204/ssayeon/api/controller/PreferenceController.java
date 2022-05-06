@@ -9,10 +9,11 @@ import a204.ssayeon.api.service.*;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
+import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.preference.*;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -83,10 +84,12 @@ public class PreferenceController {
     // 선호도 조사 전체 불러오기
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreferences(@PageableDefault(size = 10) Pageable pageable, @RequestParam("page") Integer page){
-        PageRequest pageRequest = PageRequest.of(page, pageable.getPageSize());
-        List<Preference> preferences = preferenceService.getAllPreferences(pageRequest);
+    public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreferences(@PageableDefault(page = 1, size = 10) Pageable pageable, @RequestParam("page") Integer page){
+//        PageRequest pageRequest = PageRequest.of(page, pageable.getPageSize());
+        Page<Preference> preferences = preferenceService.getAllPreferences(pageable);
         List<PreferenceApiResponse> list = new ArrayList<>();
+        Pagination pagination = Pagination.getPagination(preferences);
+
         for(Preference preference : preferences) {
             list.add(PreferenceApiResponse.builder()
                     .preferenceId(preference.getId())
