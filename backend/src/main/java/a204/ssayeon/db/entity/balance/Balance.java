@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -31,4 +32,10 @@ public class Balance extends BaseEntity {
 
     @Column(nullable = false)
     private String rightDescription;
+
+    public void updateDescription(String description,String leftDescription,String rightDescription) {
+        this.description = description;
+        this.leftDescription = leftDescription;
+        this.rightDescription = rightDescription;
+    }
 }

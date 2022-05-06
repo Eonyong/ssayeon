@@ -29,4 +29,9 @@ public class BalanceComments extends BaseEntity {
 
     @Column(nullable = false)
     private String description;
+
+    public void updateDescription(String description){
+        this.description = description;
+    }
+
 }
