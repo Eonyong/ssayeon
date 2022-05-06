@@ -9,7 +9,7 @@ export default function Login () {
   const [InputValue, setInputValue] = useState({
     email: '',
     password: '',
-  })
+  });
 
   const onInputHandler = e => {
     const {name, value} = e.target;
@@ -19,14 +19,7 @@ export default function Login () {
     });
   }
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    axios({
-      url: API_BASE_URL + '/auth/login',
-      method: 'POST',
-      data: InputValue,
-    }).then(res => console.log(res))
-  };
+  
 
   return (
     <Container>

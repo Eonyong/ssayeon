@@ -13,11 +13,17 @@ export default function Signup() {
     email: '',
     password: '',
     confirmPasword: '',
+    validation: '',
+    confirmValidation: '',
   });
 
   // Handler 함수
   const onInputHandler = e => {
-    const { name, value } = e.target;
+    const name = e.target.name;
+    const value = e.target.value.trim();
+    if (name === 'password') {
+      passwordValidation(value);
+    }
     setInputValue({
       ...InputValue,
       [ name ]: value,
@@ -77,6 +83,9 @@ export default function Signup() {
         if (e.response.status === 409) {
           alert('이미 존재하는 닉네임입니다.');
         }
+        else {
+          console.log(e);
+        }
       })
     }
   }
@@ -91,12 +100,17 @@ export default function Signup() {
         email: InputValue.email,
       }
     })
-    .then(() => {
+    .then((e) => {
       setVerifyState({
         ...VerifyState,
         IsEmail: true,
       })
-      console.log('이메일 통과');
+      const dt = e.data.data;
+      setInputValue({
+        ...InputValue,
+        confirmValidation: dt,
+      });
+      console.log('이메일 통과', dt);
     })
     .catch(e => {
       console.log(e);
@@ -106,6 +120,35 @@ export default function Signup() {
         console.log('사용이 불가한 이메일 입니다.');
       }
     })
+  };
+
+  // 비밀번호 유효성 검사
+  const passwordValidation = (prop) => {
+    const prop_trim = prop.trim();
+    console.log(prop_trim);
+    const upperCase = /(?=.*?[A-Z])/;
+    const lowerCase = /(?=.*?[a-z])/;
+    const digitCase = /(?=.*?[0-9])/;
+    const specialCase = /(?=.*?[#?!@$%^&*-])/;
+    const minlenCase = /.{8,}/;
+
+    if (!minlenCase.test(prop_trim)) {
+      console.log('비밀번호는 8글자 이상입니다!!');
+    }
+    else if (!upperCase.test(prop_trim)) {
+      console.log('대문자 추가해줘!!');
+    }
+    else if (!lowerCase.test(prop_trim)) {
+      console.log('소문자 추가해줘!!');
+    }
+    else if (!digitCase.test(prop_trim)) {
+      console.log('숫자가 하나 이상 있어야합니다!!');
+    }
+    else if (!specialCase.test(prop_trim)) {
+      console.log('특수문자를 추가해주세요!! 사용 가능한 문자는: #,?,!,@,$,%,^,&,*,-');
+    } else {
+      console.log('만족스럽습니다');
+    }
   };
   
   
@@ -169,7 +212,7 @@ export default function Signup() {
 
             {/* 인증하기 Button Field */}
             <Button
-              type="sumbmit" sx={{ py: 1, mt: 2, backgroundColor: '#4B7BF5' }}
+              type="submit" sx={{ py: 1, mt: 2, backgroundColor: '#4B7BF5' }}
               fullWidth variant="contained"
             >
               인증하기
@@ -240,7 +283,9 @@ export default function Signup() {
               <TextField
                 id='validation' name="validation" autoComplete="validation"
                 type='password' placeholder="인증번호" label='이메일 인증 확인'
+                value={ InputValue.validation } onChange= { onInputHandler }
                 fullWidth sx={{ mb: 1 }}
+                color={ InputValue.validation === InputValue.confirmValidation ? 'primary':'error' }
               />:<></>
             }
             
@@ -267,18 +312,13 @@ export default function Signup() {
                   type='password' placeholder="패스워드를 입력해주세요" label='password 확인'
                   value={ InputValue.confirmPasword } onChange={ onInputHandler }
                   color={(InputValue.confirmPasword === InputValue.password) ? 'primary':'error'}
-                  helperText={
-                    ((InputValue.confirmPasword === InputValue.password) &&
-                      InputValue.confirmPasword.length > 0)
-                    ?'비밀번호가 일치합니다.':false
-                  }
                 />
               </Grid>
             </Grid>
 
             {/* 제출 Button Field */}
             <Button
-              type="sumbmit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
+              type="submit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
               fullWidth variant="contained"
             >
               Sign Up
