@@ -1,13 +1,15 @@
 package a204.ssayeon.common.model.response;
 
 import a204.ssayeon.common.model.enums.Status;
+import a204.ssayeon.db.entity.Pagination;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdvancedResponseBody<T> extends BaseResponseBody {
+public class
+AdvancedResponseBody<T> extends BaseResponseBody {
     T data;
 
     public static <T> AdvancedResponseBody<T> of(Status status, T data) {

@@ -6,10 +6,8 @@ import a204.ssayeon.api.service.AuthService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequiredArgsConstructor
@@ -19,6 +17,7 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/join")
     public AdvancedResponseBody<AuthJoinRes> join(@RequestBody AuthJoinReq authJoinReq) {
         return AdvancedResponseBody.of(Status.CREATED, authService.join(authJoinReq));

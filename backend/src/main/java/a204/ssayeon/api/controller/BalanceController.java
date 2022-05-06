@@ -8,16 +8,23 @@ import a204.ssayeon.api.response.balance.BalanceCommentsRes;
 import a204.ssayeon.api.response.balance.GetAllBalanceRes;
 import a204.ssayeon.api.response.balance.GetBalanceRes;
 import a204.ssayeon.api.response.balance.GetBalanceStaticsRes;
+import a204.ssayeon.api.service.AlarmService;
 import a204.ssayeon.api.service.BalanceService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
+import a204.ssayeon.common.model.response.PaginationResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
+import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.balance.Balance;
 import a204.ssayeon.db.entity.balance.BalanceComments;
 import a204.ssayeon.db.entity.balance.Poll;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,7 +37,9 @@ import java.util.List;
 public class BalanceController {
 
     private final BalanceService balanceService;
+    private final AlarmService alarmService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public AdvancedResponseBody<String> registerBalance(@CurrentUser User user, @RequestBody RegisterBalanceReq req){
         balanceService.createBalance(user.getId(),req);
@@ -38,9 +47,11 @@ public class BalanceController {
     }
 
     @GetMapping("/list")
-    public AdvancedResponseBody<List<GetAllBalanceRes>> getAllBalance(){
-        List<Balance> allBalance = balanceService.getAllBalance();
+    public AdvancedResponseBody<List<GetAllBalanceRes>> getAllBalance(@PageableDefault Pageable pageable){
+        Page<Balance> allBalance = balanceService.getAllBalance(pageable);
         List<GetAllBalanceRes> getAllBalanceResList = new ArrayList<>();
+
+        Pagination pagination = Pagination.getPagination(allBalance);
 
         allBalance.forEach((bal)->{
             GetAllBalanceRes res = GetAllBalanceRes.builder()
@@ -54,12 +65,11 @@ public class BalanceController {
                     .build();
             getAllBalanceResList.add(res);
         });
-        return AdvancedResponseBody.of(Status.OK,getAllBalanceResList);
+        return PaginationResponseBody.of(Status.OK,getAllBalanceResList,pagination);
     }
 
     @GetMapping("/{balanceId}")
     public AdvancedResponseBody<GetBalanceRes> getBalance(@PathVariable Long balanceId){
-
         Balance balance = balanceService.getBalance(balanceId);
         List<BalanceComments> comments = balanceService.getComments(balance);
         List<BalanceCommentsRes> commentsRes = new ArrayList<>();
@@ -95,24 +105,47 @@ public class BalanceController {
     @PutMapping("/{balanceId}")
     public AdvancedResponseBody<String> modifyBalance(@CurrentUser User user,@PathVariable Long balanceId, @RequestBody ModifyBalanceReq req){
         balanceService.modifyBalance(user,balanceId,req);
+
         return AdvancedResponseBody.of(Status.OK);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{balanceId}")
     public AdvancedResponseBody<String> deleteBalance(@CurrentUser User user,@PathVariable Long balanceId){
         balanceService.deleteBalance(user,balanceId);
         return AdvancedResponseBody.of(Status.NO_CONTENT);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{balanceId}/comments")
     public AdvancedResponseBody<String> registerComments(@CurrentUser User user, @PathVariable Long balanceId, @RequestBody BalanceCommentsReq balanceCommentsReq){
         balanceService.createBalanceComments(user,balanceId,balanceCommentsReq.getDescription());
+        alarmService.sendBalanceWritingAlarm(balanceId);
         return AdvancedResponseBody.of(Status.CREATED);
     }
 
+    @PatchMapping("/{balanceId}/comments/{commentsId}")
+    public AdvancedResponseBody<String> updateComments(@CurrentUser User user, @PathVariable Long balanceId, @PathVariable Long commentsId,@RequestBody BalanceCommentsReq balanceCommentsReq){
+        balanceService.updateComments(user,balanceId,commentsId,balanceCommentsReq.getDescription());
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
+    @DeleteMapping("/{balanceId}/comments/{commentsId}")
+    public AdvancedResponseBody<String> deleteComments(@CurrentUser User user,@PathVariable Long balanceId, @PathVariable Long commentsId){
+        balanceService.deleteBalanceComments(user,balanceId,commentsId);
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
+    @PostMapping("/{balanceId}/comments/likes/{commentsId}")
+    public AdvancedResponseBody<String> commentsLikes(@CurrentUser User user,@PathVariable Long balanceId,@PathVariable Long commentsId){
+        balanceService.registerCommentsLikes(user,balanceId,commentsId);
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{balanceId}/poll")
     public AdvancedResponseBody<String> registerPoll(@CurrentUser User user, @PathVariable Long balanceId, @RequestBody RegisterPollReq req){
-        Poll poll = req.getPoll();
+        Poll poll = req.getPoll(); // enum value
         balanceService.registerPoll(user,balanceId,poll);
         return AdvancedResponseBody.of(Status.CREATED);
     }
@@ -127,9 +160,11 @@ public class BalanceController {
         double rightRatio = (double)right/(double)(left+right);
 
         GetBalanceStaticsRes getBalanceStaticsRes = GetBalanceStaticsRes.builder()
-                .leftRatio(leftRatio)
-                .rightRatio(rightRatio)
+                .leftRatio(leftRatio*100)
+                .rightRatio(rightRatio*100)
                 .build();
         return AdvancedResponseBody.of(Status.OK,getBalanceStaticsRes);
     }
+
+
 }

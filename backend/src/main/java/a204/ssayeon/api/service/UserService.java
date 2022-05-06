@@ -34,8 +34,7 @@ public class UserService {
 
     @Transactional
     public void sendAlarm(User user){
-        Boolean isAlarmSend = user.getAlarmSend();
-        user.setAlarmSend();
+        user.setIsAlarm();
         userRepository.save(user);
     }
 

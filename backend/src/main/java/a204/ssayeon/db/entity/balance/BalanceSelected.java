@@ -27,5 +27,9 @@ public class BalanceSelected {
     private User user;
 
     @Column(nullable = false)
-    private Boolean isSelected;
+    private Boolean selectTarget;
+
+    public void updateSelectTarget(boolean target){
+        this.selectTarget = target;
+    }
 }

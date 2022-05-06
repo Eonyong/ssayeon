@@ -4,10 +4,7 @@ import a204.ssayeon.api.request.balance.ModifyBalanceReq;
 import a204.ssayeon.api.request.balance.RegisterBalanceReq;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
-import a204.ssayeon.db.entity.balance.Balance;
-import a204.ssayeon.db.entity.balance.BalanceComments;
-import a204.ssayeon.db.entity.balance.BalanceSelected;
-import a204.ssayeon.db.entity.balance.Poll;
+import a204.ssayeon.db.entity.balance.*;
 import a204.ssayeon.db.entity.user.User;
 import a204.ssayeon.db.repository.BalanceCommentsLikesRepository;
 import a204.ssayeon.db.repository.BalanceCommentsRepository;
@@ -15,6 +12,8 @@ import a204.ssayeon.db.repository.BalanceRepository;
 import a204.ssayeon.db.repository.BalanceSelectedRepository;
 import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,8 +50,8 @@ public class BalanceService {
         return balanceRepository.findById(balanceId).orElseThrow(()->new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
     }
 
-    public List<Balance> getAllBalance() {
-        return balanceRepository.findAll();
+    public Page<Balance> getAllBalance(Pageable pageable) {
+        return balanceRepository.findAll(pageable);
     }
 
     public void modifyBalance(User user,Long balanceId, ModifyBalanceReq req) {
@@ -86,15 +85,24 @@ public class BalanceService {
     }
 
     public void registerPoll(User user, Long balanceId, Poll poll) {
-        User findUser = userRepository.findById(user.getId()).orElseThrow(() -> new NotExistException(ErrorMessage.USER_DOES_NOT_EXIST));
-        Balance findBalance = balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
         boolean pollNum;
         pollNum = poll == Poll.RIGHT;
-        BalanceSelected balanceSelected = BalanceSelected.builder()
-                .balance(findBalance)
-                .isSelected(pollNum)
-                .user(findUser)
-                .build();
+
+        Balance findBalance = balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+        User findUser = userRepository.findById(user.getId()).orElseThrow(() -> new NotExistException(ErrorMessage.USER_DOES_NOT_EXIST));
+        BalanceSelected balanceSelected;
+
+        if(balanceSelectedRepository.findByBalanceAndUser(findBalance,findUser).isPresent()){
+            balanceSelected = balanceSelectedRepository.findByBalanceAndUser(findBalance,findUser).get();
+            balanceSelected.updateSelectTarget(pollNum);
+            balanceSelectedRepository.save(balanceSelected);
+        }else{
+            balanceSelected = BalanceSelected.builder()
+                    .balance(findBalance)
+                    .selectTarget(pollNum)
+                    .user(findUser)
+                    .build();
+        }
         balanceSelectedRepository.save(balanceSelected);
     }
 
@@ -104,10 +112,38 @@ public class BalanceService {
         int right;
         Balance findBalance = balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
         List<BalanceSelected> findBalanceSelected = balanceSelectedRepository.findByBalance(findBalance);
-        left = (int) findBalanceSelected.stream().filter(BalanceSelected::getIsSelected).count();
+        left = (int) findBalanceSelected.stream().filter(BalanceSelected::getSelectTarget).count();
         right = findBalanceSelected.size() - left;
-        leftRightCount[0] = left;
-        leftRightCount[1] = right;
+        leftRightCount[0] = right;
+        leftRightCount[1] = left;
         return leftRightCount;
+    }
+
+    public void updateComments(User user, Long balanceId, Long commentsId, String description) {
+        balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+        BalanceComments findBalanceComments = balanceCommentsRepository.findByIdAndUser(commentsId, user).orElseThrow(() -> new NotExistException(ErrorMessage.COMMNETS_DOES_NOT_EXIST));
+        findBalanceComments.updateDescription(description);
+        balanceCommentsRepository.save(findBalanceComments);
+    }
+
+    public void deleteBalanceComments(User user, Long balanceId, Long commentsId) {
+        balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+        BalanceComments findComments = balanceCommentsRepository.findByIdAndUser(commentsId, user).orElseThrow(() -> new NotExistException(ErrorMessage.COMMNETS_DOES_NOT_EXIST));
+        balanceCommentsRepository.delete(findComments);
+    }
+
+    public void registerCommentsLikes(User user, Long balanceId, Long commentsId) {
+        balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+        BalanceComments findBalanceComments = balanceCommentsRepository.findById(commentsId).orElseThrow(() -> new NotExistException(ErrorMessage.COMMNETS_DOES_NOT_EXIST));
+        if(balanceCommentsLikesRepository.findByIdAndUser(commentsId,user).isPresent()){
+            BalanceCommentsLikes findBalanceCommentsLikes = balanceCommentsLikesRepository.findByIdAndUser(commentsId, user).get();
+            balanceCommentsLikesRepository.delete(findBalanceCommentsLikes);
+        }else{
+            BalanceCommentsLikes balanceCommentsLikes = BalanceCommentsLikes.builder()
+                    .user(user)
+                    .balanceComments(findBalanceComments)
+                    .build();
+            balanceCommentsLikesRepository.save(balanceCommentsLikes);
+        }
     }
 }
