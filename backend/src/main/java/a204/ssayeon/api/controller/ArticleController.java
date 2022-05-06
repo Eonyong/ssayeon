@@ -1,8 +1,7 @@
 package a204.ssayeon.api.controller;
 
-import a204.ssayeon.api.request.article.ArticleCreateReq;
-import a204.ssayeon.api.request.article.ArticleUpdateReq;
-import a204.ssayeon.api.request.article.CommentCreateReq;
+import a204.ssayeon.api.request.article.*;
+import a204.ssayeon.api.response.article.ArticleAnswerRes;
 import a204.ssayeon.api.response.article.ArticleCommentsRes;
 import a204.ssayeon.api.response.article.ArticleRes;
 import a204.ssayeon.api.service.ArticleService;
@@ -11,6 +10,7 @@ import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.common.model.response.BaseResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.article.Article;
+import a204.ssayeon.db.entity.article.ArticleAnswer;
 import a204.ssayeon.db.entity.article.ArticleComments;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
@@ -116,5 +116,41 @@ public class ArticleController {
     public AdvancedResponseBody<List<ArticleRes>> searchArticle(@PathVariable Long boardId, @PathVariable Integer type, @RequestParam String search) {
         List<ArticleRes> articleListRes = articleService.getArticleBySearchWord(boardId, type, search);
         return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
+    @PostMapping("/answer")
+    public AdvancedResponseBody<ArticleAnswer> createArticleAnswer(@RequestBody ArticleAnswerCreateReq articleAnswerCreateReq, @CurrentUser User user) {
+        ArticleAnswer articleAnswer = articleService.createArticleAnswer(articleAnswerCreateReq, user);
+        return AdvancedResponseBody.of(Status.CREATED, articleAnswer);
+    }
+
+    @GetMapping("/answer/{articleId}/list")
+    public AdvancedResponseBody<List<ArticleAnswerRes>> getArticleAnswerListByArticleId(@PathVariable Long articleId) {
+        List<ArticleAnswerRes> articleAnswerResList = articleService.getArticleAnswerListByArticleId(articleId);
+        return AdvancedResponseBody.of(Status.OK, articleAnswerResList);
+    }
+
+    @GetMapping("/answer/{answerId}")
+    public AdvancedResponseBody<ArticleAnswerRes> getArticleAnswer(@PathVariable Long answerId) {
+        ArticleAnswerRes articleAnswerRes = articleService.getArticleAnswer(answerId);
+        return AdvancedResponseBody.of(Status.OK, articleAnswerRes);
+    }
+
+    @PatchMapping("/answer/{answerId}")
+    public AdvancedResponseBody<ArticleAnswer> updateArticleAnswer(@PathVariable Long answerId, @RequestBody ArticleAnswerUpdateReq articleAnswerUpdateReq, @CurrentUser User user) {
+        ArticleAnswer articleAnswer = articleService.updateArticleAnswer(answerId, articleAnswerUpdateReq, user);
+        return AdvancedResponseBody.of(Status.OK, articleAnswer);
+    }
+
+    @PatchMapping("/answer/{articleAnswerId}/select")
+    public AdvancedResponseBody<ArticleAnswer> selectArticleAnswer(@PathVariable Long articleAnswerId, @CurrentUser User user) {
+        ArticleAnswer articleAnswer = articleService.selectArticleAnswer(articleAnswerId, user);
+        return AdvancedResponseBody.of(Status.OK, articleAnswer);
+    }
+
+    @DeleteMapping("/answer/{answerId}")
+    public AdvancedResponseBody<String> deleteArticleAnswer(@PathVariable Long answerId, @CurrentUser User user) {
+        articleService.deleteArticleAnswer(answerId, user);
+        return AdvancedResponseBody.of(Status.NO_CONTENT);
     }
 }

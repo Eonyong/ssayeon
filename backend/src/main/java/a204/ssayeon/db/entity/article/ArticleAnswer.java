@@ -2,6 +2,7 @@ package a204.ssayeon.db.entity.article;
 
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,9 +23,19 @@ public class ArticleAnswer extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="article_id",nullable = false)
+    @JsonIgnore
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)
+    @JsonIgnore
     private User user;
+
+    public void update(String description) {
+        this.description = description;
+    }
+
+    public void select(Boolean isSelected) {
+        this.isSelected = isSelected;
+    }
 }
