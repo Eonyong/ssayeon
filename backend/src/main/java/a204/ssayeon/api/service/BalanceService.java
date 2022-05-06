@@ -121,20 +121,20 @@ public class BalanceService {
 
     public void updateComments(User user, Long balanceId, Long commentsId, String description) {
         balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
-        BalanceComments findBalanceComments = balanceCommentsRepository.findByIdAndUser(commentsId, user).orElseThrow(() -> new NotExistException(ErrorMessage.COMMNETS_DOES_NOT_EXIST));
+        BalanceComments findBalanceComments = balanceCommentsRepository.findByIdAndUser(commentsId, user).orElseThrow(() -> new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
         findBalanceComments.updateDescription(description);
         balanceCommentsRepository.save(findBalanceComments);
     }
 
     public void deleteBalanceComments(User user, Long balanceId, Long commentsId) {
         balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
-        BalanceComments findComments = balanceCommentsRepository.findByIdAndUser(commentsId, user).orElseThrow(() -> new NotExistException(ErrorMessage.COMMNETS_DOES_NOT_EXIST));
+        BalanceComments findComments = balanceCommentsRepository.findByIdAndUser(commentsId, user).orElseThrow(() -> new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
         balanceCommentsRepository.delete(findComments);
     }
 
     public void registerCommentsLikes(User user, Long balanceId, Long commentsId) {
         balanceRepository.findById(balanceId).orElseThrow(() -> new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
-        BalanceComments findBalanceComments = balanceCommentsRepository.findById(commentsId).orElseThrow(() -> new NotExistException(ErrorMessage.COMMNETS_DOES_NOT_EXIST));
+        BalanceComments findBalanceComments = balanceCommentsRepository.findById(commentsId).orElseThrow(() -> new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
         if(balanceCommentsLikesRepository.findByIdAndUser(commentsId,user).isPresent()){
             BalanceCommentsLikes findBalanceCommentsLikes = balanceCommentsLikesRepository.findByIdAndUser(commentsId, user).get();
             balanceCommentsLikesRepository.delete(findBalanceCommentsLikes);

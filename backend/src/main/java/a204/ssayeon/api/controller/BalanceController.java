@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class BalanceController {
     }
 
     @GetMapping("/list")
-    public AdvancedResponseBody<List<GetAllBalanceRes>> getAllBalance(@PageableDefault Pageable pageable){
+    public AdvancedResponseBody<List<GetAllBalanceRes>> getAllBalance(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable){
         Page<Balance> allBalance = balanceService.getAllBalance(pageable);
         List<GetAllBalanceRes> getAllBalanceResList = new ArrayList<>();
 
