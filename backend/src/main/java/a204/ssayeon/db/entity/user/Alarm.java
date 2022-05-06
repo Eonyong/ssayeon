@@ -17,7 +17,6 @@ public class Alarm {
     @Column(name = "alarm_id")
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
