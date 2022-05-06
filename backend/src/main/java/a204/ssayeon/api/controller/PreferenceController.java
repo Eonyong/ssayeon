@@ -218,9 +218,10 @@ public class PreferenceController {
         return AdvancedResponseBody.of(Status.OK);
     }
 
-//    // 검색
-//    @GetMapping(value = {"/search"})
-//    public AdvancedResponseBody<String> searchPreference() {
-//        return AdvancedResponseBody.of(Status.OK);
-//    }
+    // 검색
+    @GetMapping(value = {"/search/type"})
+    public AdvancedResponseBody<String> searchPreference(@PathVariable Integer type, @RequestParam String query) {
+        preferenceService.searchPreferences(type,query);
+        return AdvancedResponseBody.of(Status.OK);
+    }
 }

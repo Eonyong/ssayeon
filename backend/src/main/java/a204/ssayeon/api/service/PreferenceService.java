@@ -33,4 +33,15 @@ public class PreferenceService {
     public void deletePreference(Long preferenceId) {
         preferenceRepository.deleteById(preferenceId);
     }
+
+    public Page<Preference> searchPreferences(Integer type, String query) {
+        if (type == 1) { // 질문
+            preferenceRepository.findByDescriptionContaining(query);
+        } else if (type == 2) { // 작성자
+//            preferenceRepository.findByDescriptionContaining(query);
+        } else if (type == 3) { // 선택지
+//            preferenceRepository.findByDescriptionContaining(query);
+        }
+        return null;
+    }
 }
