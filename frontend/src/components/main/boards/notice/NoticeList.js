@@ -10,15 +10,15 @@ function NoticeList() {
   return (
     <div>
       <>
-        <Container style={{ marginTop: "100px" }}>
+        <Container sx={{ marginTop: "100px" }} fullWidth >
           <h2 style={{ marginLeft: "50px" }}>공지사항</h2>
-            <Table style={{ marginTop: "2%" }}>
+            <Table style={{ display: "flex", marginTop: "2%" }}>
               <TableHead style={{ boxShadow: "0px 5px 10px rgb(207 206 206)" }}>
                 <TableRow style={{ backgroundColor: "#C2E2F5" }}>
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "10%",
+                      width: "100%",
                       textAlign: "left",
                     }}
                   >
@@ -27,8 +27,8 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "60%",
-                      textAlign: "left",
+                      width: "100%",
+                      textAlign: "center",
                     }}
                   >
                     제목
@@ -36,17 +36,8 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "10%",
-                      textAlign: "left",
-                    }}
-                  >
-                    글쓴이
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "1rem",
-                      width: "10%",
-                      textAlign: "left",
+                      width: "100%",
+                      textAlign: "center",
                     }}
                   >
                     작성일
@@ -54,8 +45,8 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "10%",
-                      textAlign: "left",
+                      width: "100%",
+                      textAlign: "center",
                     }}
                   >
                     조회수
@@ -63,15 +54,15 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "10%",
-                      textAlign: "left",
+                      width: "100%",
+                      textAlign: "center",
                     }}
                   ></TableCell>
                 </TableRow>
               </TableHead>
               <NoticeContent list={list} />
-              <Pagination setList={ setList }/>
             </Table>
+            <Pagination setList={ setList }/>
           </Container>
         </>
         <>
