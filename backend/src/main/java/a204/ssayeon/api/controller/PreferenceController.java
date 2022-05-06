@@ -8,6 +8,7 @@ import a204.ssayeon.api.response.preference.PreferenceOptionsApiResponse;
 import a204.ssayeon.api.service.*;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
+import a204.ssayeon.common.model.response.PaginationResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.preference.*;
@@ -15,6 +16,7 @@ import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -84,8 +86,7 @@ public class PreferenceController {
     // 선호도 조사 전체 불러오기
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreferences(@PageableDefault(page = 1, size = 10) Pageable pageable, @RequestParam("page") Integer page){
-//        PageRequest pageRequest = PageRequest.of(page, pageable.getPageSize());
+    public AdvancedResponseBody<List<PreferenceApiResponse>> getAllPreferences(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable) {
         Page<Preference> preferences = preferenceService.getAllPreferences(pageable);
         List<PreferenceApiResponse> list = new ArrayList<>();
         Pagination pagination = Pagination.getPagination(preferences);
@@ -100,7 +101,7 @@ public class PreferenceController {
                     .updatedAt(preference.getUpdatedAt())
                     .build());
         }
-        return AdvancedResponseBody.of(Status.OK, list);
+        return PaginationResponseBody.of(Status.OK, list, pagination);
     }
 
     // 선호도 조사 수정
