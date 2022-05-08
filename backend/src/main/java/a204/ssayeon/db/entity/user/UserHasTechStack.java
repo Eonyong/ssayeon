@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class UserHasTechStack {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_has_tech_id")
+    @Column(name = "user_has_tech_stack_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
