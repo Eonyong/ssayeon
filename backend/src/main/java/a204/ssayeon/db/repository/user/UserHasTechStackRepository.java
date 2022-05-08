@@ -11,6 +11,4 @@ import java.util.Optional;
 public interface UserHasTechStackRepository extends JpaRepository<UserHasTechStack, Long> {
     Optional<UserHasTechStack> findByUserAndTechStack(User user, TechStack techStack);
     List<UserHasTechStack> findByUser(User user);
-
-    void deleteAll(List<UserHasTechStack> userHasTechStacks);
 }

@@ -3,6 +3,7 @@ package a204.ssayeon.api.controller;
 import a204.ssayeon.api.request.user.UserAlarmReadReq;
 import a204.ssayeon.api.request.user.UserEditPasswordReq;
 import a204.ssayeon.api.request.user.UserEditUserReq;
+import a204.ssayeon.api.request.user.UserFindUserRes;
 import a204.ssayeon.api.response.user.UserShowAlarmRes;
 import a204.ssayeon.api.service.UserService;
 import a204.ssayeon.common.model.enums.Status;
@@ -20,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +35,27 @@ public class UserController {
 
 
     @PatchMapping("/{id}")
-    public AdvancedResponseBody<String> editUser(@CurrentUser User user, @ModelAttribute UserEditUserReq userEditUserReq) {
+    public AdvancedResponseBody<String> editUser(@CurrentUser User user, @ModelAttribute UserEditUserReq userEditUserReq) throws IOException {
         userService.editUser(user, userEditUserReq);
         return AdvancedResponseBody.of(Status.OK);
     }
 
     @PatchMapping("/{id}/password")
-    public AdvancedResponseBody<String> editPassword(@CurrentUser User user, @ModelAttribute UserEditPasswordReq userEditPasswordReq) {
+    public AdvancedResponseBody<String> editPassword(@CurrentUser User user, @RequestBody UserEditPasswordReq userEditPasswordReq) {
         userService.editPassword(user, userEditPasswordReq);
         return AdvancedResponseBody.of(Status.OK);
+    }
+
+    @GetMapping("/search")
+    public AdvancedResponseBody<List<UserFindUserRes>> findUser(@RequestParam String word, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable) { //페이지네이션
+        Page<User> userPage = userService.findUser(word, pageable);
+        Pagination pagination = Pagination.getPagination(userPage);
+        List<UserFindUserRes> userList = new ArrayList<>();
+
+        userPage.forEach((user) -> {
+            userList.add(UserFindUserRes.builder().nickname(user.getNickname()).id(user.getId()).picture(user.getPicture()).build());
+        });
+        return PaginationResponseBody.of(Status.OK, userList, pagination);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
