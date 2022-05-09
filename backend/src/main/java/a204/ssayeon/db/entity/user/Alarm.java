@@ -1,20 +1,20 @@
 package a204.ssayeon.db.entity.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Notification {
+public class Alarm {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notification_id")
+    @Column(name = "alarm_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,5 +26,6 @@ public class Notification {
 
     private String url;
 
-    private Boolean read;
+    private Boolean isRead;
 }
+

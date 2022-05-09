@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class ArticleAnswer extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="article_answer_id")
     private Long id;
 

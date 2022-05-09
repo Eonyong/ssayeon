@@ -35,7 +35,8 @@ public class S3Util {
 
     // 파일 삭제
     public void fileDelete(String fileName) {
-        amazonS3.deleteObject(bucketName, fileName);
+        String refinedFileName = fileName.split("com/")[1];
+        amazonS3.deleteObject(bucketName, refinedFileName);
     }
 
     //파일 업로드
