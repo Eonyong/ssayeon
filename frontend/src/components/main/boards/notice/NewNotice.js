@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { FormControl, TextField, Container, Box, Button, Select, MenuItem } from "@mui/material";
+import { FormControl, TextField, Container, Box, Button } from "@mui/material";
 
-function NewArticle() {
+function NewNotice() {
   // 인증 관련
   let token = sessionStorage.getItem("token");
   const headers = {
@@ -41,8 +41,6 @@ function NewArticle() {
         {
           title: form.title,
           description: form.description,
-          board_id: form.board_id,
-          category_id: form.category_id
         },
         {
           headers: headers,
@@ -96,4 +94,4 @@ function NewArticle() {
   )
 }
 
-export default NewArticle;
+export default NewNotice;

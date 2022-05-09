@@ -70,7 +70,7 @@ function NoticeList() {
             <Button 
             variant="contained" 
             style={{ display:"flex", alignItems: "right" }} 
-            href='/boards/new'>작성
+            href='/boards/notice/new'>작성
             </Button>
           </Container>
           <Container style={{ marginTop: "15px" }}>

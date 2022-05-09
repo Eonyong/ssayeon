@@ -8,7 +8,7 @@ import Signup from './components/main/accounts/Signup';
 import Login from './components/main/accounts/Login';
 import NoticeList from './components/main/boards/notice/NoticeList';
 import NoticeDetail from './components/main/boards/notice/NoticeDetail';
-import NewArticle from './components/main/boards/NewArticle';
+import NewNotice from './components/main/boards/notice/NewNotice';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
             <Routes>
               <Route path='accounts/singup' element={ <Signup /> } />
               <Route path='accounts/login' element={ <Login /> } />
-              <Route path='/boards/new' element={ <NewArticle /> } />
+              <Route path='/boards/notice/new' element={ <NewNotice /> } />
               <Route path='/boards/notice' element={ <NoticeList />}/>
               {/* id값으로 rerouting */}
               <Route path='/boards/notice/detail' element={<NoticeDetail />} />
