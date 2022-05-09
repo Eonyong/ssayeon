@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
-    Page<List<Alarm>> findByUser(User user, Pageable pageable);
+    Page<Alarm> findByUser(User user, Pageable pageable);
 
     @Modifying
     @Query("UPDATE Alarm a SET a.isRead=true WHERE a.id=:id")
