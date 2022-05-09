@@ -1,6 +1,5 @@
 import { Box, Button, Grid, TextField, Typography, Container } from "@mui/material";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Signup() {
@@ -42,7 +41,7 @@ export default function Signup() {
   const onIsInClassIdHandler = e => {
     e.preventDefault();
     axios({
-      url: API_BASE_URL + '/auth/verify-user',
+      url: API_BASE_URL + 'api/auth/verify-user',
       method: 'POST',
       data: {
         name: InputValue.name,
@@ -65,7 +64,7 @@ export default function Signup() {
     e.preventDefault();
     if (InputValue.nickname.length > 0) {
       axios({
-        url: API_BASE_URL + '/auth/duplicate-nickname',
+        url: API_BASE_URL + 'api/auth/duplicate-nickname',
         method: 'POST',
         data: {
           nickname: InputValue.nickname,
@@ -95,7 +94,7 @@ export default function Signup() {
   const onDuplicationEmail = e => {
     e.preventDefault();
     axios({
-      url: API_BASE_URL + '/auth/verify-email',
+      url: API_BASE_URL + 'api/auth/verify-email',
       method: 'POST',
       data: {
         email: InputValue.email,
@@ -120,57 +119,29 @@ export default function Signup() {
       } else {
         console.log('사용이 불가한 이메일 입니다.');
       }
+      setVerifyState({
+        ...VerifyState,
+        IsEmail: false,
+      })
     })
   };
 
   // 비밀번호 유효성 검사
   const passwordValidation = (prop) => {
     const prop_trim = prop.trim();
-    const upperCase = /(?=.*?[A-Z])/;
-    const lowerCase = /(?=.*?[a-z])/;
-    const digitCase = /(?=.*?[0-9])/;
-    const specialCase = /(?=.*?[#?!@$%^&*-])/;
-    const minlenCase = /.{8,}/;
+    const specialCase = /^.*(?=.{8,})(?=.*?[#?!@$%^&*-])(?=.*?[0-9])(?=.*?[a-z])(?=.*?[A-Z])/;
 
-    if (!minlenCase.test(prop_trim)) {
+    if (!specialCase.test(prop_trim)) {
       setVerifyState({
         ...VerifyState,
         IsPassword: false,
-        passwordWarnig: '비밀번호는 8글자 이상입니다!!',
-      });
-    }
-    else if (!upperCase.test(prop_trim)) {
-      setVerifyState({
-        ...VerifyState,
-        IsPassword: false,
-        passwordWarnig: '대문자 추가해줘!!',
-      });
-    }
-    else if (!lowerCase.test(prop_trim)) {
-      setVerifyState({
-        ...VerifyState,
-        IsPassword: false,
-        passwordWarnig: '소문자 추가해줘!!',
-      });
-    }
-    else if (!digitCase.test(prop_trim)) {
-      setVerifyState({
-        ...VerifyState,
-        IsPassword: false,
-        passwordWarnig: '숫자가 하나 이상 있어야합니다!!',
-      });
-    }
-    else if (!specialCase.test(prop_trim)) {
-      setVerifyState({
-        ...VerifyState,
-        IsPassword: false,
-        passwordWarnig: '특수문자를 추가해주세요',
+        passwordWarnig: '영문대/소문자/숫자/특수문자 조합 8자 이상입니다.',
       });
     } else {
       setVerifyState({
         ...VerifyState,
         IsPassword: true,
-        passwordWarnig: '만족스럽습니다',
+        passwordWarnig: '사용 가능한 비밀번호입니다.',
       });
     }
   };
@@ -181,14 +152,13 @@ export default function Signup() {
     e.preventDefault();
     console.log();
     axios({
-      url: API_BASE_URL + '/auth/join',
+      url: API_BASE_URL + 'api/auth/join',
       method: 'POST',
       data: InputValue,
     })
-    .then((res)=> {
+    .then(() => {
       if(VerifyState.IsEmail && VerifyState.IsNickname) {
-        alert('회원가입이 완료 되었습니다.');
-        console.log(res);
+        console.log('회원가입이 완료 되었습니다.');
       };
     })
     .catch(e => {

@@ -21,7 +21,7 @@ export default function Login () {
 
   const onSubmit = e => {
     axios({
-      url: API_BASE_URL + '/auth/login',
+      url: API_BASE_URL + 'api/auth/login',
       method: "POST",
       data: InputValue,
     })
