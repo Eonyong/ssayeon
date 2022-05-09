@@ -2,17 +2,15 @@ package a204.ssayeon.api.service;
 
 import a204.ssayeon.api.request.user.UserEditPasswordReq;
 import a204.ssayeon.api.request.user.UserEditUserReq;
+import a204.ssayeon.api.request.user.UserSendMessageReq;
+import a204.ssayeon.api.response.user.UserShowMessageDetail;
+import a204.ssayeon.api.response.user.UserShowMessageList;
+import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.exceptions.NotJoinedUserException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.config.aws.S3Util;
-import a204.ssayeon.db.entity.user.Alarm;
-import a204.ssayeon.db.entity.user.TechStack;
-import a204.ssayeon.db.entity.user.User;
-import a204.ssayeon.db.entity.user.UserHasTechStack;
-import a204.ssayeon.db.repository.user.AlarmRepository;
-import a204.ssayeon.db.repository.user.TechStackRepository;
-import a204.ssayeon.db.repository.user.UserHasTechStackRepository;
-import a204.ssayeon.db.repository.user.UserRepository;
+import a204.ssayeon.db.entity.user.*;
+import a204.ssayeon.db.repository.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,16 +34,32 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TechStackRepository techStackRepository;
     private final UserHasTechStackRepository userHasTechStackRepository;
-
     private final S3Util s3util;
+    private final MessageRepository messageRepository;
 
+
+    @Transactional(readOnly = true)
+    public Page<Message> showMessageList(User user, Pageable pageable) {
+        return messageRepository.findByMessageListSenderOrReceiver(user.getId(), user.getId(), pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Message> showMessageDetail(User user, Long otherUserId, Pageable pageable) {
+        return messageRepository.findByIdAndSenderOrReceiver(user.getId(), otherUserId, pageable);
+    }
+
+    @Transactional
+    public void sendMessage(User user, Long toUserId, String description) {
+        User receiver = userRepository.findById(toUserId).orElseThrow(() -> new NotJoinedUserException(ErrorMessage.USER_DOES_NOT_EXIST));
+        messageRepository.save(Message.builder().description(description).sender(user).receiver(receiver).build());
+    }
 
     @Transactional
     public void editUser(User user, UserEditUserReq userEditUserReq) throws IOException {
         if (userEditUserReq.getNickname() != null)
             user.setNickname(userEditUserReq.getNickname());
         if (!userEditUserReq.getPicture().isEmpty()) {
-            if(user.getPicture()!=null) {
+            if (user.getPicture() != null) {
                 s3util.fileDelete(user.getPicture());
             }
             String imgUrl = s3util.upload(userEditUserReq.getPicture(), "profile"); //s3 업로드
@@ -87,7 +102,7 @@ public class UserService {
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<User> findUser(String word, Pageable pageable) {
         return userRepository.findByNicknameContains(word, pageable);
     }
