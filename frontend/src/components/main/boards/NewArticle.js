@@ -1,23 +1,32 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { TextField, Container, Box, Button } from "@mui/material";
+import { FormControl, TextField, Container, Box, Button, Select, MenuItem } from "@mui/material";
 
 function NewArticle() {
   // 인증 관련
   let token = sessionStorage.getItem("token");
   const headers = {
     Authorization: `Bearer ${token}`,
-  };
+  }
 
   // 게시글 작성 form
   const [form, setForm] = useState({
     title: "",
     description: "",
-    board_id: "",
-    category_id: ""
+    board_id: "1",
+    category_id: "1"
   });
 
-  const addNewArticle = () => {
+  const onChange = (event) => {
+    const { name, value } = event.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+    console.log(form);
+  };
+
+  const createArticle = () => {
     if (!form.board_id) {
       alert("게시판을 선택하세요");
     } else if (!form.category_id) {
@@ -56,25 +65,32 @@ function NewArticle() {
         }}
       >
         <h2 sx={{ alignItems: 'center' }}>게시글 작성</h2>
-        <TextField 
-          sx={{ display: "flex", width: "100%", marginTop: "10px" }}
-          fullWidth
-          id="title" 
-          name="title"
-          label="제목" 
-          variant="outlined" />
-        <TextField
-          sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
-          id="description"
-          name="description"
-          label="내용"
-          multiline rows={20}
-        />
-        <Button 
-          sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
-          variant="contained">
-            작성
-        </Button>
+        <FormControl>
+          <form>
+            <TextField 
+              sx={{ display: "flex", width: "100%", marginTop: "10px" }}
+              id="title"
+              name="title"
+              value={form.title}
+              label="제목" 
+              onChange={onChange}
+              variant="outlined" />
+            <TextField
+              sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
+              id="description"
+              name="description"
+              label="내용"
+              onChange={onChange}
+              multiline rows={20}
+            />
+            <Button 
+              sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
+              variant="contained"
+              onClick={createArticle}>
+                작성
+            </Button>
+          </form>
+        </FormControl>
       </Box>
     </Container>
   )
