@@ -185,7 +185,7 @@ public class ArticleService {
     // 게시글 좋아요
     public void likeArticle(Long articleId, User user) {
 
-        articleRepository.findById(articleId).orElseThrow(() ->
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
         ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
@@ -196,8 +196,14 @@ public class ArticleService {
                     .user(user)
                     .build();
             articleLikesRepository.save(articleLike);
+
+            article.updateLikesCount(article.getLikesCount() + 1);
+            articleRepository.save(article);
         } else {
             articleLikesRepository.delete(articleLikes);
+
+            article.updateLikesCount(article.getLikesCount() - 1);
+            articleRepository.save(article);
         }
     }
 
