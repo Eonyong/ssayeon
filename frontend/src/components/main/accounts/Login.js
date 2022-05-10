@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearMessage } from "../../../user/message";
+import { login } from "../../../user/auth";
 
-export default function Login () {
-  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+const Login = (props) => {
+  
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
 
   const [InputValue, setInputValue] = useState({
     email: '',
@@ -20,15 +30,20 @@ export default function Login () {
   }
 
   const onSubmit = e => {
-    axios({
-      url: API_BASE_URL + '/auth/login',
-      method: "POST",
-      data: InputValue,
+    e.preventDefault();
+    setLoading(true);
+    const {email, password} = InputValue;
+    dispatch(login({ email, password }))
+    .unwrap()
+    .then((res) => {
+      console.log('logingood', res);
+      navigate('/', {replace: true});
     })
-    .then(res => console.log(res))
-    .catch(e => console.log(e))
-  }
-  
+    .catch(() => {
+      setLoading(false);
+    });
+  };
+
 
   return (
     <Container>
@@ -65,7 +80,7 @@ export default function Login () {
             />
             <Button
               type="submit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
-              fullWidth variant="contained"
+              fullWidth variant="contained" disabled={loading}
             >
               Sign In
             </Button>
@@ -78,3 +93,5 @@ export default function Login () {
     </Container>
   );
 };
+
+export default Login;

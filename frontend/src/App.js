@@ -10,18 +10,36 @@ import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 import NewNotice from './components/main/boards/notice/NewNotice';
 import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from './user/auth';
 
 function App() {
+
+  const { user: currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (currentUser) {
+      console.log('hi');
+    } else {
+      console.log('bye');
+    }
+  })  
 
   return (
     <div className="App">
       <BrowserRouter>
         <Grid container>
-          <Grid item>
+          <Grid item xs={2}>
             <SideBar />
           </Grid>
           <Divider orientation='vertical' flexItem />
-          <Grid item sx={{ textAlign:'-webkit-center' }}>
+          <Grid item sx={{ textAlign:'-webkit-center' }} xs={9}>
             <Routes>
               <Route path='/' element={ <Main /> } />
               <Route path='auth/login' element={ <Login /> } />
