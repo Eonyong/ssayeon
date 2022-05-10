@@ -68,6 +68,12 @@ public class ArticleController {
         return AdvancedResponseBody.of(Status.OK, articleListRes);
     }
 
+    @GetMapping("/hot/{boardId}")
+    public AdvancedResponseBody<List<ArticleRes>> getTopArticlesByBoardId(@PathVariable Long boardId) {
+        List<ArticleRes> articleListRes = articleService.getTopArticlesByBoardId(boardId);
+        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
     @PostMapping("/likes/{articleId}")
     public BaseResponseBody likeArticle(@PathVariable Long articleId, @CurrentUser User user) {
         articleService.likeArticle(articleId, user);

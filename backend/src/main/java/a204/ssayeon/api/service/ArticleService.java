@@ -53,6 +53,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -92,8 +93,8 @@ public class ArticleService {
         List<TagRes> tagListRes = new ArrayList<>();
         for(ArticleHasTag tag : tagList) {
             tagListRes.add(TagRes.builder()
-                    .id(tag.getId())
-                    .name(tagRepository.getById(tag.getId()).getName())
+                    .id(tag.getTag().getId())
+                    .name(tagRepository.getById(tag.getTag().getId()).getName())
                     .build());
         }
 
@@ -111,6 +112,7 @@ public class ArticleService {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .views(article.getViews())
+                .likesCount(article.getLikesCount())
                 .userId(article.getUser().getId())
                 .nickname(article.getUser().getNickname())
                 .isLiked(isLiked)
@@ -173,6 +175,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -185,7 +188,7 @@ public class ArticleService {
     // 게시글 좋아요
     public void likeArticle(Long articleId, User user) {
 
-        articleRepository.findById(articleId).orElseThrow(() ->
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
         ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
@@ -196,8 +199,14 @@ public class ArticleService {
                     .user(user)
                     .build();
             articleLikesRepository.save(articleLike);
+
+            article.updateLikesCount(article.getLikesCount() + 1);
+            articleRepository.save(article);
         } else {
             articleLikesRepository.delete(articleLikes);
+
+            article.updateLikesCount(article.getLikesCount() - 1);
+            articleRepository.save(article);
         }
     }
 
@@ -341,6 +350,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -351,6 +361,25 @@ public class ArticleService {
         return articleListRes;
     }
 
+    // 인기 게시글
+    public List<ArticleRes> getTopArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findTop10ByBoardIdOrderByLikesCountDesc(boardId);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for(Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+        
     public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
         ArticleAnswer articleAnswer = ArticleAnswer.builder()
                 .article(articleRepository.getById(articleAnswerCreateReq.getArticleId()))

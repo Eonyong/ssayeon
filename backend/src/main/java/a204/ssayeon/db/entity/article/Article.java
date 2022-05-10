@@ -8,9 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,7 @@ public class Article extends BaseEntity {
     @Column(nullable = false)
     private String content;
     private Integer views;
+    private Integer likesCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",nullable = false)
@@ -47,4 +50,9 @@ public class Article extends BaseEntity {
         this.content = articleUpdateReq.getContent();
         this.category = category;
     }
+
+    public void updateLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
 }

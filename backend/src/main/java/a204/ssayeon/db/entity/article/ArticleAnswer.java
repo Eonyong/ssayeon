@@ -4,9 +4,11 @@ import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor

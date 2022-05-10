@@ -16,6 +16,7 @@ public class ArticleRes {
     private String title;
     private String content;
     private Integer views;
+    private Integer likesCount;
 
     private Long userId;
     private String nickname;
