@@ -53,6 +53,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -111,6 +112,7 @@ public class ArticleService {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .views(article.getViews())
+                .likesCount(article.getLikesCount())
                 .userId(article.getUser().getId())
                 .nickname(article.getUser().getNickname())
                 .isLiked(isLiked)
@@ -173,6 +175,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -347,6 +350,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -354,6 +358,26 @@ public class ArticleService {
                     .build());
         }
 
+        return articleListRes;
+    }
+
+    // 인기 게시글
+    public List<ArticleRes> getTopArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findTop10ByBoardIdOrderByLikesCountDesc(boardId);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for(Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
         return articleListRes;
     }
 }
