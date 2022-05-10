@@ -365,7 +365,7 @@ public class ArticleService {
     public List<ArticleRes> getTopArticlesByBoardId(Long boardId) {
         List<Article> articles = articleRepository.findTop10ByBoardIdOrderByLikesCountDesc(boardId);
         List<ArticleRes> articleListRes = new ArrayList<>();
-        for(Article article : articles) {
+        for (Article article : articles) {
             articleListRes.add(ArticleRes.builder()
                     .id(article.getId())
                     .title(article.getTitle())
@@ -379,6 +379,7 @@ public class ArticleService {
                     .build());
         }
         return articleListRes;
+    }
         
     public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
         ArticleAnswer articleAnswer = ArticleAnswer.builder()
