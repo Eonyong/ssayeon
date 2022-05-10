@@ -92,8 +92,8 @@ public class ArticleService {
         List<TagRes> tagListRes = new ArrayList<>();
         for(ArticleHasTag tag : tagList) {
             tagListRes.add(TagRes.builder()
-                    .id(tag.getId())
-                    .name(tagRepository.getById(tag.getId()).getName())
+                    .id(tag.getTag().getId())
+                    .name(tagRepository.getById(tag.getTag().getId()).getName())
                     .build());
         }
 
