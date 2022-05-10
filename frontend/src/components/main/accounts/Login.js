@@ -1,14 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearMessage } from "../../../user/message";
 import { login } from "../../../user/auth";
 
-const Login = (props) => {
+const Login = () => {
   
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,8 +35,8 @@ const Login = (props) => {
     const {email, password} = InputValue;
     dispatch(login({ email, password }))
     .unwrap()
-    .then((res) => {
-      console.log('logingood', res);
+    .then(() => {
+      console.log('logingood');
       navigate('/', {replace: true});
     })
     .catch(() => {

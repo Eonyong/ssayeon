@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Navigate, Route } from "react-router-dom";
 
 const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 
@@ -20,7 +19,7 @@ const login = (email, password) => {
       password,
     })
     .then((res) => {
-      console.log('로그인 데이터 들어옴', res.data);
+      console.log('로그인 데이터 들어옴');
       if (res.data.data) {
         localStorage.setItem("user", JSON.stringify(res.data));
       }

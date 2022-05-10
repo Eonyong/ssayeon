@@ -11,6 +11,7 @@ export const register = createAsyncThunk(
     try {
       const res = await AuthService.register(nickname, name, email, class_id, password);
       thunkAPI.dispatch(setMessage(res.data.message));
+      console.log(res.data.message);
       return res.data;
     } catch (e) {
       const message = (e.response && e.response.data && e.response.data.message) ||
@@ -43,6 +44,12 @@ export const logout = createAsyncThunk(
 );
 
 const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user:null };
+
+
+
+// export const userProfile = createAsyncThunk(
+//   'auth/profile'
+// )
 
 const authUser = createSlice({
   name: "auth",
