@@ -3,9 +3,11 @@ package a204.ssayeon.db.entity.article;
 import a204.ssayeon.db.entity.BaseEntity;
 import a204.ssayeon.db.entity.user.User;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
