@@ -4,6 +4,7 @@ import a204.ssayeon.api.request.article.*;
 import a204.ssayeon.api.response.article.*;
 import a204.ssayeon.common.exceptions.ForbiddenException;
 import a204.ssayeon.common.exceptions.NotExistException;
+import a204.ssayeon.common.exceptions.UnAuthorizedException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.db.entity.article.*;
 import a204.ssayeon.db.entity.user.User;
@@ -52,6 +53,10 @@ public class ArticleService {
     }
 
     public Article createArticle(ArticleCreateReq articleCreateReq, User user) {
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         Article article = Article.builder()
                 .title(articleCreateReq.getTitle())
@@ -116,6 +121,9 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
             new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         articleRepository.findByIdAndUser(articleId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
@@ -146,6 +154,10 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleRepository.findByIdAndUser(articleId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -165,6 +177,10 @@ public class ArticleService {
 
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
 
@@ -189,6 +205,10 @@ public class ArticleService {
     public void scrapArticle(Long articleId, User user) {
         articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleScrap articleScrap = articleScrapRepository.findByArticleIdAndUserId(articleId, user.getId());
 
@@ -248,6 +268,9 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleComments comment = ArticleComments.builder()
                 .description(commentCreateReq.getDescription())
@@ -263,6 +286,10 @@ public class ArticleService {
         ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
             new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
             new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -277,6 +304,10 @@ public class ArticleService {
         ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -288,6 +319,10 @@ public class ArticleService {
 
         articleCommentsRepository.findById(commentId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleCommentsLikes articleCommentsLikes = articleCommentsLikesRepository.findByArticleCommentsIdAndUser(commentId, user);
 
@@ -357,6 +392,11 @@ public class ArticleService {
     }
         
     public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         ArticleAnswer articleAnswer = ArticleAnswer.builder()
                 .article(articleRepository.getById(articleAnswerCreateReq.getArticleId()))
                 .description(articleAnswerCreateReq.getDescription())
@@ -407,6 +447,10 @@ public class ArticleService {
         ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleAnswerRepository.findByIdAndUser(articleAnswerId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -419,6 +463,10 @@ public class ArticleService {
     public ArticleAnswer selectArticleAnswer(Long articleAnswerId, User user) {
         ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         articleRepository.findByIdAndUser(articleAnswer.getArticle().getId(), user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
@@ -437,6 +485,10 @@ public class ArticleService {
     public void deleteArticleAnswer(Long articleAnswerId, User user) {
         ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         articleAnswerRepository.findByIdAndUser(articleAnswerId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
