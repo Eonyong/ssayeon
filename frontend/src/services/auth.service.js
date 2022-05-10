@@ -23,7 +23,6 @@ const login = (email, password) => {
       console.log('로그인 데이터 들어옴', res.data);
       if (res.data.data) {
         localStorage.setItem("user", JSON.stringify(res.data));
-        // return (<Route path='*' element={<Navigate to='/' replace /> } />);
       }
       return res.data;
     });

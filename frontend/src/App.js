@@ -10,7 +10,7 @@ import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 import NewNotice from './components/main/boards/notice/NewNotice';
 import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './user/auth';
 
@@ -29,35 +29,21 @@ function App() {
     } else {
       console.log('bye');
     }
-  })
-
-  const [IsUser, setIsUser] = useState({
-    user: '',
-    data: '',
-    isLogin: false,
-  });
-
-  const handleUser = (data) => setIsUser(data);
-
-  useEffect(() => {
-    handleUser();
-    console.log(IsUser);
-  }, [IsUser]);
-  
+  })  
 
   return (
     <div className="App">
       <BrowserRouter>
         <Grid container>
-          <Grid item>
+          <Grid item xs={2}>
             <SideBar />
           </Grid>
           <Divider orientation='vertical' flexItem />
-          <Grid item sx={{ textAlign:'-webkit-center' }}>
+          <Grid item sx={{ textAlign:'-webkit-center' }} xs={9}>
             <Routes>
-              <Route exact path='/' element={ <Main /> } />
-              <Route exact path='auth/login' element={ <Login IsUser={setIsUser} /> } />
-              <Route exact path='auth/join' element={ <Signup /> } />
+              <Route path='/' element={ <Main /> } />
+              <Route path='auth/login' element={ <Login /> } />
+              <Route path='auth/join' element={ <Signup /> } />
               <Route path='/profile' element={ <Profile /> } />
               <Route path='/boards/notice/new' element={ <NewNotice /> } />
               <Route path='/boards/notice' element={ <NoticeList />}/>
