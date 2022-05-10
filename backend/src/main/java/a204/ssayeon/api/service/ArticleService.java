@@ -154,23 +154,10 @@ public class ArticleService {
     }
 
     // 보드 아이디 별로 아이디 가져오기
-    public List<ArticleRes> getArticlesByBoardId(Long boardId) {
-        List<Article> articles = articleRepository.findByBoardId(boardId);
-        List<ArticleRes> articleListRes = new ArrayList<>();
-        for(Article article : articles) {
-            articleListRes.add(ArticleRes.builder()
-                    .id(article.getId())
-                    .title(article.getTitle())
-                    .content(article.getContent())
-                    .views(article.getViews())
-                    .likesCount(article.getLikesCount())
-                    .userId(article.getUser().getId())
-                    .nickname(article.getUser().getNickname())
-                    .board(getBoardRes(article.getBoard().getId()))
-                    .category(getCategoryRes(article.getCategory().getId()))
-                    .build());
-        }
-        return articleListRes;
+    public Page<Article> getArticlesByBoardId(Long boardId, Pageable pageable) {
+        Page<Article> articles = articleRepository.findByBoardId(boardId, pageable);
+
+        return articles;
     }
 
     // 게시글 좋아요

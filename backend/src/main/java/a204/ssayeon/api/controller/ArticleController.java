@@ -16,7 +16,6 @@ import a204.ssayeon.db.entity.article.ArticleAnswer;
 import a204.ssayeon.db.entity.article.ArticleComments;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,8 +30,7 @@ import java.util.List;
 @RequestMapping("/article")
 public class ArticleController {
 
-    @Autowired
-    ArticleService articleService;
+    private final ArticleService articleService;
 
     @GetMapping("/list")
     public AdvancedResponseBody<List<ArticleRes>> getAllArticles(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable) {
@@ -85,9 +83,24 @@ public class ArticleController {
     }
 
     @GetMapping("/list/{boardId}")
-    public AdvancedResponseBody<List<ArticleRes>> getArticlesByBoardId(@PathVariable Long boardId) {
-        List<ArticleRes> articleListRes = articleService.getArticlesByBoardId(boardId);
-        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    public AdvancedResponseBody<List<ArticleRes>> getArticlesByBoardId(@PathVariable Long boardId, @PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable) {
+        Page<Article> articles = articleService.getArticlesByBoardId(boardId, pageable);
+        Pagination pagination = Pagination.getPagination(articles);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for(Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(articleService.getBoardRes(article.getBoard().getId()))
+                    .category(articleService.getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return PaginationResponseBody.of(Status.OK, articleListRes, pagination);
     }
 
     @GetMapping("/hot/{boardId}")
