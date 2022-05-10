@@ -2,6 +2,8 @@ package a204.ssayeon.db.repository.article;
 
 import a204.ssayeon.db.entity.article.Article;
 import a204.ssayeon.db.entity.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -18,5 +20,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByContentContainsAndBoardId(String content, Long boardId);
 
     List<Article> findByUserIdAndBoardId(Long userId, Long boardId);
+
+    Page<Article> findByUserId(Long userId, Pageable pageable);
 
 }

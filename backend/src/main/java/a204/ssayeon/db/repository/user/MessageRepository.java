@@ -1,16 +1,10 @@
 package a204.ssayeon.db.repository.user;
 
-import a204.ssayeon.api.response.user.UserShowMessageDetail;
-import a204.ssayeon.api.response.user.UserShowMessageList;
 import a204.ssayeon.db.entity.user.Message;
-import a204.ssayeon.db.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query("SELECT m FROM Message m WHERE m.sender.id=:userId AND m.receiver.id=:otherUserId OR m.sender.id=:otherUserId AND m.receiver.id=:userId ORDER BY m.createdAt DESC")

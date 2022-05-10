@@ -1,15 +1,12 @@
 package a204.ssayeon.api.controller;
 
 import a204.ssayeon.api.request.user.*;
-import a204.ssayeon.api.response.user.UserShowAlarmRes;
-import a204.ssayeon.api.response.user.UserShowMessageDetail;
-import a204.ssayeon.api.response.user.UserShowMessageList;
+import a204.ssayeon.api.response.user.*;
 import a204.ssayeon.api.service.UserService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.common.model.response.PaginationResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
-import a204.ssayeon.config.auth.PrincipalDetails;
 import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.user.Alarm;
 import a204.ssayeon.db.entity.user.Message;
@@ -20,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -35,27 +31,47 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/message/list")
-    public AdvancedResponseBody<List<UserShowMessageList>> showMessageList(@CurrentUser User user, @PageableDefault(sort = "message_id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
+    @GetMapping("/{id}")
+    public AdvancedResponseBody<UserShowUserRes> showUser(@CurrentUser User user, @PathVariable Long id){
+        return AdvancedResponseBody.of(Status.OK, userService.showUser(id));
+    }
+
+    @GetMapping("/mypage")
+    public AdvancedResponseBody<UserShowMyPageRes> showMyPage(@CurrentUser User user){
+        return AdvancedResponseBody.of(Status.OK, userService.showMyPage(user));
+    }
+
+    @GetMapping("/{id}/activity")
+    public AdvancedResponseBody<List<UserShowUserActivityRes>> showUserActivity(@PathVariable Long id, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
+        Object[] objects = userService.showUserActivity(id, pageable);
+        Pagination pagination = (Pagination) objects[0];
+        List<UserShowUserActivityRes> articleList = (List<UserShowUserActivityRes>) objects[1];
+
+        return PaginationResponseBody.of(Status.OK, articleList, pagination);
+    }
+
+
+    @GetMapping("/message/list") //todo : 메시지 읽음/안 읽음 표시
+    public AdvancedResponseBody<List<UserShowMessageListRes>> showMessageList(@CurrentUser User user, @PageableDefault(sort = "message_id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
         Page<Message> MessagePage = userService.showMessageList(user, pageable);
         Pagination pagination = Pagination.getPagination(MessagePage);
-        List<UserShowMessageList> messageList = new ArrayList<>();
+        List<UserShowMessageListRes> messageList = new ArrayList<>();
 
         MessagePage.forEach((message) -> {
-            messageList.add(UserShowMessageList.builder().created_at(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
+            messageList.add(UserShowMessageListRes.builder().created_at(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
                     .receiver_id(message.getReceiver().getId()).receiver_nickname(message.getReceiver().getNickname()).sender_id(message.getSender().getId()).sender_nickname(message.getSender().getNickname()).build());
         });
         return PaginationResponseBody.of(Status.OK, messageList, pagination);
     }
 
     @GetMapping("/message/{otherUserId}")
-    public AdvancedResponseBody<List<UserShowMessageDetail>> showMessageDetail(@CurrentUser User user, @PathVariable Long otherUserId, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
+    public AdvancedResponseBody<List<UserShowMessageDetailRes>> showMessageDetail(@CurrentUser User user, @PathVariable Long otherUserId, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
         Page<Message> MessagePage = userService.showMessageDetail(user, otherUserId, pageable);
         Pagination pagination = Pagination.getPagination(MessagePage);
-        List<UserShowMessageDetail> messageList = new ArrayList<>();
+        List<UserShowMessageDetailRes> messageList = new ArrayList<>();
 
         MessagePage.forEach((message) -> {
-            messageList.add(UserShowMessageDetail.builder().created_at(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
+            messageList.add(UserShowMessageDetailRes.builder().created_at(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
                     .receiver_id(message.getReceiver().getId()).receiver_nickname(message.getReceiver().getNickname()).sender_id(message.getSender().getId()).sender_nickname(message.getSender().getNickname()).build());
         });
         return PaginationResponseBody.of(Status.OK, messageList, pagination);

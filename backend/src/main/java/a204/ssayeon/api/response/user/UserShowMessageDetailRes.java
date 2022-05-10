@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserShowMessageDetail {
+public class UserShowMessageDetailRes {
     private Long id;
     private Long sender_id;
     private String sender_nickname;

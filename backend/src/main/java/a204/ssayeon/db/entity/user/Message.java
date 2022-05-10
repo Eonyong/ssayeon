@@ -28,4 +28,6 @@ public class Message extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name="receiver_id")
     private User receiver;
+
+    private Boolean isRead;
 }

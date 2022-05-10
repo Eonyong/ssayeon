@@ -2,27 +2,36 @@ package a204.ssayeon.api.service;
 
 import a204.ssayeon.api.request.user.UserEditPasswordReq;
 import a204.ssayeon.api.request.user.UserEditUserReq;
-import a204.ssayeon.api.request.user.UserSendMessageReq;
-import a204.ssayeon.api.response.user.UserShowMessageDetail;
-import a204.ssayeon.api.response.user.UserShowMessageList;
+import a204.ssayeon.api.response.article.BoardRes;
+import a204.ssayeon.api.response.article.CategoryRes;
+import a204.ssayeon.api.response.user.UserShowMyPageRes;
+import a204.ssayeon.api.response.user.UserShowUserActivityRes;
+import a204.ssayeon.api.response.user.UserShowUserRes;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.exceptions.NotJoinedUserException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.config.aws.S3Util;
+import a204.ssayeon.db.entity.Pagination;
+import a204.ssayeon.db.entity.article.Article;
+import a204.ssayeon.db.entity.article.Board;
+import a204.ssayeon.db.entity.article.Category;
 import a204.ssayeon.db.entity.user.*;
+import a204.ssayeon.db.repository.article.ArticleRepository;
+import a204.ssayeon.db.repository.article.BoardRepository;
+import a204.ssayeon.db.repository.article.CategoryRepository;
 import a204.ssayeon.db.repository.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -36,7 +45,51 @@ public class UserService {
     private final UserHasTechStackRepository userHasTechStackRepository;
     private final S3Util s3util;
     private final MessageRepository messageRepository;
+    private final ArticleRepository articleRepository;
+    private final BoardRepository boardRepository;
+    private final CategoryRepository categoryRepository;
 
+    @Transactional(readOnly = true)
+    public UserShowUserRes showUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotExistException(ErrorMessage.USER_DOES_NOT_EXIST));
+
+        return UserShowUserRes.builder().id(user.getId()).company(user.getCompany()).nickname(user.getNickname()).picture(user.getPicture())
+                .techStacks(userHasTechStackRepository.findByUser(user).stream().map(userHasTechStack -> userHasTechStack.getTechStack().getDescription()).collect(Collectors.toList())).build();
+
+    }
+
+    @Transactional(readOnly = true)
+    public UserShowMyPageRes showMyPage(User user) {
+        return UserShowMyPageRes.builder().id(user.getId()).name(user.getName()).classId(user.getClassId()).email(user.getEmail()).company(user.getCompany()).nickname(user.getNickname()).picture(user.getPicture())
+                .techStacks(userHasTechStackRepository.findByUser(user).stream().map(userHasTechStack -> userHasTechStack.getTechStack().getDescription()).collect(Collectors.toList())).build();
+
+    }
+
+    @Transactional(readOnly = true)
+    public Object[] showUserActivity(Long id, Pageable pageable) {
+        Page<Article> articlePage = articleRepository.findByUserId(id, pageable);
+        Pagination pagination = Pagination.getPagination(articlePage); //페이지네이션
+
+        List<UserShowUserActivityRes> articleList = new ArrayList<>();
+
+        articlePage.forEach((article) -> {
+            Board board = article.getBoard();
+            Category category = article.getCategory();
+            articleList.add(UserShowUserActivityRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .board(BoardRes.builder()
+                            .id(board.getId())
+                            .name(board.getName())
+                            .build())
+                    .category(CategoryRes.builder().id(category.getId()).name(category.getName()).build())
+                    .build());
+        });
+
+        return new Object[]{pagination, articleList};
+    }
 
     @Transactional(readOnly = true)
     public Page<Message> showMessageList(User user, Pageable pageable) {
