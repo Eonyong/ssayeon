@@ -8,15 +8,22 @@ import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.common.model.response.BaseResponseBody;
+import a204.ssayeon.common.model.response.PaginationResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
+import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.article.Article;
 import a204.ssayeon.db.entity.article.ArticleAnswer;
 import a204.ssayeon.db.entity.article.ArticleComments;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,9 +35,24 @@ public class ArticleController {
     ArticleService articleService;
 
     @GetMapping("/list")
-    public AdvancedResponseBody<List<ArticleRes>> getAllArticles() {
-        List<ArticleRes> articleListRes = articleService.getAllArticles();
-        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    public AdvancedResponseBody<List<ArticleRes>> getAllArticles(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable) {
+        Page<Article> articles = articleService.getAllArticles(pageable);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        Pagination pagination = Pagination.getPagination(articles);
+        for(Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(articleService.getBoardRes(article.getBoard().getId()))
+                    .category(articleService.getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return PaginationResponseBody.of(Status.OK, articleListRes, pagination);
     }
 
     @PostMapping()
