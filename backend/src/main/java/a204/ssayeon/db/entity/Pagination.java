@@ -23,7 +23,7 @@ public class Pagination {
         return Pagination.builder()
                 .totalPages(pagination.getTotalPages())
                 .totalElements(pagination.getTotalElements())
-                .currentPage(pagination.getNumber() + 1)
+                .currentPage(pagination.getNumber()+1)
                 .currentElements(pagination.getNumberOfElements())
                 .build();
     }
