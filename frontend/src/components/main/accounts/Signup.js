@@ -1,16 +1,20 @@
-import { Box, Button, Grid, TextField, Typography, Container } from "@mui/material";
+import {
+  Box, Button, Grid, TextField, Typography, Container,
+  Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
 
 export default function Signup() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
-  
+  // Modal 창 띄우는 변수
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   // 회원가입 입력 변수
   const [InputValue, setInputValue] = useState({
-    name: '',
-    class_id: '',
-    nickname: '',
-    email: '',
+    name: '', nickname: '',
+    class_id: '', email: '',
     password: '', confirmPasword: '',
     validation: '', confirmValidation: '',
   });
@@ -19,8 +23,31 @@ export default function Signup() {
   const onInputHandler = e => {
     const name = e.target.name;
     const value = e.target.value.trim();
-
-    if (name === 'password') passwordValidation(value);
+    if (name === 'password') {
+      passwordValidation(value);
+      setVerifyState({
+        ...VerifyState,
+        IsPassword: false,
+      })
+    }
+    else if (name === 'class_id') {
+      setVerifyState({
+        ...VerifyState,
+        IsClassId: false,
+      })
+    }
+    else if (name === 'email') {
+      setVerifyState({
+        ...VerifyState,
+        IsEmail: false,
+      })
+    }
+    else if (name === 'nickname') {
+      setVerifyState({
+        ...VerifyState,
+        IsNickname: false,
+      })
+    }
 
     setInputValue({
       ...InputValue,
@@ -92,7 +119,6 @@ export default function Signup() {
   
   // 이메일 중복 확인 함수
   const onDuplicationEmail = e => {
-    e.preventDefault();
     axios({
       url: API_BASE_URL + 'api/auth/verify-email',
       method: 'POST',
@@ -101,6 +127,7 @@ export default function Signup() {
       }
     })
     .then((e) => {
+      handleOpen();
       setVerifyState({
         ...VerifyState,
         IsEmail: true,
@@ -113,12 +140,7 @@ export default function Signup() {
       console.log('이메일 통과', dt);
     })
     .catch(e => {
-      console.log(e);
-      if (e.response.status === 409) {
-        console.log('이미 존재하는 이메일입니다.');
-      } else {
-        console.log('사용이 불가한 이메일 입니다.');
-      }
+      alert('사용이 불가하거나 이미 존재하는 이메일입니다.');
       setVerifyState({
         ...VerifyState,
         IsEmail: false,
@@ -150,7 +172,6 @@ export default function Signup() {
   // 회원가입하기 Click 시 함수
   const onSubmitHandler = e => {
     e.preventDefault();
-    console.log();
     axios({
       url: API_BASE_URL + 'api/auth/join',
       method: 'POST',
@@ -239,7 +260,6 @@ export default function Signup() {
                   id='nickname' name="nickname" autoComplete="nickname" margin='normal'
                   color = { VerifyState.IsNickname ? 'primary' : 'error' }
                   helperText = { VerifyState.IsNickname ? '사용가능한 닉네임 입니다.':'' }
-                  disabled = { VerifyState.IsNickname ? true:false }
                   type='text' placeholder="닉네임" label='닉네임' value={ InputValue.nickname } onChange={ onInputHandler }
                   fullWidth required
                 />
@@ -263,14 +283,28 @@ export default function Signup() {
                   value={ InputValue.email } onChange={ onInputHandler }
                   color={ VerifyState.IsEmail ? 'primary' : 'error' }
                   helperText = { VerifyState.IsEmail ? '사용가능한 이메일 입니다.':false }
-                  disabled = { VerifyState.IsEmail ? true:false }
                   fullWidth required sx={{ mb: 1 }}
                 />
               </Grid>
               <Grid item xs={3}>
-                <Button onClick={ onDuplicationEmail } variant='text'>
-                  중복 확인
+                <Button onClick={onDuplicationEmail} variant='text' >
+                  { VerifyState.IsEmail ? "재발송":"중복 확인"}
                 </Button>
+                <Dialog
+                  open={open}
+                  keepMounted
+                  onClose={handleClose}
+                  aria-describedby="alert-dialog-slide-description"
+                >
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                      해당 이메일로 인증 번호를 발송했습니다.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>닫기</Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
             </Grid>
 
