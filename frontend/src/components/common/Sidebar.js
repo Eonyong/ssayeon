@@ -1,13 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Box, Button, Container, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Avatar, Box, Button, CardContent, Container, Divider, Typography } from '@mui/material';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
+import { logout } from '../../user/auth';
 
 function SideBar() {
-  
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const userItems = JSON.parse(localStorage.getItem('user'));
+
+  const [User, ] = useState({
+    class_id: userItems ? userItems.class_id: '',
+    company: userItems ? userItems.company: '',
+    email: userItems ? userItems.email: '',
+    id: userItems ? userItems.id: 0,
+    name: userItems ? userItems.name: '',
+    nickname: userItems ? userItems.nickname: '',
+    picture: userItems ? userItems.picture: '',
+    tech_stacks: userItems ? userItems.tech_stacks: [],
+  });
+
   // 게시판 드롭다운 기능
-  const [openBoards, setOpenBoards] = React.useState(false);
+  const [openBoards, setOpenBoards] = useState(false);
   const handleBoardsClick = () => {
     setOpenBoards(!openBoards);
   };
@@ -17,25 +35,51 @@ function SideBar() {
   const handlePlayGround = () => {
     setOpenPlayGround(!openPlayGround);
   };
-  
+
   return(
     <Container>
-      <Box orientation='vertical' sx={{ width: '100%', my:3 }}>
-        <Link to='/auth/login'>
-          <Button
-            sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
-          >
-            로 그 인
-          </Button>
-        </Link>
-        <Link to='/auth/join'>
-          <Button
-            sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
-          >
-            회 원 가 입
-          </Button>
-        </Link>
-      </Box>
+      {
+        isLoggedIn ?
+        <Box mt={1}>
+            <Box sx={{ display: 'flex', flexDirection: {md:'column', lg:'row'}, alignContent: 'center' }}>
+              <Avatar src={ User.picture } sx={{ alignSelf: 'center', mx:2 }} />
+              <CardContent sx={{ flex: '1 0 auto' }}>
+                <Typography component="div" variant="h5" border={true}>{User.nickname}</Typography>
+                <Typography variant="subtitle2" color="text.secondary">{User.company} </Typography>
+              </CardContent>
+            </Box>
+            <Box sx={{ display: 'flex wrap', flexDirection: {md:'column', lg:'row'}}}>
+              <Button onClick={() => {
+                navigate('/profile', {state: {id: User.id}});
+              }} sx={{width:{md:'100%', lg:'50%'}}}>
+                프로필
+              </Button>
+              <Button onClick={() => {
+                dispatch(logout());
+                navigate(0);
+              }} sx={{width:{md:'100%', lg:'50%'}}}>
+                로그아웃
+              </Button>
+            </Box>
+        </Box>
+        :
+        <Box orientation='vertical' sx={{ width: '100%', my:3 }}>
+          <Link to='/auth/login'>
+            <Button
+              sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
+            >
+              로 그 인
+            </Button>
+          </Link>
+          <Link to='/auth/join'>
+            <Button
+              sx={{ py: 1, my: 1, width:'100%' }} variant='outlined'
+            >
+              회 원 가 입
+            </Button>
+          </Link>
+        </Box>
+      }
       <Divider />
       <ListItemButton sx={{ py: 2 }} component={Link} to="/boards/notice">공지사항</ListItemButton>
       {/* 게시판 리스트 버튼 */}
