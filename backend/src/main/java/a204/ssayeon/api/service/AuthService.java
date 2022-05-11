@@ -2,12 +2,15 @@ package a204.ssayeon.api.service;
 
 import a204.ssayeon.api.request.auth.AuthJoinReq;
 import a204.ssayeon.api.request.auth.AuthLoginReq;
+import a204.ssayeon.api.request.auth.AuthVerifyUserReq;
 import a204.ssayeon.api.response.auth.AuthJoinRes;
 import a204.ssayeon.common.exceptions.AlreadyExistException;
+import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.config.jwt.TokenProvider;
 import a204.ssayeon.db.entity.user.User;
-import a204.ssayeon.db.repository.UserRepository;
+import a204.ssayeon.db.repository.user.UserCertificationRepository;
+import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +31,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
+    private final UserCertificationRepository userCertificationRepository;
 
 
     public AuthJoinRes join(AuthJoinReq authJoinReq) {
@@ -59,11 +63,14 @@ public class AuthService {
     }
 
 
-//    @Transactional(readOnly = true)
-//    public void verifyUser() {
-//        return ;
-//    }
-//
+    @Transactional(readOnly = true)
+    public void verifyUser(AuthVerifyUserReq authVerifyUserReq) {
+        boolean existsByNameAndClassId = userCertificationRepository.existsByNameAndClassId(authVerifyUserReq.getName(), authVerifyUserReq.getClassId());
+
+        if(!existsByNameAndClassId)
+            throw new NotExistException(ErrorMessage.USER_CERTIFICATION_INCORRECT);
+    }
+
 //    @Transactional(readOnly = true)
 //    public void verifyUserAlternate() {
 //        return ;

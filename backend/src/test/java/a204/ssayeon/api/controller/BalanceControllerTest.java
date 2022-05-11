@@ -1,7 +1,6 @@
 package a204.ssayeon.api.controller;
 
 import a204.ssayeon.api.service.BalanceService;
-import a204.ssayeon.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,39 +17,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BalanceController.class)
 class BalanceControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    BalanceService balanceService;
-
-    @Autowired
-    private BalanceController balanceController;
-
-    @Autowired
-    private SecurityConfig securityConfig;
-
-    // test for balanceController is injected
-    @Test
-    public void contextLoads() throws Exception{
-        assertThat(balanceController).isNotNull();
-    }
-
-    @Test
-    public void helloTest() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/api/hello");
-        mockMvc.perform(builder)
-                .andExpect(status().isOk())
-                .andExpect(content().string("hello"))
-                .andDo(print());
-    }
-
-    @Test
-    public void apiTest() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/api/hello");
-        mockMvc.perform(builder)
-                .andExpect(status().isOk())
-                .andExpect(content().string("hello"))
-                .andDo(print());
-    }
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @MockBean
+//    BalanceService balanceService;
+//
+//    @Autowired
+//    private BalanceController balanceController;
+//
+//    // test for balanceController is injected
+//    @Test
+//    public void contextLoads() throws Exception{
+//        assertThat(balanceController).isNotNull();
+//    }
+//
+//    @Test
+//    public void helloTest() throws Exception {
+//        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/api/hello");
+//        mockMvc.perform(builder)
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("hello"))
+//                .andDo(print());
+//    }
+//
+//    @Test
+//    public void apiTest() throws Exception {
+//        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/api/hello");
+//        mockMvc.perform(builder)
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("hello"))
+//                .andDo(print());
+//    }
 }

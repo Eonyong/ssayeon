@@ -1,5 +1,7 @@
 package a204.ssayeon.config.jwt;
 
+import a204.ssayeon.common.exceptions.NotExistException;
+import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.config.auth.PrincipalDetails;
 import a204.ssayeon.config.auth.PrincipalDetailsService;
 import org.slf4j.Logger;

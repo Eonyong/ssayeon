@@ -16,8 +16,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Service
 public class EmailService {
-
-    @Autowired
     private final JavaMailSender emailSender;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
