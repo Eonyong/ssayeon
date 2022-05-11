@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Container, Divider } from '@mui/material';
+import { Avatar, Box, Button, Card, CardContent, Container, Divider, Typography } from '@mui/material';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { logout } from '../../user/auth';
@@ -11,8 +11,21 @@ function SideBar() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  const userItems = JSON.parse(localStorage.getItem('user'));
+
+  const [User, setUser] = useState({
+    class_id: userItems ? userItems.class_id: '',
+    company: userItems ? userItems.company: '',
+    email: userItems ? userItems.email: '',
+    id: userItems ? userItems.id: 0,
+    name: userItems ? userItems.name: '',
+    nickname: userItems ? userItems.nickname: '',
+    picture: userItems ? userItems.picture: '',
+    tech_stacks: userItems ? userItems.tech_stacks: [],
+  });
+
   // 게시판 드롭다운 기능
-  const [openBoards, setOpenBoards] = React.useState(false);
+  const [openBoards, setOpenBoards] = useState(false);
   const handleBoardsClick = () => {
     setOpenBoards(!openBoards);
   };
@@ -22,19 +35,37 @@ function SideBar() {
   const handlePlayGround = () => {
     setOpenPlayGround(!openPlayGround);
   };
-  
+
   return(
     <Container>
       {
         isLoggedIn ?
-        <>
-          <Button onClick={() => {
-            dispatch(logout());
-            navigate(0);
-          }}>
-            로그아웃
-          </Button>
-        </>
+        <Box mt={1}>
+            <Box sx={{ display: 'flex', flexDirection: {md:'column', lg:'row'}, alignContent: 'center' }}>
+              <Avatar src={ User.picture } sx={{ alignSelf: 'center', mx:2 }} />
+              <CardContent sx={{ flex: '1 0 auto' }}>
+                <Typography component="div" variant="h6">
+                  {User.nickname}
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary">
+                  {User.company}
+                </Typography>
+              </CardContent>
+            </Box>
+            <Box sx={{ display: 'flex wrap', flexDirection: {md:'column', lg:'row'}}}>
+              <Button onClick={() => {
+                navigate('/profile', {state: {id: User.id}});
+              }} sx={{width:{md:'100%', lg:'50%'}}}>
+                프로필
+              </Button>
+              <Button onClick={() => {
+                dispatch(logout());
+                navigate(0);
+              }} sx={{width:{md:'100%', lg:'50%'}}}>
+                로그아웃
+              </Button>
+            </Box>
+        </Box>
         :
         <Box orientation='vertical' sx={{ width: '100%', my:3 }}>
           <Link to='/auth/login'>

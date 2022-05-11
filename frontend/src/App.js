@@ -18,7 +18,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
+
     if (localStorage.getItem('token')) {
       dispatch(userProfile());
     } else {
@@ -50,6 +50,7 @@ function App() {
       </BrowserRouter>
     </div>
   );
+
 }
 
 export default App;

@@ -50,11 +50,19 @@ const userProfile = () => {
   .catch(e => console.log(e));
 }
 
-const profileEdit = (data) => {
+const form = new FormData();
+const profileEdit = (userData) => {
   const token = localStorage.getItem('token');
-  const headers = {Authorization: `Bearer ${token}`};
-  console.log(`api/user/${data['id']}`, 'profile');
-  return axios.put(API_BASE_URL, + `api/user/${data['id']}`, { headers:headers, data:data })
+
+  for (var user in userData) {
+    form.append(user, userData[user])
+  };
+  console.log(form);
+  
+  return axios.patch(`${API_BASE_URL}api/user/${userData['id']}`, form,
+  {
+    headers: {'Authorization': `Bearer ${token}`}
+  })
   .then(res => console.log(res))
   .catch(e => console.log(e));
 }

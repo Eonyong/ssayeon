@@ -65,9 +65,9 @@ export const userProfile = createAsyncThunk(
 
 export const profileEdit = createAsyncThunk(
   'user/edit',
-  async (values, thunkAPI) => {
+  async (userData, thunkAPI) => {
     try {
-      const res = await AuthService.profileEdit(values);
+      const res = await AuthService.profileEdit(userData);
       return res.data;
     } catch (e) {
       const message = (e.response && e.response.data && e.response.data.message) ||
