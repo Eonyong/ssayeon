@@ -10,26 +10,17 @@ import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 import NewNotice from './components/main/boards/notice/NewNotice';
 import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from './user/auth';
+import { useDispatch } from 'react-redux';
+import { userProfile } from './user/auth';
 
 function App() {
-
-  const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  if (!localStorage.getItem('token')) {
+    localStorage.clear();
+  } else{
+    dispatch(userProfile());
 
-  const logOut = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (currentUser) {
-      console.log('hi');
-    } else {
-      console.log('bye');
-    }
-  })  
+  }
 
   return (
     <div className="App">
@@ -55,6 +46,7 @@ function App() {
       </BrowserRouter>
     </div>
   );
+
 }
 
 export default App;
