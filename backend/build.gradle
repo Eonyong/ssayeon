@@ -91,3 +91,6 @@ compileQuerydsl.doFirst {
 		delete(file(querydslDir))
 }
 
+jar {
+	enabled = false
+}
