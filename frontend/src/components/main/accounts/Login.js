@@ -1,16 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearMessage } from "../../../user/message";
+import { login } from "../../../user/auth";
 
-export default function Login () {
+const Login = (props) => {
+  
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+
+  const [InputValue, setInputValue] = useState({
+    email: '',
+    password: '',
+  });
+
+  const onInputHandler = e => {
+    const {name, value} = e.target;
+    setInputValue({
+      ...InputValue,
+      [ name ]: value,
+    });
+  }
+
+  const onSubmit = e => {
+    e.preventDefault();
+    setLoading(true);
+    const {email, password} = InputValue;
+    dispatch(login({ email, password }))
+    .unwrap()
+    .then((res) => {
+      console.log('logingood', res);
+      navigate('/', {replace: true});
+    })
+    .catch(() => {
+      setLoading(false);
     });
   };
+
 
   return (
     <Container>
@@ -27,25 +60,27 @@ export default function Login () {
           <Typography>Sign in with your data that you entered during your registration.</Typography>
           <Box
             noValidate container component='form'
-            sx={{ my: 5 }} onSubmit={ handleSubmit }
+            sx={{ my: 5 }} onSubmit={ onSubmit }
           >
             <TextField
-              id='email' name="email" autoComplete="email"
-              type='email' placeholder="Email@email.com" label='Email'
-              fullWidth margin='normal' required autoFocus sx={{ mb: 1 }}
+              id='email' name="email" autoComplete="email" margin='normal'
+              type='email' placeholder="email@email.com" label='email'
+              value={ InputValue.email } onChange={ onInputHandler }
+              fullWidth sx={{ mb: 1 }}
             />
             <TextField
               id="password" name="password" autoComplete='current-password'
-              type='password' placeholder="패스워드를 입력해주세요" label='Password'
-              fullWidth sx={{ mt: 1 }}
+              type='password' placeholder="패스워드를 입력해주세요" label='password'
+              value={ InputValue.password } onChange={ onInputHandler }
+              fullWidth sx={{ mb: 1 }}
             />
             <FormControlLabel
               control={<Checkbox value='remember' color="primary" />}
               label='Keep me logged in'
             />
             <Button
-              type="sumbmit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
-              fullWidth variant="contained"
+              type="submit" sx={{ py: 1, backgroundColor: '#4B7BF5' }}
+              fullWidth variant="contained" disabled={loading}
             >
               Sign In
             </Button>
@@ -58,3 +93,5 @@ export default function Login () {
     </Container>
   );
 };
+
+export default Login;

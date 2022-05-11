@@ -1,17 +1,18 @@
 package a204.ssayeon.api.service;
 
-import a204.ssayeon.api.request.article.ArticleCreateReq;
-import a204.ssayeon.api.request.article.ArticleUpdateReq;
-import a204.ssayeon.api.request.article.CommentCreateReq;
+import a204.ssayeon.api.request.article.*;
 import a204.ssayeon.api.response.article.*;
 import a204.ssayeon.common.exceptions.ForbiddenException;
 import a204.ssayeon.common.exceptions.NotExistException;
+import a204.ssayeon.common.exceptions.UnAuthorizedException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
 import a204.ssayeon.db.entity.article.*;
 import a204.ssayeon.db.entity.user.User;
 import a204.ssayeon.db.repository.article.*;
 import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,26 +44,19 @@ public class ArticleService {
 
     private final ArticleCommentsLikesRepository articleCommentsLikesRepository;
 
+    private final ArticleAnswerRepository articleAnswerRepository;
 
-    public List<ArticleRes> getAllArticles() {
-        List<Article> articles = articleRepository.findAll();
-        List<ArticleRes> articleListRes = new ArrayList<>();
-        for(Article article : articles) {
-            articleListRes.add(ArticleRes.builder()
-                    .id(article.getId())
-                    .title(article.getTitle())
-                    .content(article.getContent())
-                    .views(article.getViews())
-                    .userId(article.getUser().getId())
-                    .nickname(article.getUser().getNickname())
-                    .board(getBoardRes(article.getBoard().getId()))
-                    .category(getCategoryRes(article.getCategory().getId()))
-                    .build());
-        }
-        return articleListRes;
+
+    public Page<Article> getAllArticles(Pageable pageable) {
+
+        return articleRepository.findAll(pageable);
     }
 
     public Article createArticle(ArticleCreateReq articleCreateReq, User user) {
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         Article article = Article.builder()
                 .title(articleCreateReq.getTitle())
@@ -92,8 +86,8 @@ public class ArticleService {
         List<TagRes> tagListRes = new ArrayList<>();
         for(ArticleHasTag tag : tagList) {
             tagListRes.add(TagRes.builder()
-                    .id(tag.getId())
-                    .name(tagRepository.getById(tag.getId()).getName())
+                    .id(tag.getTag().getId())
+                    .name(tagRepository.getById(tag.getTag().getId()).getName())
                     .build());
         }
 
@@ -111,6 +105,7 @@ public class ArticleService {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .views(article.getViews())
+                .likesCount(article.getLikesCount())
                 .userId(article.getUser().getId())
                 .nickname(article.getUser().getNickname())
                 .isLiked(isLiked)
@@ -126,6 +121,9 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
             new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         articleRepository.findByIdAndUser(articleId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
@@ -156,6 +154,10 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleRepository.findByIdAndUser(articleId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -164,29 +166,21 @@ public class ArticleService {
     }
 
     // 보드 아이디 별로 아이디 가져오기
-    public List<ArticleRes> getArticlesByBoardId(Long boardId) {
-        List<Article> articles = articleRepository.findByBoardId(boardId);
-        List<ArticleRes> articleListRes = new ArrayList<>();
-        for(Article article : articles) {
-            articleListRes.add(ArticleRes.builder()
-                    .id(article.getId())
-                    .title(article.getTitle())
-                    .content(article.getContent())
-                    .views(article.getViews())
-                    .userId(article.getUser().getId())
-                    .nickname(article.getUser().getNickname())
-                    .board(getBoardRes(article.getBoard().getId()))
-                    .category(getCategoryRes(article.getCategory().getId()))
-                    .build());
-        }
-        return articleListRes;
+    public Page<Article> getArticlesByBoardId(Long boardId, Pageable pageable) {
+        Page<Article> articles = articleRepository.findByBoardId(boardId, pageable);
+
+        return articles;
     }
 
     // 게시글 좋아요
     public void likeArticle(Long articleId, User user) {
 
-        articleRepository.findById(articleId).orElseThrow(() ->
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
 
@@ -196,8 +190,14 @@ public class ArticleService {
                     .user(user)
                     .build();
             articleLikesRepository.save(articleLike);
+
+            article.updateLikesCount(article.getLikesCount() + 1);
+            articleRepository.save(article);
         } else {
             articleLikesRepository.delete(articleLikes);
+
+            article.updateLikesCount(article.getLikesCount() - 1);
+            articleRepository.save(article);
         }
     }
 
@@ -205,6 +205,10 @@ public class ArticleService {
     public void scrapArticle(Long articleId, User user) {
         articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleScrap articleScrap = articleScrapRepository.findByArticleIdAndUserId(articleId, user.getId());
 
@@ -264,6 +268,9 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleComments comment = ArticleComments.builder()
                 .description(commentCreateReq.getDescription())
@@ -279,6 +286,10 @@ public class ArticleService {
         ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
             new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
             new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -293,6 +304,10 @@ public class ArticleService {
         ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
 
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
         articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
                 new ForbiddenException(ErrorMessage.FORBIDDEN));
 
@@ -304,6 +319,10 @@ public class ArticleService {
 
         articleCommentsRepository.findById(commentId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
 
         ArticleCommentsLikes articleCommentsLikes = articleCommentsLikesRepository.findByArticleCommentsIdAndUser(commentId, user);
 
@@ -341,6 +360,7 @@ public class ArticleService {
                     .title(article.getTitle())
                     .content(article.getContent())
                     .views(article.getViews())
+                    .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
                     .board(getBoardRes(article.getBoard().getId()))
@@ -349,5 +369,130 @@ public class ArticleService {
         }
 
         return articleListRes;
+    }
+
+    // 인기 게시글
+    public List<ArticleRes> getTopArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findTop10ByBoardIdOrderByLikesCountDesc(boardId);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for (Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+    }
+        
+    public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
+        ArticleAnswer articleAnswer = ArticleAnswer.builder()
+                .article(articleRepository.getById(articleAnswerCreateReq.getArticleId()))
+                .description(articleAnswerCreateReq.getDescription())
+                .user(user)
+                .build();
+
+        articleAnswerRepository.save(articleAnswer);
+        return articleAnswer;
+    }
+
+    public ArticleAnswerRes getArticleAnswer(Long articleAnswerId) {
+        ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+        ArticleAnswerRes articleAnswerRes = ArticleAnswerRes.builder()
+                .id(articleAnswer.getId())
+                .description(articleAnswer.getDescription())
+                .userId(articleAnswer.getUser().getId())
+                .nickname(articleAnswer.getUser().getNickname())
+                .isSelected(articleAnswer.getIsSelected())
+                .articleId(articleAnswer.getArticle().getId())
+                .build();
+
+        return articleAnswerRes;
+    }
+
+    public List<ArticleAnswerRes> getArticleAnswerListByArticleId(Long articleId) {
+        articleRepository.findById(articleId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        List<ArticleAnswer> articleAnswerList = articleAnswerRepository.findByArticleId(articleId);
+        List<ArticleAnswerRes> articleAnswerListRes = new ArrayList<>();
+
+        for(ArticleAnswer articleAnswer : articleAnswerList) {
+            articleAnswerListRes.add(ArticleAnswerRes.builder()
+                    .id(articleAnswer.getId())
+                    .description(articleAnswer.getDescription())
+                    .userId(articleAnswer.getUser().getId())
+                    .nickname(articleAnswer.getUser().getNickname())
+                    .isSelected(articleAnswer.getIsSelected())
+                    .articleId(articleAnswer.getArticle().getId())
+                    .build());
+        }
+
+        return articleAnswerListRes;
+    }
+
+    public ArticleAnswer updateArticleAnswer(Long articleAnswerId, ArticleAnswerUpdateReq articleAnswerUpdateReq, User user) {
+        ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
+        articleAnswerRepository.findByIdAndUser(articleAnswerId, user).orElseThrow(() ->
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
+
+        articleAnswer.update(articleAnswerUpdateReq.getDescription());
+        articleAnswerRepository.save(articleAnswer);
+
+        return articleAnswer;
+    }
+
+    public ArticleAnswer selectArticleAnswer(Long articleAnswerId, User user) {
+        ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
+        articleRepository.findByIdAndUser(articleAnswer.getArticle().getId(), user).orElseThrow(() ->
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
+
+        if (articleAnswer.getIsSelected() == true) {
+            articleAnswer.select(false);
+        } else {
+            articleAnswer.select(true);
+        }
+
+        articleAnswerRepository.save(articleAnswer);
+
+        return articleAnswer;
+    }
+
+    public void deleteArticleAnswer(Long articleAnswerId, User user) {
+        ArticleAnswer articleAnswer = articleAnswerRepository.findById(articleAnswerId).orElseThrow(() ->
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        if (user == null) {
+            throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+        }
+
+        articleAnswerRepository.findByIdAndUser(articleAnswerId, user).orElseThrow(() ->
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
+
+        articleAnswerRepository.delete(articleAnswer);
     }
 }

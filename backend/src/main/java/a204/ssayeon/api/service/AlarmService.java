@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlarmService {
 
-    private final String url ="k6a204.p.ssafy.io";
+    private final String url ="ssayeon.co.kr";
     private final BalanceRepository balanceRepository;
     private final AlarmRepository alarmRepository;
 
