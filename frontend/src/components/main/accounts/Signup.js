@@ -58,6 +58,7 @@ export default function Signup() {
       ...InputValue,
       [ name ]: value,
     });
+    console.log(VerifyState);
   };
   
   // 중복확인 변수
@@ -177,19 +178,19 @@ export default function Signup() {
   // 회원가입하기 Click 시 함수
   const onSubmitHandler = e => {
     e.preventDefault();
-
-    dispatch(register(InputValue))
-    .unwrap()
-    .then(() => {
-      if(VerifyState.IsEmail && VerifyState.IsNickname) {
-        console.log('회원가입이 완료 되었습니다.');
-        navigate('/', {replace: true}); 
-      };
-    })
-    .catch(e=>{
-      alert('회원인증을 해주세요\n이메일 중복 확인을 해주세요.\n닉네임 중복 확인을 해주세요.');
-      console.log(e);
-    });
+    console.log(VerifyState);
+    if(VerifyState.IsEmail && VerifyState.IsNickname && VerifyState.IsPassword) {
+      dispatch(register(InputValue))
+      .unwrap()
+      .then(() => {
+          console.log('회원가입이 완료 되었습니다.');
+          navigate('/', {replace: true}); 
+        })
+        .catch(e=>{
+          alert('회원인증을 해주세요\n이메일 중복 확인을 해주세요.\n닉네임 중복 확인을 해주세요.');
+          console.log(e);
+        });
+    };
   };
 
   // UI 디자인 시작

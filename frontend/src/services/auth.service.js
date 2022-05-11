@@ -9,7 +9,7 @@ const register = (nickname, name, email, class_id, password) => {
     name,
     email,
     class_id,
-    password
+    password,
   });
 };
 
@@ -21,20 +21,41 @@ const login = (email, password) => {
     .then((res) => {
       console.log('로그인 데이터 들어옴');
       if (res.data.data) {
-        localStorage.setItem("user", JSON.stringify(res.data));
+        console.log(res);
+        localStorage.setItem("token", res.data.data);
+
       }
       return res.data;
     });
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
 };
+
+const withdrawal = () => {
+  const token = localStorage.getItem('token');
+  const headers = {Authorization: `Bearer ${token}`};
+
+  return axios.delete(API_BASE_URL + "api/user",{ headers:headers })
+  .then(() => {})
+  .catch(e => console.log(e, headers));
+}
+
+const userProfile = () => {
+  const token = localStorage.getItem('token');
+  const headers = {Authorization: `Bearer ${token}`};
+  return axios.get(API_BASE_URL + 'api/user/mypage', { headers:headers })
+  .then(res => console.log(res))
+  .catch(e => console.log(e));
+}
 
 const authService = {
   register,
   login,
   logout,
+  withdrawal,
+  userProfile,
 };
 
 export default authService;

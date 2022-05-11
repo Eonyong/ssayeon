@@ -3,7 +3,7 @@ import { setMessage } from "./message";
 
 import AuthService from "../services/auth.service";
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = localStorage.getItem("token");
 
 export const register = createAsyncThunk(
   "auth/join",
@@ -43,13 +43,15 @@ export const logout = createAsyncThunk(
   'auth/logout', async () => {AuthService.logout()}
 );
 
+export const withdrawal = createAsyncThunk(
+  '/user', async() => {AuthService.withdrawal()}
+);
+
 const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user:null };
 
-
-
-// export const userProfile = createAsyncThunk(
-//   'auth/profile'
-// )
+export const userProfile = createAsyncThunk(
+  'user/mypage', async () => {AuthService.userProfile()}
+)
 
 const authUser = createSlice({
   name: "auth",

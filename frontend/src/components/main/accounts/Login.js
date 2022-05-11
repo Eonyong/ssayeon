@@ -14,7 +14,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(clearMessage());
-  }, [dispatch]);
+  }, );
 
   const [InputValue, setInputValue] = useState({
     email: '',

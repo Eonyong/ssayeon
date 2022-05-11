@@ -1,7 +1,14 @@
 import { Avatar, Button, Container, Divider, Grid, TextField } from "@mui/material";
 import { Card, CardActions, CardContent, CardHeader } from '@mui/material';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { withdrawal } from "../../../user/auth";
 
 export default function Profile() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return(
     <Container sx={{ width: '150%' }}>
       <Card>
@@ -77,7 +84,18 @@ export default function Profile() {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'space-between' }}>
-          <Button color="warning" variant="outlined">회원 탈퇴</Button>
+          <Button
+            color="warning" variant="outlined"
+            onClick={()=>{
+              dispatch(withdrawal())
+              .then(() => {
+                localStorage.removeItem('token');
+              })
+              navigate('/');
+            }}
+          >
+            회원 탈퇴
+          </Button>
           <Button type="submit" sx={{ backgroundColor: '#4B7BF5' }} variant='filled'>수정하기</Button>
         </CardActions>
       </Card>
