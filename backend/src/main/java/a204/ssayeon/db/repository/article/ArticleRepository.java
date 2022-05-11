@@ -25,4 +25,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     
     Optional<Article> findByUserId(Long userId);
 
+    List<Article> findTop3ByBoardIdOrderByIdDesc(Long boardId);
+
 }

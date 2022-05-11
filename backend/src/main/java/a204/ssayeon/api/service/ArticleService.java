@@ -390,7 +390,26 @@ public class ArticleService {
         }
         return articleListRes;
     }
-        
+
+    public List<ArticleRes> getLatestArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findTop3ByBoardIdOrderByIdDesc(boardId);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for (Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+    }
+
     public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
 
         if (user == null) {
