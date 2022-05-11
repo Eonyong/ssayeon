@@ -55,7 +55,7 @@ export default function Profile(id) {
   }
   
   return(
-    <Container sx={{ width: '150%' }}>
+    <Container>
       <Card>
         <CardHeader title='회원정보' />
         <CardContent>

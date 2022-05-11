@@ -3,7 +3,7 @@ import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Ty
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearMessage } from "../../../user/message";
-import { login } from "../../../user/auth";
+import { login, userProfile } from "../../../user/auth";
 
 const Login = () => {
   
@@ -35,8 +35,8 @@ const Login = () => {
     dispatch(login({ email, password }))
     .unwrap()
     .then(() => {
+      dispatch(userProfile());
       navigate('/');
-      navigate(0);
     })
     .catch(() => {
       setLoading(false);
