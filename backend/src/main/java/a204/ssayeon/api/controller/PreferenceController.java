@@ -221,8 +221,20 @@ public class PreferenceController {
 
     // 검색
     @GetMapping(value = {"/search/type"})
-    public AdvancedResponseBody<String> searchPreference(@PathVariable Integer type, @RequestParam String query) {
-        preferenceService.searchPreferences(type,query);
-        return AdvancedResponseBody.of(Status.OK);
+    public AdvancedResponseBody<List<PreferenceApiResponse>> searchPreference(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable, @PathVariable Integer type, @RequestParam String query) {
+        Page<Preference> preferences = preferenceService.searchPreferences(type, query, pageable);
+        List<PreferenceApiResponse> list = new ArrayList<>();
+        Pagination pagination = Pagination.getPagination(preferences);
+        for(Preference preference : preferences) {
+            list.add(PreferenceApiResponse.builder()
+                    .preferenceId(preference.getId())
+                    .userId(preference.getUser().getId())
+                    .writer(preference.getUser().getNickname())
+                    .preferenceOptionsApiResponseList(null) // 선택지는 필요없으므로 null
+                    .createAt(preference.getCreatedAt())
+                    .updatedAt(preference.getUpdatedAt())
+                    .build());
+        }
+        return PaginationResponseBody.of(Status.OK, list, pagination);
     }
 }

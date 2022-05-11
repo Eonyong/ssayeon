@@ -34,14 +34,15 @@ public class PreferenceService {
         preferenceRepository.deleteById(preferenceId);
     }
 
-    public Page<Preference> searchPreferences(Integer type, String query) {
+    public Page<Preference> searchPreferences(Integer type, String query, Pageable pageable) {
+        Page<Preference> result = null;
         if (type == 1) { // 질문
-            preferenceRepository.findByDescriptionContaining(query);
+            result = preferenceRepository.findByDescriptionContaining(query, pageable);
         } else if (type == 2) { // 작성자
-//            preferenceRepository.findByDescriptionContaining(query);
+//            preferenceRepository.findByDescriptionContaining(query, pageable);
         } else if (type == 3) { // 선택지
-//            preferenceRepository.findByDescriptionContaining(query);
+//            preferenceRepository.findByDescriptionContaining(query, pageable);
         }
-        return null;
+        return result;
     }
 }
