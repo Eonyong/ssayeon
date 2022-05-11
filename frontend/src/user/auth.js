@@ -25,7 +25,6 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async ({ email, password }, thunkAPI) => {
-    console.log(thunkAPI);
     try {
       const data = await AuthService.login(email, password);
       return { user: data };
@@ -50,7 +49,34 @@ export const withdrawal = createAsyncThunk(
 const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user:null };
 
 export const userProfile = createAsyncThunk(
-  'user/mypage', async () => {AuthService.userProfile()}
+  'user/mypage', async (thunkAPI) => {
+    try {
+      const res = AuthService.userProfile();
+      return res.data;
+    }
+    catch (e) {
+      const message = (e.response && e.response.data && e.response.data.message) ||
+      e.message || e.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const profileEdit = createAsyncThunk(
+  'user/edit',
+  async (values, thunkAPI) => {
+    try {
+      const res = await AuthService.profileEdit(values);
+      return res.data;
+    } catch (e) {
+      const message = (e.response && e.response.data && e.response.data.message) ||
+      e.message || e.toString();
+      thunkAPI.dispatch(setMessage(message));
+      console.log(thunkAPI);
+      return thunkAPI.rejectWithValue();
+    }
+  }
 )
 
 const authUser = createSlice({

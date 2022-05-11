@@ -8,7 +8,6 @@ import { login } from "../../../user/auth";
 const Login = () => {
   
   const [loading, setLoading] = useState(false);
-  // const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,8 +35,8 @@ const Login = () => {
     dispatch(login({ email, password }))
     .unwrap()
     .then(() => {
-      console.log('logingood');
-      navigate('/', {replace: true});
+      navigate('/');
+      navigate(0);
     })
     .catch(() => {
       setLoading(false);

@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Container, Divider } from '@mui/material';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { logout } from '../../user/auth';
 
 function SideBar() {
-
+  const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -28,7 +28,10 @@ function SideBar() {
       {
         isLoggedIn ?
         <>
-          <Button onClick={() => dispatch(logout())}>
+          <Button onClick={() => {
+            dispatch(logout());
+            navigate(0);
+          }}>
             로그아웃
           </Button>
         </>

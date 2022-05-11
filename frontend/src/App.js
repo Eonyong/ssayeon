@@ -10,8 +10,21 @@ import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 import NewNotice from './components/main/boards/notice/NewNotice';
 import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { userProfile } from './user/auth';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    
+    if (localStorage.getItem('token')) {
+      dispatch(userProfile());
+    } else {
+      localStorage.clear();
+    }
+  }, []);
 
   return (
     <div className="App">

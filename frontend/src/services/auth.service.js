@@ -46,6 +46,15 @@ const userProfile = () => {
   const token = localStorage.getItem('token');
   const headers = {Authorization: `Bearer ${token}`};
   return axios.get(API_BASE_URL + 'api/user/mypage', { headers:headers })
+  .then(res => localStorage.setItem('user', JSON.stringify(res.data.data)))
+  .catch(e => console.log(e));
+}
+
+const profileEdit = (data) => {
+  const token = localStorage.getItem('token');
+  const headers = {Authorization: `Bearer ${token}`};
+  console.log(`api/user/${data['id']}`, 'profile');
+  return axios.put(API_BASE_URL, + `api/user/${data['id']}`, { headers:headers, data:data })
   .then(res => console.log(res))
   .catch(e => console.log(e));
 }
@@ -56,6 +65,7 @@ const authService = {
   logout,
   withdrawal,
   userProfile,
+  profileEdit,
 };
 
 export default authService;
