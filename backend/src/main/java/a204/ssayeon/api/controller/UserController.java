@@ -1,10 +1,7 @@
 package a204.ssayeon.api.controller;
 
-import a204.ssayeon.api.request.user.UserAlarmReadReq;
-import a204.ssayeon.api.request.user.UserEditPasswordReq;
-import a204.ssayeon.api.request.user.UserEditUserReq;
-import a204.ssayeon.api.request.user.UserFindUserRes;
-import a204.ssayeon.api.response.user.UserShowAlarmRes;
+import a204.ssayeon.api.request.user.*;
+import a204.ssayeon.api.response.user.*;
 import a204.ssayeon.api.service.UserService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
@@ -12,6 +9,7 @@ import a204.ssayeon.common.model.response.PaginationResponseBody;
 import a204.ssayeon.config.auth.CurrentUser;
 import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.user.Alarm;
+import a204.ssayeon.db.entity.user.Message;
 import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +31,62 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/{id}")
+    public AdvancedResponseBody<UserShowUserRes> showUser(@CurrentUser User user, @PathVariable Long id){
+        return AdvancedResponseBody.of(Status.OK, userService.showUser(id));
+    }
+
+    @GetMapping("/mypage")
+    public AdvancedResponseBody<UserShowMyPageRes> showMyPage(@CurrentUser User user){
+        return AdvancedResponseBody.of(Status.OK, userService.showMyPage(user));
+    }
+
+    @GetMapping("/{id}/activity")
+    public AdvancedResponseBody<List<UserShowUserActivityRes>> showUserActivity(@PathVariable Long id, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
+        Object[] objects = userService.showUserActivity(id, pageable);
+        Pagination pagination = (Pagination) objects[0];
+        List<UserShowUserActivityRes> articleList = (List<UserShowUserActivityRes>) objects[1];
+
+        return PaginationResponseBody.of(Status.OK, articleList, pagination);
+    }
+
+    @GetMapping("/message/unread-cnt")
+    public AdvancedResponseBody<UserUnreadMessageCntRes> unreadMessageCnt(@CurrentUser User user){
+        return AdvancedResponseBody.of(Status.OK, userService.unreadMessageCnt(user));
+    }
+
+    @GetMapping("/message/list")
+    public AdvancedResponseBody<List<UserShowMessageListRes>> showMessageList(@CurrentUser User user, @PageableDefault(sort = "message_id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
+        Page<Message> MessagePage = userService.showMessageList(user, pageable);
+        Pagination pagination = Pagination.getPagination(MessagePage);
+        List<UserShowMessageListRes> messageList = new ArrayList<>();
+
+        MessagePage.forEach((message) -> {
+            messageList.add(UserShowMessageListRes.builder().createdAt(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
+                    .receiverId(message.getReceiver().getId()).receiverNickname(message.getReceiver().getNickname()).senderId(message.getSender().getId()).senderNickname(message.getSender().getNickname()).build());
+        });
+        return PaginationResponseBody.of(Status.OK, messageList, pagination);
+    }
+
+    @GetMapping("/message/{otherUserId}")
+    public AdvancedResponseBody<List<UserShowMessageDetailRes>> showMessageDetail(@CurrentUser User user, @PathVariable Long otherUserId, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
+        Page<Message> MessagePage = userService.showMessageDetail(user, otherUserId, pageable);
+        Pagination pagination = Pagination.getPagination(MessagePage);
+        List<UserShowMessageDetailRes> messageList = new ArrayList<>();
+
+        MessagePage.forEach((message) -> {
+            messageList.add(UserShowMessageDetailRes.builder().createdAt(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
+                    .receiverId(message.getReceiver().getId()).receiverNickname(message.getReceiver().getNickname()).senderId(message.getSender().getId()).senderNickname(message.getSender().getNickname()).isRead(message.getIsRead()).build());
+        });
+        return PaginationResponseBody.of(Status.OK, messageList, pagination);
+    }
+
+    @PostMapping("/message/{toUserId}")
+    public AdvancedResponseBody<String> sendMessage(@CurrentUser User user, @PathVariable Long toUserId, @RequestBody UserSendMessageReq userSendMessageReq){
+        userService.sendMessage(user, toUserId, userSendMessageReq.getDescription());
+        return AdvancedResponseBody.of(Status.OK);
+    }
+
 
     @PatchMapping("/{id}")
     public AdvancedResponseBody<String> editUser(@CurrentUser User user, @ModelAttribute UserEditUserReq userEditUserReq) throws IOException {
@@ -47,7 +101,7 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public AdvancedResponseBody<List<UserFindUserRes>> findUser(@RequestParam String word, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable) { //페이지네이션
+    public AdvancedResponseBody<List<UserFindUserRes>> findUser(@RequestParam String word, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
         Page<User> userPage = userService.findUser(word, pageable);
         Pagination pagination = Pagination.getPagination(userPage);
         List<UserFindUserRes> userList = new ArrayList<>();
