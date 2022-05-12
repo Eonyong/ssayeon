@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableCell,
@@ -15,14 +15,20 @@ import axios from "axios";
 // import Pagination from './Pagination';
 
 function PreferenceList() {
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
   const [list, setList] = useState([]);
   function func() {
-    axios
-      .get(`localhost:8001/api/preference`)
-      .then((res) => console.log(res))
+    axios({
+      url: API_BASE_URL + `api/preference`,
+      method: "GET",
+    })
+      .then((res) => {
+        console.log(res.data.data);
+        setList(res.data.data);
+      })
       .catch((err) => console.log(err));
   }
-  // func();
+  useEffect(func, []);
   return (
     <div>
       <>
@@ -66,16 +72,18 @@ function PreferenceList() {
                   </TableCell>
                 </TableRow>
               ) : (
-                <TableRow>
-                  <TableCell
-                    style={{
-                      fontSize: "1rem",
-                      textAlign: "center",
-                    }}
-                  >
-                    <h1>"게시글이 있습니다"</h1>
-                  </TableCell>
-                </TableRow>
+                list.map((item) => (
+                  <TableRow>
+                    <TableCell
+                      style={{
+                        fontSize: "1rem",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.}
+                    </TableCell>
+                  </TableRow>
+                ))
               )}
               <TableRow>
                 <TableCell

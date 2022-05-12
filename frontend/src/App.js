@@ -13,6 +13,8 @@ import Main from "./components/common/Main";
 import { useDispatch } from "react-redux";
 import { userProfile } from "./user/auth";
 import { useEffect } from "react";
+import PreferenceList from "./components/main/preference/PreferenceList";
+import RegisterPreference from "./components/main/preference/RegisterPreference";
 
 function App() {
   const dispatch = useDispatch();
