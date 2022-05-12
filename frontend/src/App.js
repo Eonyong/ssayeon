@@ -12,14 +12,14 @@ import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
 import { useDispatch } from 'react-redux';
 import { userProfile } from './user/auth';
+import { useEffect } from 'react';
 
 function App() {
   const dispatch = useDispatch();
   if (!localStorage.getItem('token')) {
     localStorage.clear();
   } else{
-    dispatch(userProfile());
-
+    dispatch(userProfile())
   }
 
   return (
