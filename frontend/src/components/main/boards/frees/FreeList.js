@@ -31,23 +31,23 @@ export default function FreeList() {
   // 자유게시판 목록 불러오기
   const getFreeList = async (page) => {
     try {
-    const response = await axios.get(
-      `${API_BASE_URL}/article/list/1?page=${page}`,
+      const response = await axios.get(
+        `${API_BASE_URL}/api/article/list/1`,
         {
+          params: {page: page},
           headers: headers,
-        }
-      );
-      console.log(response);
-      setList(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+        })
+        .then(res => res.data);
+        setList(response.data);
+      } catch (err) {
+        console.log(err);
+      }
   };
 
   useEffect(() => {
     handleChange();
     getFreeList();
-  });
+  }, );
 
   return (
     <>
@@ -69,11 +69,11 @@ export default function FreeList() {
           <TableBody>
             {list.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.id}
                 </TableCell>
                 <TableCell align="right">{row.title}</TableCell>
                 <TableCell align="right">{row.content}</TableCell>
