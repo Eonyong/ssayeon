@@ -12,26 +12,17 @@ import FreeList from './components/main/boards/frees/FreeList';
 import NewFree from './components/main/boards/frees/NewFree';
 import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from './user/auth';
+import { useDispatch } from 'react-redux';
+import { userProfile } from './user/auth';
+import { useEffect } from 'react';
 
 function App() {
-
-  const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  const logOut = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (currentUser) {
-      console.log('hi');
-    } else {
-      console.log('bye');
-    }
-  })  
+  if (!localStorage.getItem('token')) {
+    localStorage.clear();
+  } else{
+    dispatch(userProfile())
+  }
 
   return (
     <div className="App">
@@ -59,6 +50,7 @@ function App() {
       </BrowserRouter>
     </div>
   );
+
 }
 
 export default App;

@@ -1,5 +1,8 @@
-package a204.ssayeon.api.response.article;
+package a204.ssayeon.api.response.user;
 
+import a204.ssayeon.api.response.article.BoardRes;
+import a204.ssayeon.api.response.article.CategoryRes;
+import a204.ssayeon.api.response.article.TagRes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,21 +13,12 @@ import java.util.List;
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleRes {
-
+public class UserShowUserActivityRes {
     private Long id;
     private String title;
     private String content;
     private Integer views;
-    private Integer likesCount;
-
-    private Long userId;
-    private String nickname;
-    private Boolean isLiked;
-
     private BoardRes board;
     private CategoryRes category;
-
     private List<TagRes> tagList;      // id, name
-
 }

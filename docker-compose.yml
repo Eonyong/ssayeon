@@ -1,32 +1,16 @@
 version: "3"
 services:
-    # web:
-    #     image: nginx:latest
-    #     # build: /mnt/c/hotsixturtles/nginx
-    #     ports:
-    #       - 80:80
-    #     volumes:
-    #       - ./nginx/conf.d:/etc/nginx/conf.d
-    #       - ./front/dist
-    #     depends_on:
-    #       - application
-
-    react:
-      volumes:
-        - "${PWD}/frontend:/app"
-      build:
-        context: "${PWD}/frontend"
-        dockerfile: "${PWD}/frontend/Dockerfile"
-      ports:
-        - 3000:3000
+    nginx:
+        image: nginx:latest
+        build: ./frontend
+        ports:
+          - 80:80
+        volumes:
+          - ./nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+          - spring
     
     spring:
-      build:
-        context: ./backend
-        dockerfile: ./backend/Dockerfile
-      container_name: backend_spring
-      restart: always
-      enviroment:
-        TZ: Asia/Seoul
-      ports:
-        - 8080:8080
+        build: ./backend
+        ports:
+          - 8082:8082
