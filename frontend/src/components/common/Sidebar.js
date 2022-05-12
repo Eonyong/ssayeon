@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Avatar, Box, Button, CardContent, Container, Divider, Typography } from '@mui/material';
+import { Avatar, Badge, Box, Button, CardActions, CardContent, Container, Dialog, DialogActions, Divider, Typography } from '@mui/material';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
+import { ExpandMore, ExpandLess, Mail } from '@mui/icons-material';
 import { logout } from '../../user/auth';
+import axios from 'axios';
+import MessageModal from './Messagemodal';
 
 function SideBar() {
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+  const token = localStorage.getItem('token');
   const userItems = JSON.parse(localStorage.getItem('user'));
+
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
   const [User, ] = useState({
     class_id: userItems ? userItems.class_id: '',
@@ -36,18 +45,51 @@ function SideBar() {
     setOpenPlayGround(!openPlayGround);
   };
 
+  // 안읽은 쪽지 갯수 기능
+  const [unReadMessage, setUnReadMessage] = useState(0);
+
+  const UnReadMessageCnt = () => {
+    axios.get(API_BASE_URL + 'api/user/message/unread-cnt', {
+      headers: {'Authorization': `Bearer ${token}`},
+    })
+    .then(res => setUnReadMessage(res.data.data.unread_message_cnt))
+    .catch(e => console.log(e));
+  };
+
+  useEffect(() => {
+    UnReadMessageCnt();
+  }, []);
+
+
   return(
     <Container>
       {
         isLoggedIn ?
         <Box mt={1}>
-            <Box sx={{ display: 'flex', flexDirection: {md:'column', lg:'row'}, alignContent: 'center' }}>
+            <Box sx={{ display: 'flex', flexWrap:'wrap', justifyContent: 'center', flexDirection: {md:'column', lg:'row'}, alignContent: 'center' }}>
               <Avatar src={ User.picture } sx={{ alignSelf: 'center', mx:2 }} />
               <CardContent sx={{ flex: '1 0 auto' }}>
                 <Typography component="div" variant="h5" border={true}>{User.nickname}</Typography>
                 <Typography variant="subtitle2" color="text.secondary">{User.company} </Typography>
               </CardContent>
+              <CardActions>
+                <Button onClick={ () => {handleOpen()}}>
+                  <Badge badgeContent={ unReadMessage } color="primary">
+                    <Mail fontSize="inherit"/>
+                  </Badge>
+                </Button>
+              </CardActions>
             </Box>
+            <Dialog
+              open={open} keepMounted
+              onClose={handleClose}
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <MessageModal />
+              <DialogActions>
+                <Button onClick={handleClose}>닫기</Button>
+              </DialogActions>
+            </Dialog>
             <Box sx={{ display: 'flex wrap', flexDirection: {md:'column', lg:'row'}}}>
               <Button onClick={() => {
                 navigate('/profile', {state: {id: User.id}});
