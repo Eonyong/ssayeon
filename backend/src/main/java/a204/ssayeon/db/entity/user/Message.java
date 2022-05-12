@@ -1,17 +1,17 @@
 package a204.ssayeon.db.entity.user;
 
 import a204.ssayeon.db.entity.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class Message extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +28,6 @@ public class Message extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name="receiver_id")
     private User receiver;
+
+    private Boolean isRead;
 }
