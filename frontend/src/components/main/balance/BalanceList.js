@@ -28,7 +28,7 @@ const BalanceList = (props) => {
 
     useEffect(()=>{
         createArticle()
-    },[])
+    },[list])
 
     return (
         <Container>
@@ -67,9 +67,11 @@ const BalanceList = (props) => {
                     </Container>
                 </Box>
                 <Container sx={{ py: 8 }} maxWidth="md">
-                    {/* End hero unit */}
-                    <Grid container spacing={4}>
+                    <Grid container spacing={8}>
+                        {/*<Grid xs={12} sm={6} md={4}>*/}
+
                         {list.map((item,index) => (
+                        <Link to={`/balance/${item.balance_id}`}>
                             <Grid item key={index} xs={12} sm={6} md={4}>
                                 <Card
                                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
@@ -88,7 +90,7 @@ const BalanceList = (props) => {
                                             게임 내용 : {item.description}
                                         </Typography>
                                         <Typography gutterBottom variant="body1" component="h5">
-                                            게임 만든 사람 : {item.user_nick_name}
+                                            게임 만든 사람 : {item.user_nickname}
                                         </Typography>
                                         <Balance
                                             description={item.left_description}
@@ -103,6 +105,8 @@ const BalanceList = (props) => {
                                     </CardContent>
                                 </Card>
                             </Grid>
+                            <hr/>
+                        </Link>
                         ))}
                     </Grid>
                 </Container>
