@@ -28,12 +28,8 @@ export default function Signup() {
   const onInputHandler = e => {
     const name = e.target.name;
     const value = e.target.value.trim();
-    if (name === 'password') {
+    if (name === 'confirmPasword') {
       passwordValidation(value);
-      setVerifyState({
-        ...VerifyState,
-        IsPassword: false,
-      })
     }
     else if (name === 'class_id') {
       setVerifyState({
@@ -123,6 +119,7 @@ export default function Signup() {
   
   // 이메일 중복 확인 함수
   const onDuplicationEmail = e => {
+    handleOpen();
     axios({
       url: API_BASE_URL + 'api/auth/verify-email',
       method: 'POST',
@@ -131,7 +128,6 @@ export default function Signup() {
       }
     })
     .then((e) => {
-      handleOpen();
       setVerifyState({
         ...VerifyState,
         IsEmail: true,
@@ -176,6 +172,7 @@ export default function Signup() {
   // 회원가입하기 Click 시 함수
   const onSubmitHandler = e => {
     e.preventDefault();
+    console.log(VerifyState);
     if(VerifyState.IsEmail && VerifyState.IsNickname
       && VerifyState.IsPassword && VerifyState.IsClassId ) {
       dispatch(register(InputValue))
