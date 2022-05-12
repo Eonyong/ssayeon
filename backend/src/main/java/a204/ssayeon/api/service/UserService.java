@@ -119,7 +119,7 @@ public class UserService {
     public void editUser(User user, UserEditUserReq userEditUserReq) throws IOException {
         if (userEditUserReq.getNickname() != null)
             user.setNickname(userEditUserReq.getNickname());
-        if (!userEditUserReq.getPicture().isEmpty()) {
+        if (userEditUserReq.getPicture()!=null) {
             if (user.getPicture() != null) {
                 s3util.fileDelete(user.getPicture());
             }
