@@ -31,7 +31,7 @@ function SideBar() {
   };
   
   // 싸피 놀이터 드롭다운 기능
-  const [openPlayGround, setOpenPlayGround] = React.useState(false);
+  const [openPlayGround, setOpenPlayGround] = useState(false);
   const handlePlayGround = () => {
     setOpenPlayGround(!openPlayGround);
   };
