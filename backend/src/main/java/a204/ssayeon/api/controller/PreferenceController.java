@@ -96,6 +96,7 @@ public class PreferenceController {
                     .preferenceId(preference.getId())
                     .userId(preference.getUser().getId())
                     .writer(preference.getUser().getNickname())
+                    .description(preference.getDescription())
                     .preferenceOptionsApiResponseList(null) // 선택지는 필요없으므로 null
                     .createAt(preference.getCreatedAt())
                     .updatedAt(preference.getUpdatedAt())
