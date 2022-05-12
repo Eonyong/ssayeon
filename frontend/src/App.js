@@ -12,6 +12,7 @@ import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
 import { useDispatch } from 'react-redux';
 import { userProfile } from './user/auth';
+import BalanceList from "./components/main/balance/BalanceList";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
               <Route path='/profile' element={ <Profile /> } />
               <Route path='/boards/notice/new' element={ <NewNotice /> } />
               <Route path='/boards/notice' element={ <NoticeList />}/>
+              <Route path='/balance/list' element={ <BalanceList />}/>
               {/* id값으로 rerouting */}
               <Route path='/boards/notice/detail' element={<NoticeDetail />} />
             </Routes>
