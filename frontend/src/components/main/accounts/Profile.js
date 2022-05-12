@@ -11,7 +11,7 @@ export default function Profile(id) {
   const navigate = useNavigate();
   useEffect(()=>{
     if (localStorage.getItem('token')) {
-      dispatch(userProfile());
+      return () => dispatch(userProfile());
     } else {
       navigate('/auth/login');
     }

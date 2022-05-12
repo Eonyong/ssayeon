@@ -58,7 +58,6 @@ export default function Signup() {
       ...InputValue,
       [ name ]: value,
     });
-    console.log(VerifyState);
   };
   
   // 중복확인 변수
@@ -73,23 +72,22 @@ export default function Signup() {
   // SSAFY 회원 인증
   const onIsInClassIdHandler = e => {
     e.preventDefault();
-    axios({
-      url: API_BASE_URL + 'api/auth/verify-user',
-      method: 'POST',
-      data: {
-        name: InputValue.name,
-        class_id: InputValue.class_id,
-      }
+    console.log(e.target);
+
+    axios.post(API_BASE_URL + 'api/auth/verify-user', {
+      name: InputValue.name,
+      class_id: InputValue.class_id,
     })
-    .then(() => {
-      setVerifyState({
+    .then((res) => {
+      return setVerifyState({
         ...VerifyState,
         IsClassId: true,
-      })
+      });
     })
     .catch((e) => {
       console.log(e);
     })
+    console.log(VerifyState);
   }
 
   // 닉네임 중복확인 함수
@@ -178,8 +176,8 @@ export default function Signup() {
   // 회원가입하기 Click 시 함수
   const onSubmitHandler = e => {
     e.preventDefault();
-    console.log(VerifyState);
-    if(VerifyState.IsEmail && VerifyState.IsNickname && VerifyState.IsPassword) {
+    if(VerifyState.IsEmail && VerifyState.IsNickname
+      && VerifyState.IsPassword && VerifyState.IsClassId ) {
       dispatch(register(InputValue))
       .unwrap()
       .then(() => {
@@ -209,7 +207,7 @@ export default function Signup() {
 
           {/* 이름, 학번 입력 Field */}
           <Box
-            noValidate container component='form'
+            noValidate container component='form' className="class_id"
             sx={{ mt: 3, mb: 5 }} onSubmit={ onIsInClassIdHandler }
           >
 
@@ -226,7 +224,7 @@ export default function Signup() {
               type='number' placeholder="0000000" label='학번' value={ InputValue.class_id } onChange={ onInputHandler }
               fullWidth required sx={{ mt: 1 }}
               color={InputValue.class_id.length === 7 ? 'primary': 'error'}
-              helperText={ InputValue.class_id.length>0 ? '학번을 입력해주세요.': false}
+              helperText={ InputValue.class_id.length === 7 ? '' : '학번을 입력해주세요.'}
             />
 
             {/* 인증하기 Button Field */}
@@ -267,7 +265,9 @@ export default function Signup() {
                 />
               </Grid>
               <Grid item xs={3}>
-                <Button onClick={ onDuplicationNickname } variant='text'>
+                <Button className="nickname"
+                  onClick={ onDuplicationNickname } variant='text'
+                >
                   중복 확인
                 </Button>
               </Grid>
@@ -289,12 +289,13 @@ export default function Signup() {
                 />
               </Grid>
               <Grid item xs={3}>
-                <Button onClick={onDuplicationEmail} variant='text' >
+                <Button className="email"
+                  onClick={onDuplicationEmail} variant='text'
+                >
                   { VerifyState.IsEmail ? "재발송":"중복 확인"}
                 </Button>
                 <Dialog
-                  open={open}
-                  keepMounted
+                  open={open} keepMounted
                   onClose={handleClose}
                   aria-describedby="alert-dialog-slide-description"
                 >

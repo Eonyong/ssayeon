@@ -5,9 +5,17 @@ import a204.ssayeon.api.response.auth.AuthJoinRes;
 import a204.ssayeon.api.service.AuthService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
+import a204.ssayeon.config.auth.CurrentUser;
+import a204.ssayeon.db.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RequiredArgsConstructor
