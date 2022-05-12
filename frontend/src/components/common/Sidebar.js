@@ -44,7 +44,7 @@ function SideBar() {
       </ListItemButton>
       <Collapse in={openBoards} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, py: 2 }}>
+          <ListItemButton sx={{ pl: 4, py: 2 }} component={Link} to="/boards/free">
             <ListItemText primary="💚 자유 게시판" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4, py: 2 }}>

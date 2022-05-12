@@ -8,6 +8,8 @@ import Login from './components/main/accounts/Login';
 import NoticeList from './components/main/boards/notice/NoticeList';
 import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 import NewNotice from './components/main/boards/notice/NewNotice';
+import FreeList from './components/main/boards/frees/FreeList';
+import NewFree from './components/main/boards/frees/NewFree';
 import Profile from './components/main/accounts/Profile';
 import Main from './components/common/Main';
 import { useCallback, useEffect } from 'react';
@@ -49,6 +51,8 @@ function App() {
               <Route path='/boards/notice' element={ <NoticeList />}/>
               {/* id값으로 rerouting */}
               <Route path='/boards/notice/detail' element={<NoticeDetail />} />
+              <Route path='/boards/free' element={<FreeList />} />
+              <Route path='/boards/free/new' element={ <NewFree /> } />
             </Routes>
           </Grid>
         </Grid>
