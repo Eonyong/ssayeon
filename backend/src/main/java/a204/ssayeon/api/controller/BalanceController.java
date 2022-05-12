@@ -10,6 +10,7 @@ import a204.ssayeon.api.response.balance.GetBalanceRes;
 import a204.ssayeon.api.response.balance.GetBalanceStaticsRes;
 import a204.ssayeon.api.service.AlarmService;
 import a204.ssayeon.api.service.BalanceService;
+import a204.ssayeon.api.service.UserService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
 import a204.ssayeon.common.model.response.PaginationResponseBody;
@@ -54,10 +55,12 @@ public class BalanceController {
 
         Pagination pagination = Pagination.getPagination(allBalance);
 
+
         allBalance.forEach((bal)->{
             GetAllBalanceRes res = GetAllBalanceRes.builder()
                     .balanceId(bal.getId())
                     .userId(bal.getUser().getId())
+                    .userNickName(bal.getUser().getNickname())
                     .rightDescription(bal.getRightDescription())
                     .description(bal.getDescription())
                     .leftDescription(bal.getLeftDescription())
