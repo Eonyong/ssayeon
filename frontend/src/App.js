@@ -14,6 +14,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./user/auth";
 import PreferenceList from "./components/main/preference/PreferenceList";
+import RegisterPreference from "./components/main/preference/RegisterPreference";
 
 function App() {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -50,6 +51,7 @@ function App() {
               {/* id값으로 rerouting */}
               <Route path="/boards/notice/detail" element={<NoticeDetail />} />
               <Route path="/preference" element={<PreferenceList />} />
+              <Route path="/preference/new" element={<RegisterPreference />} />
             </Routes>
           </Grid>
         </Grid>
