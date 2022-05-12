@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import { FormControl, TextField, Container, Box, Button } from "@mui/material";
 
 function NewFree() {
@@ -81,12 +82,23 @@ function NewFree() {
               onChange={onChange}
               multiline rows={20}
             />
-            <Button 
-              sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
-              variant="contained"
-              onClick={createArticle}>
-                작성
-            </Button>
+
+            <Container>
+              <Button 
+                sx={{ display: "inline", width: "50%", marginTop: "10px" }} 
+                variant="contained"
+                onClick={createArticle}>
+                  작성
+              </Button>
+              <Link to='/boards/free'>
+                <Button 
+                  sx={{ display: "inline", width: "50%", margin: "10px 10px" }} 
+                  variant="contained"
+                  >
+                    목록
+                </Button>
+              </Link>
+            </Container>
           </form>
         </FormControl>
       </Box>

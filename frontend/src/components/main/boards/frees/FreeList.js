@@ -23,21 +23,18 @@ export default function FreeList() {
   }];
 
   // 인증 관련
-  let token = sessionStorage.getItem("token");
+  let token = localStorage.getItem("token");
   const headers = {
     Authorization: `Bearer ${token}`,
   };
 
   // 자유게시판 목록 불러오기
-  const getFreeList = async () => {
+  const getFreeList = async (page) => {
     try {
     const response = await axios.get(
-      API_BASE_URL + 'article/list/1',
+      `${API_BASE_URL}/article/list/1?page=${page}`,
         {
           headers: headers,
-          params: {
-            page: page
-          }
         }
       );
       console.log(response);
@@ -48,6 +45,7 @@ export default function FreeList() {
   };
 
   useEffect(() => {
+    handleChange();
     getFreeList();
   });
 
@@ -102,6 +100,7 @@ export default function FreeList() {
       <Pagination 
         count={11}
         page={page} 
+        onClick={getFreeList}
         onChange={handleChange}
         sx={{ display: "flex", justifyContent: "center" }}
       />

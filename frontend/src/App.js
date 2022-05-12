@@ -11,6 +11,7 @@ import NewNotice from './components/main/boards/notice/NewNotice';
 import FreeList from './components/main/boards/frees/FreeList';
 import NewFree from './components/main/boards/frees/NewFree';
 import Profile from './components/main/accounts/Profile';
+import FreeDetail from './components/main/boards/frees/FreeDetail';
 import Main from './components/common/Main';
 import { useDispatch } from 'react-redux';
 import { userProfile } from './user/auth';
@@ -44,6 +45,7 @@ function App() {
               <Route path='/boards/notice/detail' element={<NoticeDetail />} />
               <Route path='/boards/free' element={<FreeList />} />
               <Route path='/boards/free/new' element={ <NewFree /> } />
+              <Route path='/boards/free/detail' element={ <FreeDetail /> } />
             </Routes>
           </Grid>
         </Grid>
