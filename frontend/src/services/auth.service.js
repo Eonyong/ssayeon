@@ -32,22 +32,28 @@ const logout = () => {
 
 const withdrawal = () => {
   return axios.delete(API_BASE_URL + "api/user",{ headers:headers })
-  .then(() => {})
+  .then(() => {localStorage.removeItem('user')})
   .catch(e => console.log(e));
 }
 
 const userProfile = () => {
   return axios.get(API_BASE_URL + 'api/user/mypage', { headers:headers })
-  .then(res => console.log(res))
+  .then(res => localStorage.setItem('user', JSON.stringify(res.data.data)))
   .catch(e => console.log(e));
 }
 
 const profileEdit = (userData) => {
-  const form = new FormData();
-  for (var user in userData) {
-    form.append(user, userData[user])
-  };
-  return axios.patch(`${API_BASE_URL}api/user/${userData['id']}`, form, {headers: headers,})
+  var form_data = new FormData();
+  form_data.append('nickname', userData['nickname']);
+  form_data.append('picture', userData['picture']);
+  form_data.append('tech_stacks', userData['tech_stacks']);
+  form_data.append('company', userData['company']);
+  var headers_form = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'multipart/form-data'
+  }
+  return axios.patch(
+    `${API_BASE_URL}api/user/${userData['id']}`,form_data,{headers: headers_form})
   .then(res => console.log(res))
   .catch(e => console.log(e));
 }

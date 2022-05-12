@@ -11,7 +11,7 @@ export default function Profile(id) {
   const navigate = useNavigate();
   useEffect(()=>{
     if (localStorage.getItem('token')) {
-      return () => dispatch(userProfile());
+      dispatch(userProfile());
     } else {
       navigate('/auth/login');
     }
@@ -20,29 +20,24 @@ export default function Profile(id) {
 
   const [User, setUser] = useState({
     class_id: userItems ? userItems.class_id: '',
-    company: userItems ? userItems.company: '재직 중이지 않음',
+    company: userItems ? userItems.company: '',
     email: userItems ? userItems.email: '',
     id: userItems ? userItems.id: 0,
     name: userItems ? userItems.name: '',
     nickname: userItems ? userItems.nickname: '',
     picture: userItems ? userItems.picture: '',
-    tech_stacks: userItems ? userItems.tech_stacks: [],
+    tech_stacks: userItems ? userItems.tech_stacks: '',
   });
 
   const onDeleteButton = () => {
     dispatch(withdrawal())
-    .then(() => {
-      localStorage.removeItem('token');
-    })
+    .then(() => localStorage.removeItem('token'))
     navigate('/');
   };
 
   const onEditButton = () => {
     dispatch(profileEdit(User))
-    .then(()=>{
-      dispatch(userProfile());
-      console.log(User);
-    })
+    .then(()=>dispatch(userProfile()))
   }
 
   const onInputHandler = e => {
@@ -112,7 +107,7 @@ export default function Profile(id) {
             <Grid item xs={12} sm={6}>
               <TextField
                 id='company' name="company" sx={{ mb: 1 }}
-                defaultValue={ User.company } label='회사' fullWidth
+                defaultValue={ User.company ? User.company : '재직 중이지 않음' } label='회사' fullWidth
                 InputProps={{ readOnly: false }} variant="standard" onChange={ onInputHandler }
               />
             </Grid>
