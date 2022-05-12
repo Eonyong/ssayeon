@@ -48,7 +48,7 @@ function MessageModal() {
           messageList.map((data) => {
             var date = new Date(data.created_at);
             return (
-            (data.receiver_id === user.id || data.sender_id === user.id) ? 
+            data.receiver_id === user.id || data.sender_id === user.id ?
               <ListItemButton divider>
                 <ListItemText
                   primary={data.description}

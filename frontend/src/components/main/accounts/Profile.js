@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { profileEdit, userProfile, withdrawal } from "../../../user/auth";
 
-export default function Profile(id) {
+export default function Profile() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
