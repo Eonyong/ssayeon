@@ -24,5 +24,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findTop10ByBoardIdOrderByLikesCountDesc(Long boardId);
     
     Optional<Article> findByUserId(Long userId);
+    Page<Article> findByUserId(Long userId, Pageable pageable);
 
 }
