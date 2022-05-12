@@ -28,4 +28,8 @@ public class PreferenceComments extends BaseEntity {
     private Preference preference;
 
     private String description;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

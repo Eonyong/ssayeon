@@ -23,6 +23,10 @@ public class PreferenceOptionsUserSelected {
     private Preference preference;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "preference_options_id")
+    private PreferenceOptions preferenceOptions;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 }
