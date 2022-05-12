@@ -50,16 +50,20 @@ public class UserController {
         return PaginationResponseBody.of(Status.OK, articleList, pagination);
     }
 
+    @GetMapping("/message/unread-cnt")
+    public AdvancedResponseBody<UserUnreadMessageCntRes> unreadMessageCnt(@CurrentUser User user){
+        return AdvancedResponseBody.of(Status.OK, userService.unreadMessageCnt(user));
+    }
 
-    @GetMapping("/message/list") //todo : 메시지 읽음/안 읽음 표시
+    @GetMapping("/message/list")
     public AdvancedResponseBody<List<UserShowMessageListRes>> showMessageList(@CurrentUser User user, @PageableDefault(sort = "message_id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
         Page<Message> MessagePage = userService.showMessageList(user, pageable);
         Pagination pagination = Pagination.getPagination(MessagePage);
         List<UserShowMessageListRes> messageList = new ArrayList<>();
 
         MessagePage.forEach((message) -> {
-            messageList.add(UserShowMessageListRes.builder().created_at(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
-                    .receiver_id(message.getReceiver().getId()).receiver_nickname(message.getReceiver().getNickname()).sender_id(message.getSender().getId()).sender_nickname(message.getSender().getNickname()).build());
+            messageList.add(UserShowMessageListRes.builder().createdAt(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
+                    .receiverId(message.getReceiver().getId()).receiverNickname(message.getReceiver().getNickname()).senderId(message.getSender().getId()).senderNickname(message.getSender().getNickname()).build());
         });
         return PaginationResponseBody.of(Status.OK, messageList, pagination);
     }
@@ -71,8 +75,8 @@ public class UserController {
         List<UserShowMessageDetailRes> messageList = new ArrayList<>();
 
         MessagePage.forEach((message) -> {
-            messageList.add(UserShowMessageDetailRes.builder().created_at(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
-                    .receiver_id(message.getReceiver().getId()).receiver_nickname(message.getReceiver().getNickname()).sender_id(message.getSender().getId()).sender_nickname(message.getSender().getNickname()).build());
+            messageList.add(UserShowMessageDetailRes.builder().createdAt(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
+                    .receiverId(message.getReceiver().getId()).receiverNickname(message.getReceiver().getNickname()).senderId(message.getSender().getId()).senderNickname(message.getSender().getNickname()).isRead(message.getIsRead()).build());
         });
         return PaginationResponseBody.of(Status.OK, messageList, pagination);
     }

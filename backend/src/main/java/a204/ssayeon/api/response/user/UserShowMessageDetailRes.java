@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserShowMessageDetailRes {
     private Long id;
-    private Long sender_id;
-    private String sender_nickname;
-    private Long receiver_id;
-    private String receiver_nickname;
+    private Long senderId;
+    private String senderNickname;
+    private Long receiverId;
+    private String receiverNickname;
     private String description;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
+    private Boolean isRead;
 }

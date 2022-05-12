@@ -1,10 +1,14 @@
 package a204.ssayeon.db.repository.user;
 
 import a204.ssayeon.db.entity.user.Message;
+import a204.ssayeon.db.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query("SELECT m FROM Message m WHERE m.sender.id=:userId AND m.receiver.id=:otherUserId OR m.sender.id=:otherUserId AND m.receiver.id=:userId ORDER BY m.createdAt DESC")
@@ -25,5 +29,11 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             nativeQuery = true)
     Page<Message> findByMessageListSenderOrReceiver(Long senderId, Long receiverId, Pageable pageable);
 
+    @Modifying
+    @Query("UPDATE Message m SET m.isRead=true WHERE m.receiver.id=:receiverId AND m.sender.id=:senderId AND m.isRead=false")
+    void updateByReceiverIdAndSenderIdAndIsReadIsFalseToTrue(Long receiverId, Long senderId);
+
+    @Query("SELECT COUNT(m) FROM Message m WHERE m.receiver=:user AND m.isRead=false")
+    int findByReceiverAndIsReadIsFalseCnt(User user);
 
 }

@@ -7,6 +7,7 @@ import a204.ssayeon.api.response.article.CategoryRes;
 import a204.ssayeon.api.response.user.UserShowMyPageRes;
 import a204.ssayeon.api.response.user.UserShowUserActivityRes;
 import a204.ssayeon.api.response.user.UserShowUserRes;
+import a204.ssayeon.api.response.user.UserUnreadMessageCntRes;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.exceptions.NotJoinedUserException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
@@ -92,12 +93,19 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserUnreadMessageCntRes unreadMessageCnt(User user) {
+        return UserUnreadMessageCntRes.builder().unreadMessageCnt(messageRepository.findByReceiverAndIsReadIsFalseCnt(user)).build();
+    }
+
+
+    @Transactional(readOnly = true)
     public Page<Message> showMessageList(User user, Pageable pageable) {
         return messageRepository.findByMessageListSenderOrReceiver(user.getId(), user.getId(), pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<Message> showMessageDetail(User user, Long otherUserId, Pageable pageable) {
+        messageRepository.updateByReceiverIdAndSenderIdAndIsReadIsFalseToTrue(user.getId(), otherUserId); //읽음 체크
         return messageRepository.findByIdAndSenderOrReceiver(user.getId(), otherUserId, pageable);
     }
 
