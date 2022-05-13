@@ -22,6 +22,10 @@ const BalanceList = (props) => {
     const [isStatistics,setIsStatistics] = useState(false)
     const [statistics,setStatistics] = useState([])
 
+    const setPoll = () =>{
+        setIsStatistics(cur => !cur)
+    }
+
     const createArticle = async () => {
         const response = await axios.get(
             `${process.env.REACT_APP_API_ROOT}/balance/list`
@@ -99,12 +103,15 @@ const BalanceList = (props) => {
                                             게임 만든 사람 : {item.user_nickname}
                                         </Typography>
                                         <Balance
+                                            dir={0}
                                             balanceId={item.balance_id}
                                             description={item.left_description}
-                                            setIsStatistics={setIsStatistics}
+                                            setPoll={setPoll}
                                             setStatistics={setStatistics}
                                         />
                                         <Balance
+                                            dir={1}
+                                            balanceId={item.balance_id}
                                             description={item.right_description}
                                             setIsStatistics={setIsStatistics}
                                             setStatistics={setStatistics}
