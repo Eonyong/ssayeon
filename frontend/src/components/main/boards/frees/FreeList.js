@@ -47,7 +47,7 @@ export default function FreeList() {
   useEffect(() => {
     handleChange();
     getFreeList();
-  }, );
+  }, []);
 
   return (
     <>
@@ -76,10 +76,10 @@ export default function FreeList() {
                   {row.id}
                 </TableCell>
                 <TableCell align="right">{row.title}</TableCell>
-                <TableCell align="right">{row.content}</TableCell>
+                <TableCell align="right">{row.user_id}</TableCell>
                 <TableCell align="right">{row.created_at}</TableCell>
                 <TableCell align="right">{row.views}</TableCell>
-                <TableCell align="right">{row.likes}</TableCell>
+                <TableCell align="right">{row.likes_count}</TableCell>
               </TableRow>
             ))}
           </TableBody>
