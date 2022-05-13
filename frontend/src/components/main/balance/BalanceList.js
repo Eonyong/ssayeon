@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Balance from "./Balance";
+import Picture from "./Picture";
 
 const BalanceList = (props) => {
 
@@ -71,17 +72,20 @@ const BalanceList = (props) => {
                                             <Grid container>
                                                 <Grid item xs={3}>
                                                     <Button></Button>
-                                                    <Link to={`/balance/${item.balance_id}`}>
-                                                        <Balance description={item.left_description}/>
-                                                    </Link>
+                                                    {/*<Link to={`/balance/${item.balance_id}`}>*/}
+                                                        <Balance
+                                                            balanceId={item.balance_id}
+                                                            description={item.left_description}
+                                                            dir="LEFT"
+                                                        />
+                                                    {/*</Link>*/}
                                                 </Grid>
                                                 <Grid item xs={6}>
-                                                    <CardMedia
-                                                        component="img"
-                                                        image="https://source.unsplash.com/random"
-                                                        alt="random"
-                                                    >
-                                                    </CardMedia>
+                                                    <Link to={`/balance/${item.balance_id}`}>
+                                                    <Picture
+                                                        text={item.description}
+                                                    />
+                                                    </Link>
                                                     <Typography gutterBottom variant="h5" component="h2" sx={{ textDecorationLine:'none' }}>
                                                         게임 내용 : {item.description}
                                                     </Typography>
@@ -93,7 +97,11 @@ const BalanceList = (props) => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={3}>
-                                                    <Balance description={item.right_description}/>
+                                                    <Balance
+                                                        balanceId={item.balance_id}
+                                                        description={item.right_description}
+                                                        dir="RIGHT"
+                                                    />
                                                 </Grid>
                                             </Grid>
                                         </CardContent>
