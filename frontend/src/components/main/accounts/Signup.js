@@ -70,7 +70,7 @@ export default function Signup() {
     e.preventDefault();
     console.log(e.target);
 
-    axios.post(API_BASE_URL + 'api/auth/verify-user', {
+    axios.post(API_BASE_URL + '/auth/verify-user', {
       name: InputValue.name,
       class_id: InputValue.class_id,
     })
@@ -91,7 +91,7 @@ export default function Signup() {
     e.preventDefault();
     if (InputValue.nickname.length > 0) {
       axios({
-        url: API_BASE_URL + 'api/auth/duplicate-nickname',
+        url: API_BASE_URL + '/auth/duplicate-nickname',
         method: 'POST',
         data: {
           nickname: InputValue.nickname,
@@ -121,7 +121,7 @@ export default function Signup() {
   const onDuplicationEmail = e => {
     handleOpen();
     axios({
-      url: API_BASE_URL + 'api/auth/verify-email',
+      url: API_BASE_URL + '/auth/verify-email',
       method: 'POST',
       data: {
         email: InputValue.email,

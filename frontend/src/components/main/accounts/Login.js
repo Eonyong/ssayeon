@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearMessage } from "../../../user/message";
 import { login, userProfile } from "../../../user/auth";
 
 const Login = () => {
-  
+  const { user } = useSelector((state)=>state.auth);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,6 +14,8 @@ const Login = () => {
   useEffect(() => {
     dispatch(clearMessage());
   }, );
+
+  if (user) navigate('/');
 
   const [InputValue, setInputValue] = useState({
     email: '',
@@ -35,8 +37,9 @@ const Login = () => {
     dispatch(login({ email, password }))
     .unwrap()
     .then(() => {
-      dispatch(userProfile());
+      setTimeout(dispatch(userProfile()), 100);
       navigate('/');
+      navigate(0);
     })
     .catch(() => {
       setLoading(false);

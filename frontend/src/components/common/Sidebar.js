@@ -11,9 +11,10 @@ import MessageModal from './Messagemodal';
 function SideBar() {
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
-  const token = localStorage.getItem('token');
+  const headers = {Authorization: `Bearer ${user}`};
   const userItems = JSON.parse(localStorage.getItem('user'));
 
 
@@ -47,20 +48,13 @@ function SideBar() {
 
   // 안읽은 쪽지 갯수 기능
   const [unReadMessage, setUnReadMessage] = useState(0);
-
   const UnReadMessageCnt = () => {
-    if (isLoggedIn) {
-      axios.get(API_BASE_URL + 'api/user/message/unread-cnt', {
-        headers: {'Authorization': `Bearer ${token}`},
-      })
-      .then(res => setUnReadMessage(res.data.data.unread_message_cnt))
-      .catch(e => console.log(e));
-    }
+    return axios.get(API_BASE_URL + '/user/message/unread-cnt', {headers: headers,})
+    .then(res => setUnReadMessage(res.data.data.unread_message_cnt))
+    .catch(e => console.log(e));
   };
 
-  useEffect(() => {
-    UnReadMessageCnt();
-  }, []);
+  UnReadMessageCnt();
 
 
   return(

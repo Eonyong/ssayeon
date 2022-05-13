@@ -49,9 +49,9 @@ export const withdrawal = createAsyncThunk(
 const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user:null };
 
 export const userProfile = createAsyncThunk(
-  'user/mypage', async (thunkAPI) => {
+  'user/mypage', async ({token}, thunkAPI) => {
     try {
-      const res = AuthService.userProfile();
+      const res = AuthService.userProfile(token);
       return res.data;
     }
     catch (e) {

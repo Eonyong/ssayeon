@@ -1,16 +1,17 @@
 import { Avatar, Button, Container, Divider, Grid, TextField } from "@mui/material";
 import { Card, CardActions, CardContent, CardHeader } from '@mui/material';
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { profileEdit, userProfile, withdrawal } from "../../../user/auth";
 
 export default function Profile() {
 
+  const { user } =useSelector((state)=>state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(()=>{
-    if (localStorage.getItem('token')) {
+    if (user) {
       dispatch(userProfile());
     } else {
       navigate('/auth/login');
@@ -31,7 +32,7 @@ export default function Profile() {
 
   const onDeleteButton = () => {
     dispatch(withdrawal())
-    .then(() => localStorage.removeItem('token'))
+    .then(() => localStorage.removeItem('user'))
     navigate('/');
   };
 
