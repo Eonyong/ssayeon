@@ -56,6 +56,14 @@ function RegisterPreference() {
         .catch((err) => console.log(err));
     }
   }
+  // const onRemove = (index) => {
+  //   const arr = [];
+  //   for (let i = 0, len = list.length; i < len; ++i) {
+  //     if (i != index) arr.push(list[i]);
+  //   }
+  //   setList(arr);
+  //   // setUsers(users.filter(user => user.id !== id));
+  // };
   function resetChoice() {
     setList([]);
   }
@@ -104,7 +112,11 @@ function RegisterPreference() {
                 <li key={index}>
                   {item}
                   {/* <Button onClick={console.log("삭제")}>삭제</Button> */}
-                  <input type="button" value="삭제" />
+                  <input
+                    type="button"
+                    value="삭제"
+                    // onClick={() => onRemove(index)}
+                  />
                 </li>
               ))}
             </ul>
