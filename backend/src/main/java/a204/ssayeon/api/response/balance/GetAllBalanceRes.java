@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class GetAllBalanceRes {
     private Long balanceId;
     private Long userId;
+    private String userNickname;
     private String description;
     private String leftDescription;
     private String rightDescription;

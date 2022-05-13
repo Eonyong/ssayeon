@@ -151,7 +151,9 @@ function SideBar() {
       <Collapse in={ openPlayGround } timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4, py: 2 }}>
-            <ListItemText primary="⚖️ 밸런스 게임" />
+              <Link to='/balance/list'>
+              <ListItemText primary="⚖️ 밸런스 게임" />
+              </Link>
           </ListItemButton>
           <ListItemButton sx={{ pl: 4, py: 2 }}>
             <ListItemText primary="👍 선호도 조사" />

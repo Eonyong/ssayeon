@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class BalanceCommentsRes {
     private Long BalanceCommentsId;
     private Long userId;
+    private String userNickname;
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
