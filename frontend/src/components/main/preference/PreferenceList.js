@@ -17,8 +17,8 @@ function PreferenceList() {
   const [list, setList] = useState([]);
   function func() {
     axios({
-      url: `http://localhost:8081/api/preference`,
-      // url: API_BASE_URL + `api/preference`,
+      // url: `http://localhost:8081/api/preference`,
+      url: API_BASE_URL + `/preference`,
       method: "GET",
     })
       .then((res) => {

@@ -13,6 +13,9 @@ function RegisterPreference() {
   // 페이지 이동
   const navigate = useNavigate();
 
+  // URL
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+
   // state
   const [choice, setChoice] = useState("");
   const [list, setList] = useState([]);
@@ -37,8 +40,8 @@ function RegisterPreference() {
     } else {
       axios
         .post(
-          `http://localhost:8081/api/preference`,
-          // url: API_BASE_URL + `api/preference`,
+          // `http://localhost:8081/api/preference`,
+          API_BASE_URL + `/preference`,
           {
             description: description,
             option_list: list,
