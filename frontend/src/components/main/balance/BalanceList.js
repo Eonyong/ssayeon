@@ -14,10 +14,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Balance from "./Balance";
 import {Copyright} from "@mui/icons-material";
+import Picture from "./Picture";
 
 const BalanceList = (props) => {
 
     const [list,setList] = useState([])
+    const [isStatistics,setIsStatistics] = useState(false)
+    const [statistics,setStatistics] = useState([])
 
     const createArticle = async () => {
         const response = await axios.get(
@@ -28,7 +31,7 @@ const BalanceList = (props) => {
 
     useEffect(()=>{
         createArticle()
-    },[list])
+    },[])
 
     return (
         <Container>
@@ -69,34 +72,42 @@ const BalanceList = (props) => {
                 <Container sx={{ py: 8 }} maxWidth="md">
                     <Grid container spacing={8}>
                         {/*<Grid xs={12} sm={6} md={4}>*/}
-
                         {list.map((item,index) => (
-                        <Link to={`/balance/${item.balance_id}`}>
                             <Grid item key={index} xs={12} sm={6} md={4}>
                                 <Card
                                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                                 >
-                                    <CardMedia
-                                        component="img"
-                                        sx={{
-                                            // 16:9
-                                            pt: '56.25%',
-                                        }}
-                                        image="https://source.unsplash.com/random"
-                                        alt="random"
+                                    {/*<CardMedia*/}
+                                    {/*    component="img"*/}
+                                    {/*    sx={{*/}
+                                    {/*        // 16:9*/}
+                                    {/*        pt: '56.25%',*/}
+                                    {/*    }}*/}
+                                    {/*    image="https://source.unsplash.com/random"*/}
+                                    {/*    alt="random"*/}
+                                    {/*/>*/}
+                                    <Picture
+                                        text={item.description}
                                     />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography gutterBottom variant="h5" component="h2">
+                                            <Link to={`/balance/${item.balance_id}`}>
                                             게임 내용 : {item.description}
+                                            </Link>
                                         </Typography>
                                         <Typography gutterBottom variant="body1" component="h5">
                                             게임 만든 사람 : {item.user_nickname}
                                         </Typography>
                                         <Balance
+                                            balanceId={item.balance_id}
                                             description={item.left_description}
+                                            setIsStatistics={setIsStatistics}
+                                            setStatistics={setStatistics}
                                         />
                                         <Balance
                                             description={item.right_description}
+                                            setIsStatistics={setIsStatistics}
+                                            setStatistics={setStatistics}
                                         />
                                         <br/>
                                         <Typography gutterBottom variant="body1" component="h2">
@@ -105,8 +116,6 @@ const BalanceList = (props) => {
                                     </CardContent>
                                 </Card>
                             </Grid>
-                            <hr/>
-                        </Link>
                         ))}
                     </Grid>
                 </Container>

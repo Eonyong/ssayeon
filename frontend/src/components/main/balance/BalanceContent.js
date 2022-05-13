@@ -45,14 +45,6 @@ function BalanceContent() {
                                         <Typography gutterBottom variant="body1" component="h2">
                                             {item.created_at}
                                         </Typography>
-                                        <Typography>
-                                            {/*<BalanceComments*/}
-                                            {/*    userNickname={item.comments.user_nickname}*/}
-                                            {/*    description={item.comments.description}*/}
-                                            {/*    createdAt={item.comments.created_at}*/}
-                                            {/*    likes={item.comments.likes}*/}
-                                            {/*/>*/}
-                                        </Typography>
                                     </CardContent>
                                 </Card>
                             </Grid>
