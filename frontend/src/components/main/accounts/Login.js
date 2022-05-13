@@ -3,18 +3,19 @@ import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Ty
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearMessage } from "../../../user/message";
-import { login } from "../../../user/auth";
+import { login, userProfile } from "../../../user/auth";
 
-const Login = (props) => {
-  
+const Login = () => {
+  const { user } = useSelector((state)=>state.auth);
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(clearMessage());
-  }, [dispatch]);
+  }, );
+
+  if (user) navigate('/');
 
   const [InputValue, setInputValue] = useState({
     email: '',
@@ -35,9 +36,10 @@ const Login = (props) => {
     const {email, password} = InputValue;
     dispatch(login({ email, password }))
     .unwrap()
-    .then((res) => {
-      console.log('logingood', res);
-      navigate('/', {replace: true});
+    .then(() => {
+      setTimeout(dispatch(userProfile()), 100);
+      navigate('/');
+      navigate(0);
     })
     .catch(() => {
       setLoading(false);

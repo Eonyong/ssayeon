@@ -10,15 +10,15 @@ function NoticeList() {
   return (
     <div>
       <>
-        <Container sx={{ marginTop: "100px" }} fullWidth >
+        <Container sx={{ marginTop: "100px" }}>
           <h2 style={{ marginLeft: "50px" }}>공지사항</h2>
-            <Table style={{ display: "flex", marginTop: "2%" }}>
+            <Table style={{ marginTop: "2%" }}>
               <TableHead style={{ boxShadow: "0px 5px 10px rgb(207 206 206)" }}>
                 <TableRow style={{ backgroundColor: "#C2E2F5" }}>
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "100%",
+                      width: "10%",
                       textAlign: "left",
                     }}
                   >
@@ -27,8 +27,8 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "100%",
-                      textAlign: "center",
+                      width: "60%",
+                      textAlign: "left",
                     }}
                   >
                     제목
@@ -36,8 +36,8 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "100%",
-                      textAlign: "center",
+                      width: "10%",
+                      textAlign: "left",
                     }}
                   >
                     작성일
@@ -45,19 +45,12 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "100%",
-                      textAlign: "center",
+                      width: "10%",
+                      textAlign: "left",
                     }}
                   >
                     조회수
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "1rem",
-                      width: "100%",
-                      textAlign: "center",
-                    }}
-                  ></TableCell>
                 </TableRow>
               </TableHead>
               <NoticeContent list={list} />
@@ -66,10 +59,10 @@ function NoticeList() {
           </Container>
         </>
         <>
-          <Container style={{ marginTop: "100px" }}>
+          <Container sx={{ display:"flex", justifyContent: "right", marginTop: "100px" }}>
             <Button 
             variant="contained" 
-            style={{ display:"flex", alignItems: "right" }} 
+            sx={{ width: "100px" }} 
             href='/boards/notice/new'>작성
             </Button>
           </Container>
