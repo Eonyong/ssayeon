@@ -6,7 +6,9 @@ import a204.ssayeon.api.request.auth.AuthVerifyUserReq;
 import a204.ssayeon.api.response.auth.AuthJoinRes;
 import a204.ssayeon.common.exceptions.AlreadyExistException;
 import a204.ssayeon.common.exceptions.NotExistException;
+import a204.ssayeon.common.exceptions.UnAuthorizedException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
+import a204.ssayeon.config.auth.CustomAuthenticationProvider;
 import a204.ssayeon.config.jwt.TokenProvider;
 import a204.ssayeon.db.entity.user.User;
 import a204.ssayeon.db.repository.user.UserCertificationRepository;
@@ -29,7 +31,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+    private final CustomAuthenticationProvider authenticationManager;
     private final TokenProvider tokenProvider;
     private final UserCertificationRepository userCertificationRepository;
 
@@ -101,4 +103,7 @@ public class AuthService {
         return authentication;
     }
 
+    public void throwUser() {
+        throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
+    }
 }

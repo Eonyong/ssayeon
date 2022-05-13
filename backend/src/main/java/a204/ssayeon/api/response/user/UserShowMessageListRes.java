@@ -14,8 +14,8 @@ public class UserShowMessageListRes {
     private Long id;
     private Long senderId;
     private String senderNickname;
-    private Long receiverId;
-    private String receiverNickname;
     private String description;
     private LocalDateTime createdAt;
+    private Integer unReadCnt;
+    private Long otherUserId;
 }
