@@ -1,13 +1,13 @@
 import { DialogContent, List, ListItemButton, ListItemText } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { userProfile } from "../../user/auth";
 const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 const token = localStorage.getItem('token');
 const headers = {Authorization: `Bearer ${token}`};
 function MessageModal() {
 
-  const user = JSON.parse(localStorage.getItem('user'));
-
+  const [user, setUser] = useState({});  
   const [messageList, setMessageList] = useState([
     {
       id: 6,
@@ -32,34 +32,39 @@ function MessageModal() {
   const messageGet = () => axios.get(API_BASE_URL + 'api/user/message/list',
   { params: {size:100, page:1}, headers: headers })
   .then(res => {
-    console.log(res.data.data);
     setMessageList(res.data.data);
   })
   .catch(e => console.log(e));
 
+  const userSetting = () => {
+    console.log(userProfile());
+  };
+
   useEffect(() => {
     messageGet();
+    userSetting();
   }, []);
 
   return (
-    <DialogContent>
-      <List>
-        {
-          messageList.map((data) => {
-            var date = new Date(data.created_at);
-            return (
-            data.receiver_id === user.id || data.sender_id === user.id ?
-              <ListItemButton divider>
-                <ListItemText
-                  primary={data.description}
-                  secondary={`${date.getMonth() + 1}/${date.getDate() + 1} ${date.getHours()}:${date.getMinutes()} - ${data.sender_nickname}`}
-                />
-              </ListItemButton>
-              : <></>
-          )})
-        }
-      </List>
-    </DialogContent>
+    token ?
+      <DialogContent>
+        <List>
+          {
+            messageList.map((data) => {
+              var date = new Date(data.created_at);
+              return (
+                (data.receiver_id === user.id || data.sender_id === user.id) ?
+                <ListItemButton divider>
+                  <ListItemText
+                    primary={data.description}
+                    secondary={`${date.getMonth() + 1}/${date.getDate() + 1} ${date.getHours()}:${date.getMinutes()} - ${data.sender_nickname}`}
+                  />
+                </ListItemButton> : <></>
+              );
+            })
+          }
+        </List>
+      </DialogContent> : <></>
   );
 }
 

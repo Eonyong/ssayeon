@@ -49,11 +49,13 @@ function SideBar() {
   const [unReadMessage, setUnReadMessage] = useState(0);
 
   const UnReadMessageCnt = () => {
-    axios.get(API_BASE_URL + 'api/user/message/unread-cnt', {
-      headers: {'Authorization': `Bearer ${token}`},
-    })
-    .then(res => setUnReadMessage(res.data.data.unread_message_cnt))
-    .catch(e => console.log(e));
+    if (isLoggedIn) {
+      axios.get(API_BASE_URL + 'api/user/message/unread-cnt', {
+        headers: {'Authorization': `Bearer ${token}`},
+      })
+      .then(res => setUnReadMessage(res.data.data.unread_message_cnt))
+      .catch(e => console.log(e));
+    }
   };
 
   useEffect(() => {
