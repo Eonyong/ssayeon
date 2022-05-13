@@ -4,13 +4,12 @@ import a204.ssayeon.api.request.user.UserEditPasswordReq;
 import a204.ssayeon.api.request.user.UserEditUserReq;
 import a204.ssayeon.api.response.article.BoardRes;
 import a204.ssayeon.api.response.article.CategoryRes;
-import a204.ssayeon.api.response.user.UserShowMyPageRes;
-import a204.ssayeon.api.response.user.UserShowUserActivityRes;
-import a204.ssayeon.api.response.user.UserShowUserRes;
-import a204.ssayeon.api.response.user.UserUnreadMessageCntRes;
+import a204.ssayeon.api.response.user.*;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.exceptions.NotJoinedUserException;
+import a204.ssayeon.common.exceptions.UnAuthorizedException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
+import a204.ssayeon.config.auth.PrincipalDetails;
 import a204.ssayeon.config.aws.S3Util;
 import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.article.Article;
@@ -47,8 +46,6 @@ public class UserService {
     private final S3Util s3util;
     private final MessageRepository messageRepository;
     private final ArticleRepository articleRepository;
-    private final BoardRepository boardRepository;
-    private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public UserShowUserRes showUser(Long id) {
@@ -99,7 +96,7 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public Page<Message> showMessageList(User user, Pageable pageable) {
+    public Page<UserShowMessageListView> showMessageList(User user, Pageable pageable) {
         return messageRepository.findByMessageListSenderOrReceiver(user.getId(), user.getId(), pageable);
     }
 
@@ -119,7 +116,7 @@ public class UserService {
     public void editUser(User user, UserEditUserReq userEditUserReq) throws IOException {
         if (userEditUserReq.getNickname() != null)
             user.setNickname(userEditUserReq.getNickname());
-        if (userEditUserReq.getPicture()!=null) {
+        if (userEditUserReq.getPicture() != null) {
             if (user.getPicture() != null) {
                 s3util.fileDelete(user.getPicture());
             }
@@ -188,4 +185,6 @@ public class UserService {
     public void readAlarm(Long alarmId) {
         alarmRepository.updateRead(alarmId);
     }
+
+
 }

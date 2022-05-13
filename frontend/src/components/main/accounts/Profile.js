@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { profileEdit, userProfile, withdrawal } from "../../../user/auth";
+import CustomizedHook from "./SeachSkill";
 
 export default function Profile() {
 
@@ -29,6 +30,7 @@ export default function Profile() {
     picture: userItems ? userItems.picture: '',
     tech_stacks: userItems ? userItems.tech_stacks: '',
   });
+  
 
   const onDeleteButton = () => {
     dispatch(withdrawal())
@@ -113,6 +115,7 @@ export default function Profile() {
               />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+              <CustomizedHook />
               <TextField
                 id='favor-skills' name="favor-skills" sx={{ mb: 1 }}
                 defaultValue={ User.tech_stacks } label='선호 기술 스택' fullWidth
