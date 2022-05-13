@@ -73,7 +73,6 @@ export const profileEdit = createAsyncThunk(
       const message = (e.response && e.response.data && e.response.data.message) ||
       e.message || e.toString();
       thunkAPI.dispatch(setMessage(message));
-      console.log(thunkAPI);
       return thunkAPI.rejectWithValue();
     }
   }
