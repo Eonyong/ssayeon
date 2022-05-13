@@ -2,35 +2,24 @@ import { Divider, Grid } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-<<<<<<< HEAD
 import SideBar from './components/common/Sidebar'
 import Signup from './components/main/accounts/Signup';
 import Login from './components/main/accounts/Login';
 import NoticeList from './components/main/boards/notice/NoticeList';
 import NoticeDetail from './components/main/boards/notice/NoticeDetail';
 import NewNotice from './components/main/boards/notice/NewNotice';
+import FreeList from './components/main/boards/frees/FreeList';
+import NewFree from './components/main/boards/frees/NewFree';
 import Profile from './components/main/accounts/Profile';
+import FreeDetail from './components/main/boards/frees/FreeDetail';
 import Main from './components/common/Main';
 import { useDispatch } from 'react-redux';
 import { userProfile } from './user/auth';
 import BalanceList from "./components/main/balance/BalanceList";
 import BalanceContent from "./components/main/balance/BalanceContent";
-=======
-import SideBar from "./components/common/Sidebar";
-import Signup from "./components/main/accounts/Signup";
-import Login from "./components/main/accounts/Login";
-import NoticeList from "./components/main/boards/notice/NoticeList";
-import NoticeDetail from "./components/main/boards/notice/NoticeDetail";
-import NewNotice from "./components/main/boards/notice/NewNotice";
-import Profile from "./components/main/accounts/Profile";
-import Main from "./components/common/Main";
-import { useDispatch } from "react-redux";
-import { userProfile } from "./user/auth";
-import { useEffect } from "react";
 import PreferenceList from "./components/main/preference/PreferenceList";
 import RegisterPreference from "./components/main/preference/RegisterPreference";
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
->>>>>>> feature/frontend/preference
 
 function App() {
   const dispatch = useDispatch();
@@ -64,6 +53,9 @@ function App() {
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
+              <Route path='/boards/free' element={<FreeList />} />
+              <Route path='/boards/free/new' element={ <NewFree /> } />
+              <Route path='/boards/free/detail' element={ <FreeDetail /> } />
             </Routes>
           </Grid>
         </Grid>
