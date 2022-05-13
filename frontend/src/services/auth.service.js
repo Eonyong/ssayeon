@@ -5,7 +5,7 @@ const token = localStorage.getItem('token');
 const headers = {'Authorization': `Bearer ${token}`};
 
 const register = (nickname, name, email, class_id, password) => {
-  return axios.post(API_BASE_URL + 'api/auth/join', {
+  return axios.post(API_BASE_URL + '/auth/join', {
     nickname,
     name,
     email,
@@ -15,12 +15,15 @@ const register = (nickname, name, email, class_id, password) => {
 };
 
 const login = (email, password) => {
-  return axios.post(API_BASE_URL + "api/auth/login", {
+  return axios.post(API_BASE_URL + "/auth/login", {
       email,
       password,
     })
     .then((res) => {
-      if (res.data.data) localStorage.setItem("token", res.data.data);
+      if (res.data.data) {
+        localStorage.setItem("token", res.data.data);
+        userProfile(res.data.data);
+      }
       return res.data;
     });
 };
@@ -31,14 +34,18 @@ const logout = () => {
 };
 
 const withdrawal = () => {
-  return axios.delete(API_BASE_URL + "api/user",{ headers:headers })
+  return axios.delete(API_BASE_URL + "/user",{ headers:headers })
   .then(() => {localStorage.removeItem('user')})
   .catch(e => console.log(e));
 }
 
-const userProfile = () => {
-  return axios.get(API_BASE_URL + 'api/user/mypage', { headers:headers })
-  .then(res => localStorage.setItem('user', JSON.stringify(res.data.data)))
+const userProfile = (tokens) => {
+  var header = {'Authorization': `Bearer ${tokens}`}
+  return axios.get(API_BASE_URL + '/user/mypage', { headers:header })
+  .then(res => {
+    localStorage.setItem('user', JSON.stringify(res.data.data));
+    return res.data.data;
+  })
   .catch(e => console.log(e));
 }
 
@@ -53,7 +60,7 @@ const profileEdit = (userData) => {
     'Content-Type': 'multipart/form-data'
   }
   return axios.patch(
-    `${API_BASE_URL}api/user/${userData['id']}`,form_data,{headers: headers_form})
+    `${API_BASE_URL}/user/${userData['id']}`,form_data,{headers: headers_form})
   .then(res => console.log(res))
   .catch(e => console.log(e));
 }
