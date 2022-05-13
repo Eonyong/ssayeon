@@ -1,13 +1,12 @@
 import { DialogContent, List, ListItemButton, ListItemText } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
-const API_BASE_URL = process.env.REACT_APP_API_ROOT;
-const token = localStorage.getItem('token');
-const headers = {Authorization: `Bearer ${token}`};
+import { useState } from "react";
+import { useSelector } from "react-redux";
 function MessageModal() {
-
-  const user = JSON.parse(localStorage.getItem('user'));
-
+  
+  const { user } = useSelector((state)=>state.auth);
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+  const headers = {Authorization: `Bearer ${user}`};
   const [messageList, setMessageList] = useState([
     {
       id: 6,
@@ -29,37 +28,35 @@ function MessageModal() {
     }
   ]);
 
-  const messageGet = () => axios.get(API_BASE_URL + 'api/user/message/list',
-  { params: {size:100, page:1}, headers: headers })
-  .then(res => {
-    console.log(res.data.data);
-    setMessageList(res.data.data);
-  })
-  .catch(e => console.log(e));
-
-  useEffect(() => {
-    messageGet();
-  }, []);
+  const messageListSet = () => {
+    axios.get(API_BASE_URL + '/user/message/list',
+    {
+      headers:headers
+    })
+    .then(res=> console.log(res.data))
+    .catch(e=> console.log(e));
+  };
+  messageListSet();
 
   return (
-    <DialogContent>
-      <List>
-        {
-          messageList.map((data) => {
-            var date = new Date(data.created_at);
-            return (
-            (data.receiver_id === user.id || data.sender_id === user.id) ? 
-              <ListItemButton divider>
-                <ListItemText
-                  primary={data.description}
-                  secondary={`${date.getMonth() + 1}/${date.getDate() + 1} ${date.getHours()}:${date.getMinutes()} - ${data.sender_nickname}`}
-                />
-              </ListItemButton>
-              : <></>
-          )})
-        }
-      </List>
-    </DialogContent>
+    user ?
+      <DialogContent>
+        <List>
+          {
+            messageList.map((data, idx) => {
+              var date = new Date(data.created_at);
+              return (
+                <ListItemButton divider key={idx}>
+                  <ListItemText
+                    primary={data.description}
+                    secondary={`${date.getMonth() + 1}/${date.getDate() + 1} ${date.getHours()}:${date.getMinutes()} - ${data.sender_nickname}`}
+                  />
+                </ListItemButton>
+              );
+            })
+          }
+        </List>
+      </DialogContent> : <></>
   );
 }
 
