@@ -15,6 +15,7 @@ import { userProfile } from "./user/auth";
 import { useEffect } from "react";
 import PreferenceList from "./components/main/preference/PreferenceList";
 import RegisterPreference from "./components/main/preference/RegisterPreference";
+import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
               <Route path="/boards/notice/detail" element={<NoticeDetail />} />
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
+              <Route path="/preference/:id" element={<PreferenceDetail />} />
             </Routes>
           </Grid>
         </Grid>

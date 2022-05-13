@@ -10,9 +10,7 @@ import {
   TableBody,
 } from "@mui/material";
 import axios from "axios";
-
-// import NoticeContent from './NoticeContent';
-// import Pagination from './Pagination';
+import { Link } from "react-router-dom";
 
 function PreferenceList() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
@@ -41,16 +39,25 @@ function PreferenceList() {
                 <TableCell
                   style={{
                     fontSize: "1rem",
-                    width: "70%",
+                    width: "60%",
                     textAlign: "center",
                   }}
                 >
-                  투표제목
+                  질문
                 </TableCell>
                 <TableCell
                   style={{
                     fontSize: "1rem",
-                    width: "30%",
+                    width: "20%",
+                    textAlign: "center",
+                  }}
+                >
+                  작성자
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: "1rem",
+                    width: "20%",
                     textAlign: "center",
                   }}
                 >
@@ -81,47 +88,29 @@ function PreferenceList() {
                         textAlign: "center",
                       }}
                     >
+                      <Link to={`/preference/${item.preference_id}`}>
+                        {item.description}
+                      </Link>
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: "1rem",
+                        textAlign: "center",
+                      }}
+                    >
                       {item.writer}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: "1rem",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.updated_at}
                     </TableCell>
                   </TableRow>
                 ))
               )}
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontSize: "1rem",
-                    textAlign: "center",
-                  }}
-                >
-                  제목임ㅋ
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: "1rem",
-                    textAlign: "center",
-                  }}
-                >
-                  날짜임ㅎ
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{
-                    fontSize: "1rem",
-                    textAlign: "center",
-                  }}
-                >
-                  제목임ㅋㅋ
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: "1rem",
-                    textAlign: "center",
-                  }}
-                >
-                  날짜임ㅎㅎ
-                </TableCell>
-              </TableRow>
             </TableBody>
           </Table>
           {/* <Pagination setList={setList} /> */}
