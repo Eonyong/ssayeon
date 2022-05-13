@@ -76,6 +76,7 @@ public class PreferenceController {
             .preferenceId(preferenceId)
             .userId(preference.getUser().getId())
             .writer(preference.getUser().getNickname())
+            .description(preference.getDescription())
             .preferenceOptionsApiResponseList(list)
             .createAt(preference.getCreatedAt())
             .updatedAt(preference.getUpdatedAt())
