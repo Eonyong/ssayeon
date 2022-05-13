@@ -15,6 +15,7 @@ import Picture from "./Picture";
 const BalanceList = (props) => {
 
     const [list,setList] = useState([])
+    const [ratio,setRatio] = useState([])
 
     const createArticle = async () => {
         const response = await axios.get(
@@ -74,6 +75,8 @@ const BalanceList = (props) => {
                                                     <Button></Button>
                                                     {/*<Link to={`/balance/${item.balance_id}`}>*/}
                                                         <Balance
+                                                            ratio = {ratio}
+                                                            setRatio={setRatio}
                                                             balanceId={item.balance_id}
                                                             description={item.left_description}
                                                             dir="LEFT"
@@ -98,6 +101,8 @@ const BalanceList = (props) => {
                                                 </Grid>
                                                 <Grid item xs={3}>
                                                     <Balance
+                                                        ratio = {ratio}
+                                                        setRatio={setRatio}
                                                         balanceId={item.balance_id}
                                                         description={item.right_description}
                                                         dir="RIGHT"

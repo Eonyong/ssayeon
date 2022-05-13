@@ -2,9 +2,9 @@ import { Button, Card, CardContent } from "@mui/material";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-function Balance({balanceId, description, dir}){
+function Balance({balanceId, description, dir,ratio,setRatio}){
 
-    const [ratio,setRatio] = useState([])
+    const [localRatio,setLocalRatio] = useState([])
     const [flag,setFlag] = useState(false)
 
     const onClick = async ()=>{
@@ -19,21 +19,17 @@ function Balance({balanceId, description, dir}){
         console.log(response.data.data)
         setFlag(true)
         setRatio(response.data.data)
+        setLocalRatio(response.data.data)
+    }
+
+    const getData = async () =>{
+        const response = await axios.get(process.env.REACT_APP_API_ROOT + `/balance/statics/${balanceId}`)
+        setLocalRatio(response.data.data)
     }
 
     useEffect(()=>{
-
+        getData()
     },[ratio])
-
-    const aa = ()=>{
-        for(let k in ratio){
-            console.log(ratio[k])
-        }
-    }
-
-
-    useEffect(()=>{
-    },[])
 
     return(
         <Card>
@@ -42,7 +38,8 @@ function Balance({balanceId, description, dir}){
                     size="small"
                     onClick={onClick}
                 >{description}</Button>
-                {flag && dir === "LEFT" ? ratio["left_ratio"] : ratio["right_ratio"]}
+                {flag && dir === "LEFT" ? localRatio["left_ratio"] : null}
+                {flag && dir === "RIGHT" ? localRatio["right_ratio"] : null}
             </CardContent>
         </Card>
     )
