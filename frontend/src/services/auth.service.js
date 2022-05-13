@@ -57,10 +57,9 @@ const profileEdit = (userData) => {
   form_data.append('company', userData['company']);
   var headers_form = {
     'Authorization': `Bearer ${token}`,
-    'Content-Type': 'multipart/form-data'
   }
   return axios.patch(
-    `${API_BASE_URL}/user/${userData['id']}`,form_data,{headers: headers_form})
+    `${API_BASE_URL}/user/${userData['id']}`,userData,{headers: headers_form})
   .then(res => console.log(res))
   .catch(e => console.log(e));
 }
