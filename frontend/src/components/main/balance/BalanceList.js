@@ -1,30 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
     Box,
-    Button, Card, CardActions, CardContent, CardMedia,
-    Checkbox,
+    Button, Card, CardContent, CardMedia,
     Container, CssBaseline,
-    FormControlLabel,
+    Divider,
     Grid, Stack,
-    TextField,
-    ThemeProvider,
     Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Balance from "./Balance";
-import {Copyright} from "@mui/icons-material";
-import Picture from "./Picture";
 
 const BalanceList = (props) => {
 
     const [list,setList] = useState([])
-    const [isStatistics,setIsStatistics] = useState(false)
-    const [statistics,setStatistics] = useState([])
-
-    const setPoll = () =>{
-        setIsStatistics(cur => !cur)
-    }
 
     const createArticle = async () => {
         const response = await axios.get(
@@ -35,19 +24,15 @@ const BalanceList = (props) => {
 
     useEffect(()=>{
         createArticle()
-    },[])
+    },[list])
 
     return (
         <Container>
             <CssBaseline />
-            <main>
                 {/* Hero unit */}
                 <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 8,
-                        pb: 6,
-                    }}
+                    py={6}
+                    sx={{bgcolor: 'background.paper'}}
                 >
                     <Container maxWidth="sm">
                         <Typography
@@ -74,59 +59,50 @@ const BalanceList = (props) => {
                     </Container>
                 </Box>
                 <Container sx={{ py: 8 }} maxWidth="md">
-                    <Grid container spacing={8}>
-                        {/*<Grid xs={12} sm={6} md={4}>*/}
-                        {list.map((item,index) => (
-                            <Grid item key={index} xs={12} sm={6} md={4}>
-                                <Card
-                                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                                >
-                                    {/*<CardMedia*/}
-                                    {/*    component="img"*/}
-                                    {/*    sx={{*/}
-                                    {/*        // 16:9*/}
-                                    {/*        pt: '56.25%',*/}
-                                    {/*    }}*/}
-                                    {/*    image="https://source.unsplash.com/random"*/}
-                                    {/*    alt="random"*/}
-                                    {/*/>*/}
-                                    <Picture
-                                        text={item.description}
-                                    />
-                                    <CardContent sx={{ flexGrow: 1 }}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <Link to={`/balance/${item.balance_id}`}>
-                                            게임 내용 : {item.description}
-                                            </Link>
-                                        </Typography>
-                                        <Typography gutterBottom variant="body1" component="h5">
-                                            게임 만든 사람 : {item.user_nickname}
-                                        </Typography>
-                                        <Balance
-                                            dir={0}
-                                            balanceId={item.balance_id}
-                                            description={item.left_description}
-                                            setPoll={setPoll}
-                                            setStatistics={setStatistics}
-                                        />
-                                        <Balance
-                                            dir={1}
-                                            balanceId={item.balance_id}
-                                            description={item.right_description}
-                                            setIsStatistics={setIsStatistics}
-                                            setStatistics={setStatistics}
-                                        />
-                                        <br/>
-                                        <Typography gutterBottom variant="body1" component="h2">
-                                            {item.created_at}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                    {
+                        list.map((item,index) => {
+                            var date = new Date(item.created_at);
+                            return(
+                                
+                                    <Card
+                                        sx={{ display: 'flex', flexDirection: 'col' }} key={index}
+                                    >
+                                        <CardContent>
+                                            <Grid container>
+                                                <Grid item xs={3}>
+                                                    <Button></Button>
+                                                    <Link to={`/balance/${item.balance_id}`}>
+                                                        <Balance description={item.left_description}/>
+                                                    </Link>
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <CardMedia
+                                                        component="img"
+                                                        image="https://source.unsplash.com/random"
+                                                        alt="random"
+                                                    >
+                                                    </CardMedia>
+                                                    <Typography gutterBottom variant="h5" component="h2" sx={{ textDecorationLine:'none' }}>
+                                                        게임 내용 : {item.description}
+                                                    </Typography>
+                                                    <Typography gutterBottom variant="body1" component="h5">
+                                                        게임 만든 사람 : {item.user_nickname}
+                                                    </Typography>
+                                                    <Typography gutterBottom variant="body1" component="h2">
+                                                        {`${date.getMonth() + 1}월 ${date.getDate() + 1}일 ${date.getHours()}시${date.getMinutes()}분`}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <Balance description={item.right_description}/>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                        <Divider />
+                                    </Card>
+                            );
+                        })
+                    }
                 </Container>
-            </main>
         </Container>
     );
 };
