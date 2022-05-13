@@ -33,7 +33,10 @@ function MessageModal() {
     {
       headers:headers
     })
-    .then(res=> console.log(res.data))
+    .then(res=> {
+      console.log(res.data);
+      setMessageList({});
+    })
     .catch(e=> console.log(e));
   };
   messageListSet();
