@@ -103,6 +103,12 @@ public class ArticleController {
         return PaginationResponseBody.of(Status.OK, articleListRes, pagination);
     }
 
+    @GetMapping("/hot")
+    public AdvancedResponseBody<List<ArticleRes>> getTopArticles() {
+        List<ArticleRes> articleListRes = articleService.getTopArticles();
+        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
     @GetMapping("/hot/{boardId}")
     public AdvancedResponseBody<List<ArticleRes>> getTopArticlesByBoardId(@PathVariable Long boardId) {
         List<ArticleRes> articleListRes = articleService.getTopArticlesByBoardId(boardId);
