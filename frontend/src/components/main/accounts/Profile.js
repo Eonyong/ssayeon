@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { profileEdit, userProfile, withdrawal } from "../../../user/auth";
-import CustomizedHook from "./SeachSkill";
+import SkillTech from "./Skilltech";
 
 export default function Profile() {
 
@@ -19,7 +19,6 @@ export default function Profile() {
     }
   }, );
   const userItems = JSON.parse(localStorage.getItem('user'));
-
   const [User, setUser] = useState({
     class_id: userItems ? userItems.class_id: '',
     company: userItems ? userItems.company: '',
@@ -30,7 +29,6 @@ export default function Profile() {
     picture: userItems ? userItems.picture: '',
     tech_stacks: userItems ? userItems.tech_stacks: '',
   });
-  
 
   const onDeleteButton = () => {
     dispatch(withdrawal())
@@ -115,12 +113,7 @@ export default function Profile() {
               />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-              <CustomizedHook />
-              <TextField
-                id='favor-skills' name="favor-skills" sx={{ mb: 1 }}
-                defaultValue={ User.tech_stacks } label='선호 기술 스택' fullWidth
-                InputProps={{ readOnly: false }} variant="standard" onChange={ onInputHandler }
-              />
+              <SkillTech />
             </Grid>
           </Grid>
         </CardContent>
