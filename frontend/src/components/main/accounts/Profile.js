@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { profileEdit, userProfile, withdrawal } from "../../../user/auth";
+import Companies from "./Companies";
 import SkillTech from "./Skilltech";
 
 export default function Profile() {
@@ -29,6 +30,7 @@ export default function Profile() {
     picture: userItems ? userItems.picture: '',
     tech_stacks: userItems ? userItems.tech_stacks: '',
   });
+
 
   const onDeleteButton = () => {
     dispatch(withdrawal())
@@ -106,11 +108,10 @@ export default function Profile() {
           {/* 회사, 선호 기술 스택 Text Field */}
           <Grid container spacing={1} sx={{ my:2 }}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                id='company' name="company" sx={{ mb: 1 }}
-                defaultValue={ User.company ? User.company : '재직 중이지 않음' } label='회사' fullWidth
-                InputProps={{ readOnly: false }} variant="standard" onChange={ onInputHandler }
-              />
+              <Companies parentCallback={res => {
+                setUser({...User, company:res})
+              }
+                }/>
             </Grid>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
               <SkillTech />
