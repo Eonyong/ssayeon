@@ -13,6 +13,7 @@ import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -372,6 +373,29 @@ public class ArticleService {
     }
 
     // 인기 게시글
+
+    public List<ArticleRes> getTopArticles() {
+        List<Article> articles = articleRepository.findAll(Sort.by(Sort.Direction.DESC, "likesCount"));
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for (Article article : articles) {
+            if (articleListRes.size() >= 10) {
+                break;
+            }
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+    }
+
     public List<ArticleRes> getTopArticlesByBoardId(Long boardId) {
         List<Article> articles = articleRepository.findTop10ByBoardIdOrderByLikesCountDesc(boardId);
         List<ArticleRes> articleListRes = new ArrayList<>();
@@ -390,7 +414,26 @@ public class ArticleService {
         }
         return articleListRes;
     }
-        
+
+    public List<ArticleRes> getLatestArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findTop3ByBoardIdOrderByIdDesc(boardId);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for (Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+    }
+
     public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
 
         if (user == null) {

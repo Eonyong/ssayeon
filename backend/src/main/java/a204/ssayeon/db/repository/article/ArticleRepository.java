@@ -26,4 +26,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findByUserId(Long userId);
     Page<Article> findByUserId(Long userId, Pageable pageable);
 
+    List<Article> findTop3ByBoardIdOrderByIdDesc(Long boardId);
+
 }
