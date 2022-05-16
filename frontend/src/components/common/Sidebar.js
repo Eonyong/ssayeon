@@ -22,7 +22,6 @@ import MessageModal from "./Messagemodal";
 
 function SideBar() {
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
@@ -65,11 +64,13 @@ function SideBar() {
       .catch((e) => console.log(e));
   };
 
-  UnReadMessageCnt();
+  if (user) {
+    UnReadMessageCnt();
+  };
 
   return (
     <Container>
-      {isLoggedIn ? (
+      {user ? (
         <Box mt={1}>
           <Box
             sx={{
