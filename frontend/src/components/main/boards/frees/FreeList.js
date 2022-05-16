@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper,
   Pagination,
-  Button } from "@mui/material";
+  Button,
+  Link } from "@mui/material";
 
 export default function FreeList() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT
@@ -12,15 +13,6 @@ export default function FreeList() {
   const handleChange = (event, pageNumber) => {
     setPage(pageNumber);
   }
-
-  // 더미 데이터
-  const rows = [{
-      title: "test",
-      content: "test",
-      created_at: "2022-05-10 10:00",
-      views: "0",
-      likes: "0"
-  }];
 
   // 인증 관련
   let token = localStorage.getItem("token");
@@ -32,7 +24,7 @@ export default function FreeList() {
   const getFreeList = async (page) => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/api/article/list/1`,
+        `${API_BASE_URL}/article/list/1`,
         {
           params: {page: page},
           headers: headers,
@@ -75,7 +67,7 @@ export default function FreeList() {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="right">{row.title}</TableCell>
+                <TableCell align="right"><Link href={`/boards/free/${row.id}`}>{row.title}</Link></TableCell>
                 <TableCell align="right">{row.user_id}</TableCell>
                 <TableCell align="right">{row.created_at}</TableCell>
                 <TableCell align="right">{row.views}</TableCell>

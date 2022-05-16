@@ -55,7 +55,7 @@ function App() {
               <Route path="/preference/:id" element={<PreferenceDetail />} />
               <Route path='/boards/free' element={<FreeList />} />
               <Route path='/boards/free/new' element={ <NewFree /> } />
-              <Route path='/boards/free/detail' element={ <FreeDetail /> } />
+              <Route path='/boards/free/:id' element={ <FreeDetail /> } />
             </Routes>
           </Grid>
         </Grid>
