@@ -4,6 +4,7 @@ import a204.ssayeon.api.request.article.*;
 import a204.ssayeon.api.response.article.ArticleAnswerRes;
 import a204.ssayeon.api.response.article.ArticleCommentsRes;
 import a204.ssayeon.api.response.article.ArticleRes;
+import a204.ssayeon.api.response.user.UserShowUserActivityRes;
 import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
@@ -169,6 +170,15 @@ public class ArticleController {
     public AdvancedResponseBody<List<ArticleRes>> searchArticle(@PathVariable Long boardId, @PathVariable Integer type, @RequestParam String search) {
         List<ArticleRes> articleListRes = articleService.getArticleBySearchWord(boardId, type, search);
         return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
+    @GetMapping
+    public AdvancedResponseBody<List<ArticleRes>> searchAllArticle(@RequestParam String search, @PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable) {
+        Object[] objects = articleService.getAllArticleBySearchWord(search, pageable);
+        Pagination pagination = (Pagination) objects[0];
+        List<ArticleRes> articleList = (List<ArticleRes>) objects[1];
+
+        return PaginationResponseBody.of(Status.OK, articleList, pagination);
     }
 
     @PostMapping("/answer")
