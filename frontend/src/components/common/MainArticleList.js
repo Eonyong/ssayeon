@@ -13,10 +13,6 @@ import { Link } from "@mui/material";
 export default function MainArticleList({ articleList }) {
 
   const boardId = articleList.boardId;
-  console.log(boardId);
-  console.log(articleList);
-
-  // console.log(articleList.articles[0].board.id);
 
   return (
     <div>

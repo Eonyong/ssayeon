@@ -38,7 +38,6 @@ export default function Main() {
         articles : res.data.data,
         boardId : 1
       })
-      console.log(articleList);
     })
       .catch((err) => {
         console.log(err);
