@@ -1,5 +1,5 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Button, DialogContent, DialogTitle, List, ListItem, ListItemButton, ListItemText, ListSubheader } from "@mui/material";
+import { Box, Button, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemButton, ListItemText, ListSubheader, TextField } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,19 +10,34 @@ function MessageModal() {
   const headers = {Authorization: `Bearer ${user}`};
   const [messageList, setMessageList] = useState([]);
   const [messageDetail, setMessageDetail] = useState([]);
-  const [isClick, setIsClick] = useState(false);
   const [otherUser, setOtherUser] = useState(0);
+  const [IsClick, setIsClick] = useState(false);
+  const [chatting, setChatting] = useState('');
+  const onChatHandler = e => {
+    const {value} = e.target;
+    setChatting(value);
+  }
 
 
   const messageListSet = () => {
+    setMessageList([]);
     axios.get(API_BASE_URL + '/user/message/list',
     {
       headers:headers
     })
     .then(res=> {
-      setMessageList([...messageList, res.data.data[0]]);
+      setMessageList([res.data.data[0], ...messageList]);
+      messageList.reverse();
     })
     .catch(e=> console.log(e));
+  };
+
+  const messageSend = e => {
+    e.preventDefault();
+    axios.post(API_BASE_URL + `/user/message/${otherUser}`,
+    {description:chatting}, {headers:headers})
+    .then(res=>setChatting(''))
+    .catch(e=>console.log(e));
   };
 
   const style = (pram) => {
@@ -33,45 +48,45 @@ function MessageModal() {
   const msDetail = (pram) => {
     axios.get(API_BASE_URL + `/user/message/${pram}`, {headers:headers})
     .then(res=>{
-      setMessageDetail(res.data.data);
+      var data = res.data.data;
+      setMessageDetail(data.reverse());
     })
     .catch(e=>console.log(e));
   }
 
   useEffect(()=>{
     setMessageList([]);
-    messageListSet();
     msDetail(otherUser);
-  }, [otherUser]);
+    messageListSet();
+  }, [otherUser, chatting]);
 
   return (
     <>
       <DialogTitle>
-        <Button onClick={()=>setIsClick(false)}>
+        <Button onClick={()=>{setIsClick(false)}}>
           <ArrowBack />
         </Button>
       </DialogTitle>
-      <DialogContent sx={{ padding: '0', minWidth: '500px', maxHeight: '350px' }} >
+      <DialogContent sx={{ padding: '0', maxHeight: '400px' }} >
         {
-        isClick ?
-        <List>
-          {
-            messageDetail.map((data, idx)=>{
-              console.log(data);
-              return (
-                <ListItem key={idx} sx={{ paddingX:'1' }}>
-                  <ListItemText sx={style(data)}>
-                    <strong>{data.description}</strong>
-                    <ListSubheader>
-                      {data.sender_nickname}
-                    </ListSubheader>
-                  </ListItemText>
-                </ListItem>
-              );
-            })
-          }
-        <Button>전송</Button>
-        </List>
+        IsClick ?
+          <List>
+            {
+              messageDetail.map((data, idx)=>{
+                var date = new Date(data.created_at);
+                return (
+                  <ListItem key={idx} sx={{ paddingX:1, flexDirection:'row-reverse' }} >
+                    <ListItemText sx={style(data)}>
+                      <strong>{data.description}</strong>
+                      <ListSubheader sx={{padding:0}}>
+                        {`${date.getMonth() + 1}/${date.getDate() + 1} ${date.getHours()}:${date.getMinutes()}`}
+                      </ListSubheader>
+                    </ListItemText>
+                  </ListItem>
+                );
+              })
+            }
+          </List>
         :
         <List>
           {
@@ -93,6 +108,19 @@ function MessageModal() {
         </List>
         }
       </DialogContent>
+      <DialogActions>
+        {
+          IsClick ?
+          <Box component="form" onSubmit={messageSend} sx={{ display:'flex', width:'100%' }}>
+            <TextField
+              id="chattext" name="chattext" autoComplete='current-chattext'
+              type='text' label='메세지' value={ chatting }
+              onChange={ onChatHandler } fullWidth sx={{ mb: 1 }}
+            />
+            <Button type="submit">전송</Button>
+          </Box>:<></>
+        }
+      </DialogActions>
     </>
   );
 }
