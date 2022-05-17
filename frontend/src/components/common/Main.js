@@ -8,8 +8,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 export default function Main() {
-  // const API_BASE_URL = process.env.REACT_APP_API_ROOT;
-  const API_BASE_URL = "http://localhost:8081/";
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+  // const API_BASE_URL = "http://localhost:8081/";
   
   const [articleList, setArticleList] = useState({
     articles: [],
@@ -31,7 +31,7 @@ export default function Main() {
 
   const getLatestArticles = () => {
     axios({
-      url: API_BASE_URL + 'api/article/latest/1',
+      url: API_BASE_URL + '/article/latest/1',
       method: "GET",
     }).then((res) => {
       setArticleList({
@@ -44,7 +44,7 @@ export default function Main() {
         console.log(err);
       })
     axios({
-      url: API_BASE_URL + 'api/article/latest/2',
+      url: API_BASE_URL + '/article/latest/2',
       method: "GET",
     }).then((res) => {
       setQuestionList({
@@ -56,7 +56,7 @@ export default function Main() {
         console.log(err);
       })
     axios({
-      url: API_BASE_URL + 'api/article/latest/3',
+      url: API_BASE_URL + '/article/latest/3',
       method: "GET",
     }).then((res) => {
       setTipList({
@@ -71,7 +71,7 @@ export default function Main() {
 
   const getHotArticles = () => {
     axios({
-      url: API_BASE_URL + 'api/article/hot',
+      url: API_BASE_URL + '/article/hot',
       method: "GET",
     }).then((res) => {
       setHotList({
@@ -94,15 +94,15 @@ export default function Main() {
 
   return(
     <div>
-      <h1>Main</h1>
       <div className={styles.container}>
         <input type="text" placeholder="  검색어를 입력해주세요!"
             style={{
-              width: "85%",
+              width: "80%",
               borderRadius: "7px",
               border: "solid 2px #e5e8eb",
-              height: "50px",
-              margin: "30px 0"
+              fontSize: '20px',
+              marginTop: '4rem',
+              marginBottom: '2rem',
             }}/>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3} style={{justifyContent:"center"}}>
