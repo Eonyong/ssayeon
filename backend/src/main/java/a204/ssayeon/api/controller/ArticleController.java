@@ -4,7 +4,6 @@ import a204.ssayeon.api.request.article.*;
 import a204.ssayeon.api.response.article.ArticleAnswerRes;
 import a204.ssayeon.api.response.article.ArticleCommentsRes;
 import a204.ssayeon.api.response.article.ArticleRes;
-import a204.ssayeon.api.response.user.UserShowUserActivityRes;
 import a204.ssayeon.api.service.ArticleService;
 import a204.ssayeon.common.model.enums.Status;
 import a204.ssayeon.common.model.response.AdvancedResponseBody;
@@ -47,6 +46,7 @@ public class ArticleController {
                     .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
+                    .createdAt(article.getCreatedAt())
                     .board(articleService.getBoardRes(article.getBoard().getId()))
                     .category(articleService.getCategoryRes(article.getCategory().getId()))
                     .build());
@@ -99,6 +99,7 @@ public class ArticleController {
                     .nickname(article.getUser().getNickname())
                     .board(articleService.getBoardRes(article.getBoard().getId()))
                     .category(articleService.getCategoryRes(article.getCategory().getId()))
+                    .createdAt(article.getCreatedAt())
                     .build());
         }
         return PaginationResponseBody.of(Status.OK, articleListRes, pagination);
