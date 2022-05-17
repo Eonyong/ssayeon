@@ -70,11 +70,15 @@ function SideBar() {
 
   return (
     <Container>
-      <Link to="/"><img alt="logo" src="../ssayeon.png" style={{
-        width: "150px",
-        marginTop: "20px",
-        cursor: "pointer"
-        }}/></Link>
+      <Box
+        component="img" alt="logo"
+        onClick={()=>{navigate('/')}} src={require("../images/ssayeon.png")}
+        sx={{
+          width: "150px",
+          marginTop: "20px",
+          cursor: "pointer"
+        }}
+      />
       {user ? (
         <Box mt={1}>
           <Box

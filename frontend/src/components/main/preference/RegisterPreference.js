@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { FormControl, TextField, Container, Box, Button } from "@mui/material";
+import { FormControl, TextField, Container, Box, Button, List, ListItem, Input, IconButton, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Add, AddBox, IndeterminateCheckBox, PlusOne } from "@mui/icons-material";
 
 function RegisterPreference() {
   // 인증 관련
@@ -62,7 +63,6 @@ function RegisterPreference() {
       if (i !== index) arr.push(list[i]);
     }
     setList(arr);
-    // setUsers(users.filter(user => user.id !== id));
   };
   function resetChoice() {
     setList([]);
@@ -79,59 +79,52 @@ function RegisterPreference() {
         }}
       >
         <h2 sx={{ alignItems: "center" }}>선호도 조사 작성</h2>
-        <FormControl>
-          <form>
-            <TextField
-              sx={{ display: "flex", width: "100%", marginTop: "10px" }}
-              id="title"
-              name="title"
-              value={description}
-              label="질문"
-              onChange={onChangeDesc}
-              variant="outlined"
-            />
-            {/* <TextField
-              sx={{ display: "flex", width: "100%", marginTop: "10px" }}
-              id="description"
-              name="description"
-              label="내용"
-              onChange={onChange}
-              multiline
-              rows={20}
-            /> */}
-            <input
-              type="text"
-              value={choice}
-              placeholder="선택지 입력"
-              onChange={onChangeChoice}
-            />
-            <input type="button" value="추가" onClick={addList} />
-            <hr />
-            <ul>
+        <Box component='form'>
+          <TextField
+            sx={{ display: "flex", width: "100%", marginTop: "10px" }}
+            id="title"
+            name="title"
+            value={description}
+            label="질문"
+            onChange={onChangeDesc}
+            variant="outlined"
+          />
+            <Box component="div" mt={3}>
+              <TextField
+                type="text"
+                value={choice}
+                placeholder="선택지 입력"
+                onChange={onChangeChoice}
+              />
+              <IconButton onClick={addList} color="error" size="large" >
+                <AddBox color="error" fontSize="large" />
+              </IconButton>
+            </Box>
+            <List>
               {list.map((item, index) => (
-                <li key={index}>
+                <ListItem key={index} sx={{ justifyContent: 'space-between' }}>
                   {item}
-                  {/* <Button onClick={console.log("삭제")}>삭제</Button> */}
-                  <input
-                    type="button"
-                    value="삭제"
+                  <IconButton
+                    color="primary" sx={{ justifySelf: 'end' }}
                     onClick={() => onRemove(index)}
-                  />
-                </li>
+                  >
+                    <IndeterminateCheckBox />
+                  </IconButton>
+                </ListItem>
               ))}
-            </ul>
-            <Button variant="contained" onClick={resetChoice}>
-              선택지 초기화
-            </Button>
-            <Button
-              sx={{ display: "flex", width: "100%", marginTop: "10px" }}
-              variant="contained"
-              onClick={onRegister}
-            >
-              작성
-            </Button>
-          </form>
-        </FormControl>
+            </List>
+            <Grid columns={2} spacing={3}>
+              <Button variant="contained" color="error" onClick={resetChoice} sx={{ marginX:1 }}>
+                선택지 초기화
+              </Button>
+              <Button
+                variant="contained"
+                onClick={onRegister} sx={{ marginX:1 }}
+              >
+                작성
+              </Button>
+            </Grid>
+          </Box>
       </Box>
     </Container>
   );
