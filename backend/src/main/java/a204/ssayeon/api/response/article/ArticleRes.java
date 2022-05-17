@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Builder
@@ -24,6 +25,7 @@ public class ArticleRes {
 
     private BoardRes board;
     private CategoryRes category;
+    private LocalDateTime createdAt;
 
     private List<TagRes> tagList;      // id, name
 

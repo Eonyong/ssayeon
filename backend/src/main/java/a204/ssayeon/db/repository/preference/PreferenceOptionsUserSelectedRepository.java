@@ -7,4 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PreferenceOptionsUserSelectedRepository extends JpaRepository<PreferenceOptionsUserSelected, Long> {
 
     PreferenceOptionsUserSelected findByPreferenceIdAndUserId(Long preferenceId, Long userId);
+
+    Long countByPreferenceId(Long preferenceId);
+
+    Long countByPreferenceOptionsId(Long preferenceOptionsId);
 }

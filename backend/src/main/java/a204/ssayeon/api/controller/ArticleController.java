@@ -46,6 +46,7 @@ public class ArticleController {
                     .likesCount(article.getLikesCount())
                     .userId(article.getUser().getId())
                     .nickname(article.getUser().getNickname())
+                    .createdAt(article.getCreatedAt())
                     .board(articleService.getBoardRes(article.getBoard().getId()))
                     .category(articleService.getCategoryRes(article.getCategory().getId()))
                     .build());
@@ -98,14 +99,27 @@ public class ArticleController {
                     .nickname(article.getUser().getNickname())
                     .board(articleService.getBoardRes(article.getBoard().getId()))
                     .category(articleService.getCategoryRes(article.getCategory().getId()))
+                    .createdAt(article.getCreatedAt())
                     .build());
         }
         return PaginationResponseBody.of(Status.OK, articleListRes, pagination);
     }
 
+    @GetMapping("/hot")
+    public AdvancedResponseBody<List<ArticleRes>> getTopArticles() {
+        List<ArticleRes> articleListRes = articleService.getTopArticles();
+        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
     @GetMapping("/hot/{boardId}")
     public AdvancedResponseBody<List<ArticleRes>> getTopArticlesByBoardId(@PathVariable Long boardId) {
         List<ArticleRes> articleListRes = articleService.getTopArticlesByBoardId(boardId);
+        return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
+    @GetMapping("/latest/{boardId}")
+    public AdvancedResponseBody<List<ArticleRes>> getLatestArticlesByBoardId(@PathVariable Long boardId) {
+        List<ArticleRes> articleListRes = articleService.getLatestArticlesByBoardId(boardId);
         return AdvancedResponseBody.of(Status.OK, articleListRes);
     }
 
@@ -157,6 +171,15 @@ public class ArticleController {
     public AdvancedResponseBody<List<ArticleRes>> searchArticle(@PathVariable Long boardId, @PathVariable Integer type, @RequestParam String search) {
         List<ArticleRes> articleListRes = articleService.getArticleBySearchWord(boardId, type, search);
         return AdvancedResponseBody.of(Status.OK, articleListRes);
+    }
+
+    @GetMapping
+    public AdvancedResponseBody<List<ArticleRes>> searchAllArticle(@RequestParam String search, @PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable) {
+        Object[] objects = articleService.getAllArticleBySearchWord(search, pageable);
+        Pagination pagination = (Pagination) objects[0];
+        List<ArticleRes> articleList = (List<ArticleRes>) objects[1];
+
+        return PaginationResponseBody.of(Status.OK, articleList, pagination);
     }
 
     @PostMapping("/answer")
