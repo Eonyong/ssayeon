@@ -20,6 +20,7 @@ import { logout } from "../../user/auth";
 import axios from "axios";
 import MessageModal from "./Messagemodal";
 
+
 function SideBar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -70,6 +71,11 @@ function SideBar() {
 
   return (
     <Container>
+      <Link to="/"><img alt="logo" src="../ssayeon.png" style={{
+        width: "150px",
+        marginTop: "20px",
+        cursor: "pointer"
+        }}/></Link>
       {user ? (
         <Box mt={1}>
           <Box
