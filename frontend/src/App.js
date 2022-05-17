@@ -46,6 +46,7 @@ function App() {
               <Route path='/profile' element={ <Profile /> } />
               <Route path='/boards/notice/new' element={ <NewNotice /> } />
               <Route path='/boards/notice' element={ <NoticeList />}/>
+              <Route path='/boards/notice/:id' element={ <NoticeDetail />}/>
               <Route path='/balance/list' element={ <BalanceList />}/>
               <Route path='/balance/:id' element={ <BalanceContent />}/>
               {/* id값으로 rerouting */}
@@ -55,7 +56,7 @@ function App() {
               <Route path="/preference/:id" element={<PreferenceDetail />} />
               <Route path='/boards/free' element={<FreeList />} />
               <Route path='/boards/free/new' element={ <NewFree /> } />
-              <Route path='/boards/free/detail' element={ <FreeDetail /> } />
+              <Route path='/boards/free/:id' element={ <FreeDetail /> } />
             </Routes>
           </Grid>
         </Grid>
