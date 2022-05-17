@@ -85,9 +85,11 @@ const BalanceList = (props) => {
                                                 </Grid>
                                                 <Grid item xs={6}>
                                                     <Link to={`/balance/${item.balance_id}`}>
-                                                    <Picture
-                                                        text={item.description}
-                                                    />
+                                                        <CardMedia
+                                                            component="img"
+                                                            image="https://source.unsplash.com/random"
+                                                            alt="random"
+                                                        />
                                                     </Link>
                                                     <Typography gutterBottom variant="h5" component="h2" sx={{ textDecorationLine:'none' }}>
                                                         게임 내용 : {item.description}
