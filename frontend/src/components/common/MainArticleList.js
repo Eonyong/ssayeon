@@ -6,6 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import styles from "./Main.module.css";
+import { Link } from "@mui/material";
+
 
 
 export default function MainArticleList({ articleList }) {
@@ -26,17 +28,17 @@ export default function MainArticleList({ articleList }) {
                 boardId === 1
                 ? <TableCell style={{
                   paddingLeft: 10,
-                  paddingBottom: 5
+                  paddingBottom: 7
                 }}><h3 className={styles.boardTitle}>자유 게시판</h3></TableCell>
                 : ( boardId === 2 
                     ? <TableCell style={{
                       paddingLeft: 10,
-                      paddingBottom: 5
+                      paddingBottom: 7
                     }}><h3 className={styles.boardTitle}>질문 게시판</h3></TableCell>
                     : (boardId === 3
                       ? <TableCell style={{
                         paddingLeft: 10,
-                        paddingBottom: 5
+                        paddingBottom: 7
                       }}><h3 className={styles.boardTitle}>꿀팁 게시판</h3></TableCell>
                       : <TableCell style={{
                         paddingLeft: 10,
@@ -46,11 +48,33 @@ export default function MainArticleList({ articleList }) {
                   )
               }
               {
-                boardId >= 1
+                boardId === 1
                 ? <TableCell align="right" style={{
-                    paddingBottom: 0
-                  }}>더보기 &gt;</TableCell>
-                : <TableCell></TableCell>
+                  paddingBottom: 0,
+                }}><Link href={'/boards/free'} style={{
+                    marginBottom: 0,
+                    color: "black",
+                    textDecoration: "none"
+                  }}>더보기 &gt;</Link></TableCell>
+                : ( boardId === 2 
+                    ? <TableCell align="right" style={{
+                      paddingBottom: 0
+                    }}><Link href={'/boards/question'} style={{
+                      marginBottom: 0,
+                      color: "black",
+                      textDecoration: "none"
+                    }}>더보기 &gt;</Link></TableCell>
+                    : (boardId === 3
+                      ? <TableCell align="right" style={{
+                        paddingBottom: 0
+                      }}><Link href={'/boards/tip'} style={{
+                        marginBottom: 0,
+                        color: "black",
+                        textDecoration: "none"
+                      }}>더보기 &gt;</Link></TableCell>
+                      : <TableCell></TableCell>
+                      )
+                  )
               }
 
             </TableRow>
@@ -61,9 +85,32 @@ export default function MainArticleList({ articleList }) {
                 key={article.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row" style={{padding: 12}}>
-                  {article.title}
-                </TableCell>
+                {
+                  article.board.id === 1
+                  ? <TableCell component="th" scope="row" style={{padding: 12}}>
+                      <Link href={`/boards/free/${article.id}`} style={{
+                        marginBottom: 0,
+                        color: "black",
+                        textDecoration: "none"
+                      }}>{article.title}</Link>
+                    </TableCell>
+                    : ( article.board.id === 2 
+                        ? <TableCell component="th" scope="row" style={{padding: 12}}>
+                            <Link href={`/boards/question/${article.id}`} style={{
+                              marginBottom: 0,
+                              color: "black",
+                              textDecoration: "none"
+                            }}>{article.title}</Link>
+                          </TableCell>
+                        : <TableCell component="th" scope="row" style={{padding: 12}}>
+                            <Link href={`/boards/tip/${article.id}`} style={{
+                              marginBottom: 0,
+                              color: "black",
+                              textDecoration: "none"
+                            }}>{article.title}</Link>
+                          </TableCell>
+                      )
+                }
                 <TableCell align="right" style={{padding: 12}}>❤️ {article.likes_count}</TableCell>
               </TableRow>
             ))}

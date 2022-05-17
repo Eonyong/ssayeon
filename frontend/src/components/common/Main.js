@@ -101,6 +101,7 @@ export default function Main() {
               borderRadius: "7px",
               border: "solid 2px #e5e8eb",
               fontSize: '20px',
+              height: "35px",
               marginTop: '4rem',
               marginBottom: '2rem',
             }}/>
