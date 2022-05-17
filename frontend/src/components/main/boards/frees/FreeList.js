@@ -3,14 +3,18 @@ import axios from "axios";
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper,
   Pagination,
   Button,
-  Link } from "@mui/material";
+  Link, 
+  Container,
+  TextField} from "@mui/material";
 
 export default function FreeList() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT
   const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
 
   const handleChange = (event, pageNumber) => {
+    console.log(pageNumber);
     setPage(pageNumber);
   }
 
@@ -30,6 +34,7 @@ export default function FreeList() {
           headers: headers,
         })
         .then(res => res.data);
+        setTotalPage(response.pagination.total_pages);
         setList(response.data);
       } catch (err) {
         console.log(err);
@@ -39,7 +44,7 @@ export default function FreeList() {
   useEffect(() => {
     handleChange();
     getFreeList();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -47,53 +52,57 @@ export default function FreeList() {
         component={Paper}
         sx={{ margin: "50px" }}
       >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>번호</TableCell>
-              <TableCell align="right">제목</TableCell>
-              <TableCell align="right">글쓴이</TableCell>
-              <TableCell align="right">작성일</TableCell>
-              <TableCell align="right">조회수</TableCell>
-              <TableCell align="right">좋아요수</TableCell>
+        <Table sx={{ minWidth: 650, alignContent:'center' }} aria-label="simple table">
+          <TableHead style={{ boxShadow: "0px 5px 10px rgb(207 206 206)" }}>
+            <TableRow style={{ backgroundColor: "#C2E2F5" }}>
+              <TableCell align='center'>제목</TableCell>
+              <TableCell align='center'>글쓴이</TableCell>
+              <TableCell align='center'>작성일</TableCell>
+              <TableCell align='center'>조회수</TableCell>
+              <TableCell align='center'>좋아요수</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((row) => (
+            {
+            list.map((row, idx) => {
+              var date = new Date(row.created_at);
+              return (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.id}
+                <TableCell align="center" ><Link href={`/boards/free/${row.id}`}>{row.title}</Link></TableCell>
+                <TableCell align="center">{row.nickname}</TableCell>
+                <TableCell align="center">
+                  {`${date.getMonth() + 1}월 ${date.getDate() + 1}일 ${date.getHours()}시${date.getMinutes()}분`}
                 </TableCell>
-                <TableCell align="right"><Link href={`/boards/free/${row.id}`}>{row.title}</Link></TableCell>
-                <TableCell align="right">{row.user_id}</TableCell>
-                <TableCell align="right">{row.created_at}</TableCell>
-                <TableCell align="right">{row.views}</TableCell>
-                <TableCell align="right">{row.likes_count}</TableCell>
+                <TableCell align="center">{row.views}</TableCell>
+                <TableCell align="center">{row.likes_count}</TableCell>
               </TableRow>
-            ))}
+              );})}
           </TableBody>
         </Table>
       </TableContainer>
-
-      <Button 
-        variant="contained" 
-        sx={{
-          display: "flex", margin: "5%", width: "100px"
-        }}
-        href='/boards/free/new'
-        >
-        글쓰기
-      </Button>
+      
+      <Container sx={{ display:"flex", justifyContent: "right", marginTop: "100px" }}>
+        <Button 
+          variant="contained"
+          href='/boards/free/new' placeholder="글쓰기"
+          >
+          글쓰기
+        </Button>
+      </Container>
+      <Container sx={{ marginBottom:'2rem' }}>
+        <TextField id="outlined-basic" size="small" label="검색어를 입력해주세요" variant="outlined" />
+        <Button variant="outlined" style={{ marginLeft: "10px" }}>검색</Button>
+      </Container>
 
       {/* 페이지네이션 */}
       <Pagination 
-        count={11}
-        page={page} 
+        count={totalPage}
+        page={page} defaultValue={page}
         onClick={getFreeList}
-        onChange={handleChange}
+        onChange={(_e, res) =>{console.log(res)}}
         sx={{ display: "flex", justifyContent: "center" }}
       />
     </>
