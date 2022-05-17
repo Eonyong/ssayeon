@@ -57,15 +57,16 @@ public class UserController {
 
     @GetMapping("/message/list")
     public AdvancedResponseBody<List<UserShowMessageListRes>> showMessageList(@CurrentUser User user, @PageableDefault(sort = "message_id", direction = Sort.Direction.DESC, size=10) Pageable pageable){
-        Page<Message> MessagePage = userService.showMessageList(user, pageable);
+        Page<UserShowMessageListView> MessagePage = userService.showMessageList(user, pageable);
         Pagination pagination = Pagination.getPagination(MessagePage);
         List<UserShowMessageListRes> messageList = new ArrayList<>();
 
         MessagePage.forEach((message) -> {
-            messageList.add(UserShowMessageListRes.builder().createdAt(message.getCreatedAt()).description(message.getDescription()).id(message.getId())
-                    .receiverId(message.getReceiver().getId()).receiverNickname(message.getReceiver().getNickname()).senderId(message.getSender().getId()).senderNickname(message.getSender().getNickname()).build());
+            messageList.add(UserShowMessageListRes.builder().createdAt(message.getCreatedAt()).description(message.getDescription()).id(message.getMessageId())
+                    .senderId(message.getSenderId()).senderNickname(message.getSenderNickname()).unReadCnt(message.getUnReadCnt()).otherUserId(message.getOtherUserId()).build());
         });
         return PaginationResponseBody.of(Status.OK, messageList, pagination);
+
     }
 
     @GetMapping("/message/{otherUserId}")
@@ -119,7 +120,7 @@ public class UserController {
         return AdvancedResponseBody.of(Status.NO_CONTENT);
     }
 
-    @GetMapping("/alarm") //todo : currentUser 없으면 에러 던지기
+    @GetMapping("/alarm")
     public AdvancedResponseBody<List<UserShowAlarmRes>> showAlarm(@CurrentUser User user, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
         Page<Alarm> alarmPage = userService.showAlarm(user, pageable);
         Pagination pagination = Pagination.getPagination(alarmPage);

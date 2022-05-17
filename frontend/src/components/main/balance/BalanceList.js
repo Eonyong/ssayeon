@@ -14,7 +14,6 @@ import Balance from "./Balance";
 const BalanceList = (props) => {
 
     const [list,setList] = useState([])
-
     const createArticle = async () => {
         const response = await axios.get(
             `${process.env.REACT_APP_API_ROOT}/balance/list`
@@ -23,7 +22,7 @@ const BalanceList = (props) => {
     };
 
     useEffect(()=>{
-        createArticle()
+        createArticle();
     },[list])
 
     return (
@@ -93,11 +92,13 @@ const BalanceList = (props) => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={3}>
-                                                    <Balance description={item.right_description}/>
+                                                <Link to={`/balance/${item.balance_id}`}>
+                                                        <Balance description={item.right_description}/>
+                                                    </Link>
                                                 </Grid>
                                             </Grid>
+                                            <Divider />
                                         </CardContent>
-                                        <Divider />
                                     </Card>
                             );
                         })

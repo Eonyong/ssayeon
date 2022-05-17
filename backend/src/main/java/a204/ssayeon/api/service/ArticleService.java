@@ -6,6 +6,7 @@ import a204.ssayeon.common.exceptions.ForbiddenException;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.exceptions.UnAuthorizedException;
 import a204.ssayeon.common.model.enums.ErrorMessage;
+import a204.ssayeon.db.entity.Pagination;
 import a204.ssayeon.db.entity.article.*;
 import a204.ssayeon.db.entity.user.User;
 import a204.ssayeon.db.repository.article.*;
@@ -13,7 +14,9 @@ import a204.ssayeon.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +71,7 @@ public class ArticleService {
         article = articleRepository.save(article);
 
         List<Long> tagList = articleCreateReq.getTagList();
-        for(Long tagId : tagList) {
+        for (Long tagId : tagList) {
             ArticleHasTag articleHasTag = ArticleHasTag.builder()
                     .article(articleRepository.getById(article.getId()))
                     .tag(tagRepository.getById(tagId))
@@ -84,7 +87,7 @@ public class ArticleService {
 
         List<ArticleHasTag> tagList = articleHasTagRepository.findByArticleId(article.getId());
         List<TagRes> tagListRes = new ArrayList<>();
-        for(ArticleHasTag tag : tagList) {
+        for (ArticleHasTag tag : tagList) {
             tagListRes.add(TagRes.builder()
                     .id(tag.getTag().getId())
                     .name(tagRepository.getById(tag.getTag().getId()).getName())
@@ -95,7 +98,7 @@ public class ArticleService {
 
         if (user != null) {
             ArticleLikes articleLikes = articleLikesRepository.findByArticleIdAndUserId(articleId, user.getId());
-            if ( articleLikes != null ) {
+            if (articleLikes != null) {
                 isLiked = true;
             }
         }
@@ -111,6 +114,7 @@ public class ArticleService {
                 .isLiked(isLiked)
                 .category(getCategoryRes(article.getCategory().getId()))
                 .board(getBoardRes(article.getBoard().getId()))
+                .createdAt(article.getCreatedAt())
                 .tagList(tagListRes)
                 .build();
         return articleRes;
@@ -119,7 +123,7 @@ public class ArticleService {
     public Article updateArticle(Long articleId, ArticleUpdateReq articleUpdateReq, User user) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
-            new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+                new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
 
         if (user == null) {
             throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
@@ -133,12 +137,12 @@ public class ArticleService {
         articleRepository.save(article);
 
         List<ArticleHasTag> tagList = articleHasTagRepository.findByArticleId(article.getId());
-        for(ArticleHasTag articleHasTag : tagList) {
+        for (ArticleHasTag articleHasTag : tagList) {
             articleHasTagRepository.delete(articleHasTag);
         }
 
         List<Long> newTagList = articleUpdateReq.getTagList();
-        for(Long tagId : newTagList) {
+        for (Long tagId : newTagList) {
             ArticleHasTag articleHasTag = ArticleHasTag.builder()
                     .article(articleRepository.getById(article.getId()))
                     .tag(tagRepository.getById(tagId))
@@ -245,7 +249,7 @@ public class ArticleService {
         List<ArticleComments> commentsList = articleCommentsRepository.findByArticleId(articleId);
         List<ArticleCommentsRes> articleCommentsListRes = new ArrayList<>();
 
-        for(ArticleComments articleComments : commentsList) {
+        for (ArticleComments articleComments : commentsList) {
             Boolean isLiked = false;
             ArticleCommentsLikes articleCommentsLikes = articleCommentsLikesRepository.findByArticleCommentsIdAndUser(articleComments.getId(), user);
             if (articleCommentsLikes != null) {
@@ -284,14 +288,14 @@ public class ArticleService {
     public ArticleComments updateComment(Long commentId, CommentCreateReq commentCreateReq, User user) {
 
         ArticleComments articleComment = articleCommentsRepository.findById(commentId).orElseThrow(() ->
-            new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
+                new NotExistException(ErrorMessage.COMMENT_DOES_NOT_EXIST));
 
         if (user == null) {
             throw new UnAuthorizedException(ErrorMessage.UNAUTHORIZED);
         }
 
         articleCommentsRepository.findByIdAndUser(commentId, user).orElseThrow(() ->
-            new ForbiddenException(ErrorMessage.FORBIDDEN));
+                new ForbiddenException(ErrorMessage.FORBIDDEN));
 
         articleComment.update(commentCreateReq);
         articleCommentsRepository.save(articleComment);
@@ -348,13 +352,13 @@ public class ArticleService {
             articles = articleRepository.findByTitleContainsAndBoardId(search, boardId);
         } else if (type == 2) {
             articles = articleRepository.findByContentContainsAndBoardId(search, boardId);
-        } else if (type == 3){
+        } else if (type == 3) {
             User user = userRepository.findByNickname(search).get();
             System.out.println("user = " + user);
             articles = articleRepository.findByUserIdAndBoardId(user.getId(), boardId);
         }
-        
-        for(Article article : articles) {
+
+        for (Article article : articles) {
             articleListRes.add(ArticleRes.builder()
                     .id(article.getId())
                     .title(article.getTitle())
@@ -371,7 +375,60 @@ public class ArticleService {
         return articleListRes;
     }
 
+    @Transactional(readOnly = true)
+    public Object[] getAllArticleBySearchWord(String search, Pageable pageable) {
+        Page<Article> articlePage = articleRepository.findByTitleContainsOrContentContains(search, search, pageable);
+        Pagination pagination = Pagination.getPagination(articlePage); //페이지네이션
+
+        List<ArticleRes> articleList = new ArrayList<>();
+
+        articlePage.forEach((article) -> {
+            Board board = article.getBoard();
+            Category category = article.getCategory();
+            User user = article.getUser();
+            articleList.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(user.getId())
+                    .nickname(user.getName())
+                    .board(BoardRes.builder()
+                            .id(board.getId())
+                            .name(board.getName())
+                            .build())
+                    .category(CategoryRes.builder().id(category.getId()).name(category.getName()).build())
+                    .build());
+        });
+
+        return new Object[]{pagination, articleList};
+    }
+
     // 인기 게시글
+
+    public List<ArticleRes> getTopArticles() {
+        List<Article> articles = articleRepository.findAll(Sort.by(Sort.Direction.DESC, "likesCount"));
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for (Article article : articles) {
+            if (articleListRes.size() >= 10) {
+                break;
+            }
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+    }
+
     public List<ArticleRes> getTopArticlesByBoardId(Long boardId) {
         List<Article> articles = articleRepository.findTop10ByBoardIdOrderByLikesCountDesc(boardId);
         List<ArticleRes> articleListRes = new ArrayList<>();
@@ -390,7 +447,26 @@ public class ArticleService {
         }
         return articleListRes;
     }
-        
+
+    public List<ArticleRes> getLatestArticlesByBoardId(Long boardId) {
+        List<Article> articles = articleRepository.findTop3ByBoardIdOrderByIdDesc(boardId);
+        List<ArticleRes> articleListRes = new ArrayList<>();
+        for (Article article : articles) {
+            articleListRes.add(ArticleRes.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .views(article.getViews())
+                    .likesCount(article.getLikesCount())
+                    .userId(article.getUser().getId())
+                    .nickname(article.getUser().getNickname())
+                    .board(getBoardRes(article.getBoard().getId()))
+                    .category(getCategoryRes(article.getCategory().getId()))
+                    .build());
+        }
+        return articleListRes;
+    }
+
     public ArticleAnswer createArticleAnswer(ArticleAnswerCreateReq articleAnswerCreateReq, User user) {
 
         if (user == null) {
@@ -429,7 +505,7 @@ public class ArticleService {
         List<ArticleAnswer> articleAnswerList = articleAnswerRepository.findByArticleId(articleId);
         List<ArticleAnswerRes> articleAnswerListRes = new ArrayList<>();
 
-        for(ArticleAnswer articleAnswer : articleAnswerList) {
+        for (ArticleAnswer articleAnswer : articleAnswerList) {
             articleAnswerListRes.add(ArticleAnswerRes.builder()
                     .id(articleAnswer.getId())
                     .description(articleAnswer.getDescription())

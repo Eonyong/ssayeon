@@ -1,8 +1,57 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell,
+List, ListItem, Divider } from "@mui/material";
 
 function FreeDetail() {
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT
+  let params = useParams();
+  const [detail, setDetail] = useState([]);
+  const [comments, setComments] = useState([]);
+
+  // 인증 관련
+  let token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  // 게시글 상세 내용 불러오기
+  const getFreeDetail = async () => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/article/${params.id}`,
+        {
+          headers: headers,
+        })
+        .then(res => res.data);
+        setDetail(response.data);
+      } catch (err) {
+        console.log(err);
+    }
+  };
+
+  // 게시글 상세 내용 불러오기
+  const getComments = async () => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/article/${params.id}/comments/list`,
+        {
+          headers: headers,
+        })
+        .then(res => res.data);
+        setComments(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+    }
+  };
+  
+  useEffect(() => {
+    getFreeDetail();
+    getComments();
+  }, []);
+
   return (
     <div>
       <>
@@ -23,19 +72,28 @@ function FreeDetail() {
                   }}
                 >
                   <div></div>
-                  <div>제목</div>
-                  <div>작성일</div>
+                  <div>{detail.title}</div>
+                  <div>{detail.nickname}</div>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow style={{ height: "30rem" }}>
-                <TableCell style={{ fontSize: "2rem", textAlign: "center" }}>
-                  내용
+                <TableCell style={{ fontSize: "1rem", textAlign: "start" }}>
+                  {detail.content}
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
+
+          {/* 댓글 */}
+          <List component="nav" aria-label="mailbox folders">
+            {comments.map((comment) => (
+              <ListItem key={comment.id}>
+                {comment.description}
+              </ListItem>
+            ))}
+          </List>
           
           <Table>
               <>
@@ -73,8 +131,10 @@ function FreeDetail() {
           <Button style={{ 
             display: "flex", 
             marginTop: "15px", 
-            justifyContent: "right" }}
-            variant="outlined">
+            justifyContent: "center",
+            width: "100px" }}
+            variant="outlined"
+            href="/boards/free">
               목록으로
           </Button>
         </Container>

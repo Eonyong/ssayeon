@@ -37,7 +37,7 @@ function App() {
           <Grid item xs={2}>
             <SideBar />
           </Grid>
-          <Divider orientation="vertical" flexItem />
+          <Divider orientation="vertical" flexItem variant='fullWidth' light />
           <Grid item sx={{ textAlign: "-webkit-center" }} xs={9}>
             <Routes>
               <Route path='/' element={ <Main /> } />
@@ -55,7 +55,7 @@ function App() {
               <Route path="/preference/:id" element={<PreferenceDetail />} />
               <Route path='/boards/free' element={<FreeList />} />
               <Route path='/boards/free/new' element={ <NewFree /> } />
-              <Route path='/boards/free/detail' element={ <FreeDetail /> } />
+              <Route path='/boards/free/:id' element={ <FreeDetail /> } />
             </Routes>
           </Grid>
         </Grid>
