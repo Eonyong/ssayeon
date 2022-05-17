@@ -34,10 +34,12 @@ function MessageModal() {
 
   const messageSend = e => {
     e.preventDefault();
-    axios.post(API_BASE_URL + `/user/message/${otherUser}`,
-    {description:chatting}, {headers:headers})
-    .then(res=>setChatting(''))
-    .catch(e=>console.log(e));
+    if (chatting.trim().length > 0) {
+      axios.post(API_BASE_URL + `/user/message/${otherUser}`,
+      {description:chatting}, {headers:headers})
+      .then(res=>setChatting(''))
+      .catch(e=>console.log(e));
+    }
   };
 
   const style = (pram) => {
