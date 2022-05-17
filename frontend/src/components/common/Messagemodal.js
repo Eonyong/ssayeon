@@ -1,6 +1,5 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Button, DialogContent, DialogTitle, Divider, List, ListItem, ListItemButton, ListItemText, ListSubheader, Paper, Typography } from "@mui/material";
-import { textAlign } from "@mui/system";
+import { Button, DialogContent, DialogTitle, List, ListItem, ListItemButton, ListItemText, ListSubheader } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -13,7 +12,7 @@ function MessageModal() {
   const [messageDetail, setMessageDetail] = useState([]);
   const [isClick, setIsClick] = useState(false);
   const [otherUser, setOtherUser] = useState(0);
-  
+
 
   const messageListSet = () => {
     axios.get(API_BASE_URL + '/user/message/list',
@@ -27,14 +26,13 @@ function MessageModal() {
   };
 
   const style = (pram) => {
-    console.log(pram)
-    if (pram.sender_id === otherUser) return({textAlign: 'end'});
+    if (pram.sender_id === otherUser) return({textAlign: 'start'});
+    return({textAlign: 'end'});
   }
 
   const msDetail = (pram) => {
     axios.get(API_BASE_URL + `/user/message/${pram}`, {headers:headers})
     .then(res=>{
-      console.log(res.data.data);
       setMessageDetail(res.data.data);
     })
     .catch(e=>console.log(e));
@@ -53,26 +51,26 @@ function MessageModal() {
           <ArrowBack />
         </Button>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ padding: '0', minWidth: '500px', maxHeight: '350px' }} >
         {
         isClick ?
         <List>
           {
             messageDetail.map((data, idx)=>{
+              console.log(data);
               return (
-                <ListItem key={idx}>
-                  <ListItemText>
-                    <Paper sx={{backgroundImage: 'message-rectangular-empty-outlined-speech-bubble-svgrepo-com.svg'}}>
-                      {data.description}
-                      <ListSubheader sx={style(data)}>
-                        {data.sender_nickname}
-                      </ListSubheader>
-                    </Paper>
+                <ListItem key={idx} sx={{ paddingX:'1' }}>
+                  <ListItemText sx={style(data)}>
+                    <strong>{data.description}</strong>
+                    <ListSubheader>
+                      {data.sender_nickname}
+                    </ListSubheader>
                   </ListItemText>
                 </ListItem>
               );
             })
           }
+        <Button>전송</Button>
         </List>
         :
         <List>
