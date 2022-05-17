@@ -2,7 +2,6 @@ package a204.ssayeon.api.service;
 
 import a204.ssayeon.api.request.article.*;
 import a204.ssayeon.api.response.article.*;
-import a204.ssayeon.api.response.user.UserShowUserActivityRes;
 import a204.ssayeon.common.exceptions.ForbiddenException;
 import a204.ssayeon.common.exceptions.NotExistException;
 import a204.ssayeon.common.exceptions.UnAuthorizedException;
@@ -115,6 +114,7 @@ public class ArticleService {
                 .isLiked(isLiked)
                 .category(getCategoryRes(article.getCategory().getId()))
                 .board(getBoardRes(article.getBoard().getId()))
+                .createdAt(article.getCreatedAt())
                 .tagList(tagListRes)
                 .build();
         return articleRes;
