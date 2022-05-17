@@ -10,7 +10,6 @@ import {
   CardContent,
   Container,
   Dialog,
-  DialogActions,
   Divider,
   Typography,
 } from "@mui/material";
@@ -109,15 +108,12 @@ function SideBar() {
             </CardActions>
           </Box>
           <Dialog
-            open={open}
-            keepMounted
+            open={open} fullWidth
+            keepMounted maxWidth='md'
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
             <MessageModal />
-            <DialogActions>
-              <Button onClick={handleClose}>닫기</Button>
-            </DialogActions>
           </Dialog>
           <Box
             sx={{
