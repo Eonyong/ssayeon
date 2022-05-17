@@ -11,7 +11,7 @@ function PreferenceDetail() {
 
   const [preference, setPreference] = useState({});
   const [choices, setChoices] = useState([]);
-  const [myChoice, setMyChoice] = useState(51);
+  const [myChoice, setMyChoice] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
   // URL
@@ -27,20 +27,19 @@ function PreferenceDetail() {
         console.log(res.data.data);
         setPreference(res.data.data);
         setChoices(res.data.data.preference_options_api_response_list);
-        // console.log(res.data.data.preference_options_api_response_list);
-        // setChoices(preference.preference_options_api_response_list);
-        // console.log(choices);
-        // console.log(preference.preference_options_api_response_list);
+      })
+      .catch((err) => console.log(err));
+    axios
+      .get(API_BASE_URL + `/preference/${id}/find`, {}, { headers: headers })
+      .then((res) => {
+        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }
   function onDelete() {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       axios
-        .delete(
-          //   `http://localhost:8081/api/preference/${id}`
-          API_BASE_URL + `/preference/${id}`
-        )
+        .delete(API_BASE_URL + `/preference/${id}`)
         .then((res) => {
           alert("삭제 완료!");
           navigate("/preference");
@@ -50,21 +49,21 @@ function PreferenceDetail() {
   }
   function onPoll(event) {
     const option_id = event.target["id"];
+    setMyChoice(option_id);
     // console.log(id, option_id);
     axios
       .post(
-        //   `http://localhost:8081/api/preference/${id}`
         API_BASE_URL + `/preference/${id}/${option_id}`,
         {},
         { headers: headers }
       )
       .then((res) => {
         alert("투표 완료!");
-        navigate("/preference");
+        // navigate("/preference");
       })
       .catch((err) => console.log(err));
   }
-  useEffect(init, []);
+  useEffect(init, [myChoice]);
   return (
     <div>
       <h1>detail</h1>
@@ -79,11 +78,11 @@ function PreferenceDetail() {
             key={index}
             onClick={onPoll}
             style={{
-              color: myChoice === item.preference_options_id ? "blue" : null,
+              color: myChoice === item.preference_options_id ? "red" : null,
             }}
           >
             {index + 1}번:
-            {item.description}
+            {item.description} {item.percent}
           </li>
         );
       })}
