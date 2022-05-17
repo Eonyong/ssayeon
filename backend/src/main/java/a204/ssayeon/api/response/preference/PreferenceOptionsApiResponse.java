@@ -13,5 +13,5 @@ public class PreferenceOptionsApiResponse {
 
     private Long preferenceOptionsId; // PK
     private String description; // 선택지 내용
-
+    private Double percent; // 백분율
 }
