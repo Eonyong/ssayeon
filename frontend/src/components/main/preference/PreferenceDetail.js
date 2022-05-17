@@ -1,10 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function PreferenceDetail() {
+  // 인증 관련
+  let token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const [preference, setPreference] = useState({});
   const [choices, setChoices] = useState([]);
+  const [myChoice, setMyChoice] = useState(51);
   const { id } = useParams();
   const navigate = useNavigate();
   // URL
@@ -27,13 +34,12 @@ function PreferenceDetail() {
       })
       .catch((err) => console.log(err));
   }
-  useEffect(init, []);
   function onDelete() {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       axios
         .delete(
           //   `http://localhost:8081/api/preference/${id}`
-          API_BASE_URL + `/preference`
+          API_BASE_URL + `/preference/${id}`
         )
         .then((res) => {
           alert("삭제 완료!");
@@ -42,6 +48,23 @@ function PreferenceDetail() {
         .catch((err) => console.log(err));
     }
   }
+  function onPoll(event) {
+    const option_id = event.target["id"];
+    // console.log(id, option_id);
+    axios
+      .post(
+        //   `http://localhost:8081/api/preference/${id}`
+        API_BASE_URL + `/preference/${id}/${option_id}`,
+        {},
+        { headers: headers }
+      )
+      .then((res) => {
+        alert("투표 완료!");
+        navigate("/preference");
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(init, []);
   return (
     <div>
       <h1>detail</h1>
@@ -49,10 +72,26 @@ function PreferenceDetail() {
       <br />
       제목: <input type="text" value={preference.description} readOnly />
       <br />
-      {choices.map((item) => (
-        <li>{item.description}</li>
-      ))}
-      <input type="button" value="게시글 삭제" onClick={onDelete} />
+      {choices.map((item, index) => {
+        return (
+          <li
+            id={item.preference_options_id}
+            key={index}
+            onClick={onPoll}
+            style={{
+              color: myChoice === item.preference_options_id ? "blue" : null,
+            }}
+          >
+            {index + 1}번:
+            {item.description}
+          </li>
+        );
+      })}
+      <Link to="/preference">목록으로</Link>
+      <br />
+      <Link to={`/preference/${id}/modify`}>수정</Link>
+      {/* <input type="button" value="수정" onClick={onModify} /> */}
+      <input type="button" value="삭제" onClick={onDelete} />
       <hr />
       <input type="text" placeholder="댓글을 입력하세요" />
       <input type="button" value="댓글달기" />

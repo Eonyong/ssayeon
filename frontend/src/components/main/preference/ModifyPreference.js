@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormControl, TextField, Container, Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function RegisterPreference() {
   // 인증 관련
@@ -20,10 +20,30 @@ function RegisterPreference() {
   const [choice, setChoice] = useState("");
   const [list, setList] = useState([]);
   const [description, setDescription] = useState("");
+  const { id } = useParams();
 
   const onChangeDesc = (event) => setDescription(event.target.value);
   const onChangeChoice = (event) => setChoice(event.target.value);
 
+  function init() {
+    axios({
+      //   url: `http://localhost:8081/api/preference/${id}`,
+      url: API_BASE_URL + `/preference/${id}`,
+      method: "GET",
+    })
+      .then((res) => {
+        console.log(res.data.data);
+        setDescription(res.data.data.description);
+        const arr = res.data.data.preference_options_api_response_list;
+        const arr2 = [];
+        for (let i = 0; i < arr.length; ++i) {
+          arr2.push(arr[i].description);
+        }
+        setList(arr2);
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(init, []);
   function addList() {
     if (choice === "") {
       alert("선택지 내용을 입력하세요");
@@ -32,16 +52,16 @@ function RegisterPreference() {
     setList((cur) => [...cur, choice]);
     setChoice("");
   }
-  function onRegister() {
+  function onModify() {
     if (description === "") {
       alert("질문을 입력하세요");
     } else if (list.length < 2) {
       alert("선택지를 최소 2개 이상 입력하세요");
     } else {
       axios
-        .post(
+        .patch(
           // `http://localhost:8081/api/preference`,
-          API_BASE_URL + `/preference`,
+          API_BASE_URL + `/preference/${id}`,
           {
             description: description,
             option_list: list,
@@ -50,7 +70,7 @@ function RegisterPreference() {
         )
         .then((res) => {
           console.log(res);
-          alert("작성 완료!");
+          alert("수정 완료!");
           navigate("/preference");
         })
         .catch((err) => console.log(err));
@@ -59,7 +79,7 @@ function RegisterPreference() {
   const onRemove = (index) => {
     const arr = [];
     for (let i = 0, len = list.length; i < len; ++i) {
-      if (i !== index) arr.push(list[i]);
+      if (i != index) arr.push(list[i]);
     }
     setList(arr);
     // setUsers(users.filter(user => user.id !== id));
@@ -78,7 +98,7 @@ function RegisterPreference() {
           alignItems: "center",
         }}
       >
-        <h2 sx={{ alignItems: "center" }}>선호도 조사 작성</h2>
+        <h2 sx={{ alignItems: "center" }}>선호도 조사 수정</h2>
         <FormControl>
           <form>
             <TextField
@@ -126,9 +146,9 @@ function RegisterPreference() {
             <Button
               sx={{ display: "flex", width: "100%", marginTop: "10px" }}
               variant="contained"
-              onClick={onRegister}
+              onClick={onModify}
             >
-              작성
+              수정
             </Button>
           </form>
         </FormControl>

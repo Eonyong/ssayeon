@@ -20,6 +20,7 @@ import BalanceContent from "./components/main/balance/BalanceContent";
 import PreferenceList from "./components/main/preference/PreferenceList";
 import RegisterPreference from "./components/main/preference/RegisterPreference";
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
+import ModifyPreference from "./components/main/preference/ModifyPreference";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ function App() {
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
+              <Route
+                path="/preference/:id/modify"
+                element={<ModifyPreference />}
+              />
               <Route path="/boards/free" element={<FreeList />} />
               <Route path="/boards/free/new" element={<NewFree />} />
               <Route path="/boards/free/detail" element={<FreeDetail />} />

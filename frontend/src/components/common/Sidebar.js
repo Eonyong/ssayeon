@@ -162,7 +162,11 @@ function SideBar() {
       </ListItemButton>
       <Collapse in={openBoards} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, py: 2 }} component={Link} to="/boards/free">
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/boards/free"
+          >
             <ListItemText primary="💚 자유 게시판" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4, py: 2 }}>
@@ -186,11 +190,13 @@ function SideBar() {
               <ListItemText primary="⚖️ 밸런스 게임" />
             </Link>
           </ListItemButton>
-          <Link to="/preference">
-            <ListItemButton sx={{ pl: 4, py: 2 }}>
-              <ListItemText primary="👍 선호도 조사" />
-            </ListItemButton>
-          </Link>
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/preference"
+          >
+            <ListItemText primary="👍 선호도 조사" />
+          </ListItemButton>
         </List>
       </Collapse>
 

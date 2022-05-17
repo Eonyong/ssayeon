@@ -106,7 +106,7 @@ function PreferenceList() {
                         textAlign: "center",
                       }}
                     >
-                      {item.updated_at}
+                      {item.updated_at.substring(0, 10)}
                     </TableCell>
                   </TableRow>
                 ))
