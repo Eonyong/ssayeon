@@ -1,5 +1,5 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Button, DialogContent, DialogTitle, Divider, List, ListItem, ListItemButton, ListItemText, ListSubheader, Typography } from "@mui/material";
+import { Button, DialogContent, DialogTitle, Divider, List, ListItem, ListItemButton, ListItemText, ListSubheader, Paper, Typography } from "@mui/material";
 import { textAlign } from "@mui/system";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -26,9 +26,15 @@ function MessageModal() {
     .catch(e=> console.log(e));
   };
 
+  const style = (pram) => {
+    console.log(pram)
+    if (pram.sender_id === otherUser) return({textAlign: 'end'});
+  }
+
   const msDetail = (pram) => {
     axios.get(API_BASE_URL + `/user/message/${pram}`, {headers:headers})
     .then(res=>{
+      console.log(res.data.data);
       setMessageDetail(res.data.data);
     })
     .catch(e=>console.log(e));
@@ -56,16 +62,12 @@ function MessageModal() {
               return (
                 <ListItem key={idx}>
                   <ListItemText>
-                    {data.description}
-                    <ListSubheader 
-                    // sx={{textAlign:{
-                      // if (data.send_id != otherUse) {
-                        
-                      // }
-                      // 'end'}}}
-                      >
-                      {data.sender_nickname}
-                    </ListSubheader>
+                    <Paper sx={{backgroundImage: 'message-rectangular-empty-outlined-speech-bubble-svgrepo-com.svg'}}>
+                      {data.description}
+                      <ListSubheader sx={style(data)}>
+                        {data.sender_nickname}
+                      </ListSubheader>
+                    </Paper>
                   </ListItemText>
                 </ListItem>
               );
