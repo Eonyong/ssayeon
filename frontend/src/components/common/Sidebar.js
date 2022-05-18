@@ -19,7 +19,6 @@ import { logout } from "../../user/auth";
 import axios from "axios";
 import MessageModal from "./Messagemodal";
 
-
 function SideBar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -66,17 +65,21 @@ function SideBar() {
 
   if (user) {
     UnReadMessageCnt();
-  };
+  }
 
   return (
     <Container>
       <Box
-        component="img" alt="logo"
-        onClick={()=>{navigate('/')}} src={require("../images/ssayeon.png")}
+        component="img"
+        alt="logo"
+        onClick={() => {
+          navigate("/");
+        }}
+        src={require("../images/ssayeon.png")}
         sx={{
           width: "150px",
           marginTop: "20px",
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       />
       {user ? (
@@ -112,8 +115,10 @@ function SideBar() {
             </CardActions>
           </Box>
           <Dialog
-            open={open} fullWidth
-            keepMounted maxWidth='md'
+            open={open}
+            fullWidth
+            keepMounted
+            maxWidth="md"
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
@@ -179,7 +184,11 @@ function SideBar() {
           <ListItemButton sx={{ pl: 4, py: 2 }}>
             <ListItemText primary="❓ 질문 게시판" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4, py: 2 }} component={Link} to="/boards/tip">
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/boards/tip"
+          >
             <ListItemText primary="🍯 꿀팁 게시판" />
           </ListItemButton>
         </List>
@@ -192,10 +201,12 @@ function SideBar() {
       </ListItemButton>
       <Collapse in={openPlayGround} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, py: 2 }}>
-            <Link to="/balance/list">
-              <ListItemText primary="⚖️ 밸런스 게임" />
-            </Link>
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/balance/list"
+          >
+            <ListItemText primary="⚖️ 밸런스 게임" />
           </ListItemButton>
           <ListItemButton
             sx={{ pl: 4, py: 2 }}
