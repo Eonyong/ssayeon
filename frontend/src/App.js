@@ -21,6 +21,7 @@ import PreferenceList from "./components/main/preference/PreferenceList";
 import RegisterPreference from "./components/main/preference/RegisterPreference";
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 import ModifyPreference from "./components/main/preference/ModifyPreference";
+import BalanceCreate from "./components/main/balance/BalanceCreate";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function App() {
               <Route path="/boards/notice" element={<NoticeList />} />
               <Route path="/balance/list" element={<BalanceList />} />
               <Route path="/balance/:id" element={<BalanceContent />} />
+              <Route path="/balance/create" element={<BalanceCreate />} />
               {/* id값으로 rerouting */}
               <Route path="/boards/notice/detail" element={<NoticeDetail />} />
               <Route path="/preference" element={<PreferenceList />} />

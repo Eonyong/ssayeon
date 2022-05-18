@@ -10,10 +10,32 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Balance from "./Balance";
-import Picture from "./Picture";
+
+import { LeafPoll, Result } from 'react-leaf-polls'
+import BalanceCreate from "./BalanceCreate";
+
+
+
+
+const themeData = {
+    textColor: '#19181f',
+    mainColor: '#00B87B',
+    backgroundColor: 'white',
+    alignment: 'center',
+    leftColor: '#00B87B',
+    rightColor: '#FF2E00'
+}
+
+
 
 const BalanceList = (props) => {
 
+    const sampleData = [
+        { id: 0, text: 'Answer 1', votes: 15 },
+        { id: 1, text: 'Answer 2', votes: 8 },
+    ]
+
+    const [resData,setResData] = useState(sampleData)
     const [list,setList] = useState([])
     const [ratio,setRatio] = useState([])
 
@@ -23,6 +45,16 @@ const BalanceList = (props) => {
         )
         setList(response.data.data)
     };
+
+    function vote(item, results) {
+        // Here you probably want to manage
+        // and return the modified data to the server.
+        const sampleData = [
+            { id: 0, text: 'Answer 1zzzz', votes: 15 },
+            { id: 1, text: 'Answer 2zzzz', votes: 31 },
+        ]
+        setResData(sampleData)
+    }
 
     useEffect(()=>{
         createArticle()
@@ -58,21 +90,31 @@ const BalanceList = (props) => {
                             <Button variant="contained">왼쪽 선택!</Button>
                             <Button variant="outlined">오른쪽 선택!</Button>
                         </Stack>
+                        <Stack
+                            sx={{ pt: 4 }}
+                            direction="row"
+                            spacing={2}
+                            justifyContent="center"
+                        >
+                            <Link to={`/balance/create`}>
+                            <Button variant="contained">밸런스 게임 생성하기</Button>
+                            </Link>
+                        </Stack>
                     </Container>
                 </Box>
+
                 <Container sx={{ py: 8 }} maxWidth="md">
                     {
                         list.map((item,index) => {
                             var date = new Date(item.created_at);
                             return(
-                                
                                     <Card
                                         sx={{ display: 'flex', flexDirection: 'col' }} key={index}
                                     >
                                         <CardContent>
                                             <Grid container>
                                                 <Grid item xs={3}>
-                                                    <Button></Button>
+                                                    <Button/>
                                                     {/*<Link to={`/balance/${item.balance_id}`}>*/}
                                                         <Balance
                                                             ratio = {ratio}
@@ -84,15 +126,23 @@ const BalanceList = (props) => {
                                                     {/*</Link>*/}
                                                 </Grid>
                                                 <Grid item xs={6}>
-                                                    <Link to={`/balance/${item.balance_id}`}>
+                                                    {/*<Link to={`/balance/${item.balance_id}`}>*/}
                                                         <CardMedia
                                                             component="img"
-                                                            image="https://source.unsplash.com/random"
+                                                            image="https://source.unsplash.com/random/"
                                                             alt="random"
                                                         />
-                                                    </Link>
-                                                    <Typography gutterBottom variant="h5" component="h2" sx={{ textDecorationLine:'none' }}>
-                                                        게임 내용 : {item.description}
+                                                        {/*<LeafPoll*/}
+                                                        {/*    type='multiple'*/}
+                                                        {/*    question={item.description}*/}
+                                                        {/*    results={resData}*/}
+                                                        {/*    theme={themeData}*/}
+                                                        {/*    onVote={vote}*/}
+                                                        {/*    isVoted={false}*/}
+                                                        {/*/>*/}
+                                                    {/*</Link>*/}
+                                                    <Typography gutterBottom variant="h2" component="h2">
+                                                        {item.description}
                                                     </Typography>
                                                     <Typography gutterBottom variant="body1" component="h5">
                                                         게임 만든 사람 : {item.user_nickname}
