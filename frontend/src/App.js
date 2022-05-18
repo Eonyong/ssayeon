@@ -2,19 +2,20 @@ import { Divider, Grid } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-import SideBar from "./components/common/Sidebar";
-import Signup from "./components/main/accounts/Signup";
-import Login from "./components/main/accounts/Login";
-import NoticeList from "./components/main/boards/notice/NoticeList";
-import NoticeDetail from "./components/main/boards/notice/NoticeDetail";
-import NewNotice from "./components/main/boards/notice/NewNotice";
-import FreeList from "./components/main/boards/frees/FreeList";
-import NewFree from "./components/main/boards/frees/NewFree";
-import Profile from "./components/main/accounts/Profile";
-import FreeDetail from "./components/main/boards/frees/FreeDetail";
-import Main from "./components/common/Main";
-import { useDispatch } from "react-redux";
-import { userProfile } from "./user/auth";
+import SideBar from './components/common/Sidebar'
+import Signup from './components/main/accounts/Signup';
+import Login from './components/main/accounts/Login';
+import NoticeList from './components/main/boards/notice/NoticeList';
+import NoticeDetail from './components/main/boards/notice/NoticeDetail';
+import NewNotice from './components/main/boards/notice/NewNotice';
+import FreeList from './components/main/boards/frees/FreeList';
+import NewFree from './components/main/boards/frees/NewFree';
+import Profile from './components/main/accounts/Profile';
+import FreeDetail from './components/main/boards/frees/FreeDetail';
+import TipList from './components/main/boards/tips/TipList';
+import Main from './components/common/Main';
+import { useDispatch } from 'react-redux';
+import { userProfile } from './user/auth';
 import BalanceList from "./components/main/balance/BalanceList";
 import BalanceContent from "./components/main/balance/BalanceContent";
 import PreferenceList from "./components/main/preference/PreferenceList";
@@ -62,6 +63,7 @@ function App() {
               <Route path="/boards/free" element={<FreeList />} />
               <Route path="/boards/free/new" element={<NewFree />} />
               <Route path="/boards/free/:id" element={<FreeDetail />} />
+              <Route path='/boards/tip' element={ <TipList /> } />
             </Routes>
           </Grid>
         </Grid>
