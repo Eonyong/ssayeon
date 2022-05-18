@@ -227,9 +227,9 @@ export default function Signup() {
             {/* 인증하기 Button Field */}
             <Button
               type="submit" sx={{ py: 1, mt: 2, backgroundColor: '#4B7BF5' }}
-              fullWidth variant="contained"
+              fullWidth variant="contained" disabled={VerifyState.IsClassId ? 'true': null}
             >
-              인증하기
+              {VerifyState.IsClassId ? '인증 되었습니다.' : '인증하기'}
             </Button>
           </Box>
         </Grid>
