@@ -40,14 +40,15 @@ function App() {
           <Divider orientation="vertical" flexItem variant="fullWidth" light />
           <Grid item sx={{ textAlign: "-webkit-center" }} xs={9}>
             <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="auth/login" element={<Login />} />
-              <Route path="auth/join" element={<Signup />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/boards/notice/new" element={<NewNotice />} />
-              <Route path="/boards/notice" element={<NoticeList />} />
-              <Route path="/balance/list" element={<BalanceList />} />
-              <Route path="/balance/:id" element={<BalanceContent />} />
+              <Route path='/' element={ <Main /> } />
+              <Route path='auth/login' element={ <Login /> } />
+              <Route path='auth/join' element={ <Signup /> } />
+              <Route path='/profile' element={ <Profile /> } />
+              <Route path='/boards/notice/new' element={ <NewNotice /> } />
+              <Route path='/boards/notice' element={ <NoticeList />}/>
+              <Route path='/boards/notice/:id' element={ <NoticeDetail />}/>
+              <Route path='/balance/list' element={ <BalanceList />}/>
+              <Route path='/balance/:id' element={ <BalanceContent />}/>
               {/* id값으로 rerouting */}
               <Route path="/boards/notice/detail" element={<NoticeDetail />} />
               <Route path="/preference" element={<PreferenceList />} />
@@ -59,7 +60,7 @@ function App() {
               />
               <Route path="/boards/free" element={<FreeList />} />
               <Route path="/boards/free/new" element={<NewFree />} />
-              <Route path="/boards/free/detail" element={<FreeDetail />} />
+              <Route path="/boards/free/:id" element={<FreeDetail />} />
             </Routes>
           </Grid>
         </Grid>
