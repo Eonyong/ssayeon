@@ -30,10 +30,9 @@ function PreferenceDetail() {
       })
       .catch((err) => console.log(err));
     axios
-      .get(API_BASE_URL + `/preference/${id}/find`, { headers: headers })
+      .get(API_BASE_URL + `/preference/${id}/find`, {}, { headers: headers })
       .then((res) => {
-        console.log(res.data.data);
-        setMyChoice(res.data.data);
+        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }
@@ -51,7 +50,7 @@ function PreferenceDetail() {
   function onPoll(event) {
     const option_id = event.target["id"];
     setMyChoice(option_id);
-    console.log(event);
+    // console.log(id, option_id);
     axios
       .post(
         API_BASE_URL + `/preference/${id}/${option_id}`,
@@ -60,6 +59,7 @@ function PreferenceDetail() {
       )
       .then((res) => {
         alert("투표 완료!");
+        // navigate("/preference");
       })
       .catch((err) => console.log(err));
   }
@@ -74,16 +74,15 @@ function PreferenceDetail() {
       {choices.map((item, index) => {
         return (
           <li
-            id={item.id}
+            id={item.preference_options_id}
             key={index}
             onClick={onPoll}
             style={{
-              color: myChoice === item.id ? "red" : null,
-              listStyle: "none",
+              color: myChoice === item.preference_options_id ? "red" : null,
             }}
           >
             {index + 1}번:
-            {item.text} ({item.votes.toFixed(2)}%)
+            {item.description} {item.percent}
           </li>
         );
       })}
