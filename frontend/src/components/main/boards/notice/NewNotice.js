@@ -80,6 +80,7 @@ function NewNotice() {
               sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
               variant="contained"
               onClick={createNotice}>
+              작성
             </Button>
           </form>
         </FormControl>
