@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell,
-List, ListItem, Divider } from "@mui/material";
+import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell, TextField,
+Card, CardContent, Typography } from "@mui/material";
 
 function FreeDetail() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT
   let params = useParams();
   const [detail, setDetail] = useState([]);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
+  const onChangeNewComment = (event) => setNewComment(event.target.value);
 
   // 인증 관련
   let token = localStorage.getItem("token");
@@ -47,7 +50,25 @@ function FreeDetail() {
     }
   };
 
-  
+  // 댓글 작성하기
+  const addNewComment = async () => {
+    if (!newComment) {
+      alert("댓글을 입력하세요")
+    } else {
+      axios.post(
+        `${API_BASE_URL}/article/${params.id}/comments/`,
+        {
+          description: newComment,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    }
+  };
+
   useEffect(() => {
     getFreeDetail();
     getComments();
@@ -98,16 +119,44 @@ function FreeDetail() {
             수정
           </Button>
 
+          {/* 댓글 작성 */}
+          <Container style={{ marginTop: "100px" }}>
+            <form>
+              <TextField
+                id="outlined-basic"
+                size="small"
+                width="80%"
+                label="댓글을 입력하세요"
+                value={newComment}
+                onChange={onChangeNewComment}
+                variant="outlined"
+              />
+              <Button 
+                sx={{ marginLeft: "10px" }}
+                variant="outlined"  
+                onClick={addNewComment}
+              >
+                작성
+              </Button>
+            </form>
+          </Container>
+
           {/* 댓글 */}
-          <List component="nav" aria-label="mailbox folders">
-            {comments.map((comment) => (
-              <ListItem key={comment.id}>
-                {comment.description}
-              </ListItem>
-            ))}
-          </List>
+          {comments.map((comment) => (
+            <Card sx={{ minWidth: 275 }}>
+              <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  {comment.nickname}
+                </Typography>
+                <Typography sx={{ fontSize: 16 }}>
+                  {comment.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
           
-          <Table>
+          {/* 이전글, 다음글 */}
+          {/* <Table sx={{ marginTop: "100px" }}>
               <>
                 <TableRow>
                   <TableCell style={{ display: "flex" }}>
@@ -138,13 +187,13 @@ function FreeDetail() {
                   </TableCell>
                 </TableRow>
               </>
-          </Table>
+          </Table> */}
 
           <Button style={{ 
             display: "flex", 
             marginTop: "15px", 
             justifyContent: "center",
-            width: "100px" }}
+            width: "10%" }}
             variant="outlined"
             href="/boards/free">
               목록으로
