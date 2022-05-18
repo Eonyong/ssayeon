@@ -21,6 +21,7 @@ import PreferenceList from "./components/main/preference/PreferenceList";
 import RegisterPreference from "./components/main/preference/RegisterPreference";
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 import ModifyPreference from "./components/main/preference/ModifyPreference";
+import BalanceCreate from "./components/main/balance/BalanceCreate";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,17 +41,17 @@ function App() {
           <Divider orientation="vertical" flexItem variant="fullWidth" light />
           <Grid item sx={{ textAlign: "-webkit-center" }} xs={9}>
             <Routes>
-              <Route path='/' element={ <Main /> } />
-              <Route path='auth/login' element={ <Login /> } />
-              <Route path='auth/join' element={ <Signup /> } />
-              <Route path='/profile' element={ <Profile /> } />
-              <Route path='/boards/notice/new' element={ <NewNotice /> } />
-              <Route path='/boards/notice' element={ <NoticeList />}/>
+              <Route path="/" element={<Main />} />
+              <Route path="auth/login" element={<Login />} />
+              <Route path="auth/join" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/boards/notice" element={<NoticeList />} />
+              <Route path="/boards/notice/new" element={<NewNotice />} />
               <Route path='/boards/notice/:id' element={ <NoticeDetail />}/>
-              <Route path='/balance/list' element={ <BalanceList />}/>
-              <Route path='/balance/:id' element={ <BalanceContent />}/>
+              <Route path="/balance/list" element={<BalanceList />} />
+              <Route path="/balance/:id" element={<BalanceContent />} />
+              <Route path="/balance/create" element={<BalanceCreate />} />
               {/* id값으로 rerouting */}
-              <Route path="/boards/notice/detail" element={<NoticeDetail />} />
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
