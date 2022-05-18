@@ -72,7 +72,7 @@ function SideBar() {
     <Container>
       <Box
         component="img" alt="logo"
-        onClick={()=>{navigate('/')}} src={require("../images/ssayeon.png")}
+        onClick={()=>{navigate('/')}} src={require('../images/ssayeon.png')}
         sx={{
           width: "150px",
           marginTop: "20px",

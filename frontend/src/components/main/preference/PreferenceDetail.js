@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { LeafPoll } from "react-leaf-polls";
+import { Typography } from "@mui/material";
 
 function PreferenceDetail() {
   // 인증 관련
@@ -26,7 +28,11 @@ function PreferenceDetail() {
       .then((res) => {
         console.log(res.data.data);
         setPreference(res.data.data);
-        setChoices(res.data.data.preference_options_api_response_list);
+        res.data.data.preference_options_api_response_list.forEach(({_, description, percent}, idx) => {
+          var vt_result = {'id': idx + 1, 'text': description, 'votes': percent};
+          setChoices([...choices, vt_result]);
+        });
+        console.log(choices);
       })
       .catch((err) => console.log(err));
     axios
@@ -66,26 +72,29 @@ function PreferenceDetail() {
   useEffect(init, [myChoice]);
   return (
     <div>
-      <h1>detail</h1>
+      <Typography variant="h3" >detail</Typography>
       작성자: <input type="text" value={preference.writer} readOnly />
-      <br />
-      제목: <input type="text" value={preference.description} readOnly />
-      <br />
-      {choices.map((item, index) => {
-        return (
-          <li
-            id={item.preference_options_id}
-            key={index}
-            onClick={onPoll}
-            style={{
-              color: myChoice === item.preference_options_id ? "red" : null,
-            }}
-          >
-            {index + 1}번:
-            {item.description} {item.percent}
-          </li>
-        );
-      })}
+      <LeafPoll
+        type="multiple"
+        question={preference.description}
+        results={choices}
+      >
+      </LeafPoll>
+        {/* {choices.map((item, index) => {
+          return (
+            <li
+              id={item.preference_options_id}
+              key={index}
+              onClick={onPoll}
+              style={{
+                color: myChoice === item.preference_options_id ? "red" : null,
+              }}
+            >
+              {index + 1}번:
+              {item.description} {item.percent}
+            </li>
+          );
+        })} */}
       <Link to="/preference">목록으로</Link>
       <br />
       <Link to={`/preference/${id}/modify`}>수정</Link>
