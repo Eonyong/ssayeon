@@ -12,17 +12,18 @@ import {
 } from "@mui/material";
 import { Check } from "@mui/icons-material";
 
+// 인증 관련
 const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 const token = localStorage.getItem("token");
 const headers = {
   Authorization: `Bearer ${token}`,
 };
+const myId = JSON.parse(localStorage.getItem("user")).id;
 
 function PreferenceDetail() {
-  // 인증 관련
   const [preference, setPreference] = useState({});
   const [choices, setChoices] = useState([]);
-  const [donut, setDonut] = useState([{label:'', value:1}]);
+  const [donut, setDonut] = useState([{ label: "", value: 1 }]);
   const [myChoice, setMyChoice] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -55,8 +56,7 @@ function PreferenceDetail() {
         })
         .catch((err) => console.log(err));
     }
-  };
-
+  }
 
   function onPoll(event) {
     setMyChoice(event.target.id);
@@ -76,28 +76,31 @@ function PreferenceDetail() {
   }, [myChoice]);
   return (
     <>
-      <Typography variant='h4' m={5}><strong>{preference.description}</strong></Typography>
-      {
-        myChoice > 0 ?
-        <DonutChart
-          data={donut}
-        /> : <></>
-      }
-      <Typography variant='body1'>아래의 보기를 선택하세요.</Typography>
-      <List sx={{ display:'flex', flexDirection:'column' }}>
+      <Typography variant="h4" m={5}>
+        <strong>{preference.description}</strong>
+      </Typography>
+      {myChoice > 0 ? <DonutChart data={donut} /> : <></>}
+      <Typography variant="body1">아래의 보기를 선택하세요.</Typography>
+      <List sx={{ display: "flex", flexDirection: "column" }}>
         {choices.map((item, index) => {
           return (
             <ListItem
-              id={item.id} key={index}
+              id={item.id}
+              key={index}
               onClick={onPoll}
               sx={{
-                marginY:1,
-                backgroundColor: myChoice > 0 ? `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})` : null,
-                width : item.percent > 0 ? `${item.percent}%` : 'fit-content',
+                marginY: 1,
+                backgroundColor:
+                  myChoice > 0
+                    ? `rgb(${Math.floor(Math.random() * 256)},${Math.floor(
+                        Math.random() * 256
+                      )},${Math.floor(Math.random() * 256)})`
+                    : null,
+                width: item.percent > 0 ? `${item.percent}%` : "fit-content",
               }}
             >
-              {item.text} {myChoice > 0 ? `(${item.votes} 명)`: null }
-              {myChoice===item.id ? <Check /> : null}
+              {item.text} {myChoice > 0 ? `(${item.votes} 명)` : null}
+              {myChoice === item.id ? <Check /> : null}
             </ListItem>
           );
         })}
@@ -110,10 +113,16 @@ function PreferenceDetail() {
         <Button
           variant="text"
           onClick={() => navigate(`/preference/${id}/modify`)}
+          style={{ display: myId !== preference.user_id ? "none" : null }}
         >
           수정
         </Button>
-        <Button onClick={onDelete}>삭제</Button>
+        <Button
+          onClick={onDelete}
+          style={{ display: myId !== preference.user_id ? "none" : null }}
+        >
+          삭제
+        </Button>
         <Box component="form">
           <TextField type="text" placeholder="댓글을 입력하세요" />
           <Button type="submit" variant="contained">
