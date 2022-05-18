@@ -15,7 +15,9 @@ function FreeDetail() {
 
   // 인증 관련
   let token = localStorage.getItem("token");
-  let currentUser = localStorage.getItem("user.name")
+  let currentUserInfo = JSON.parse(localStorage.getItem("user"))
+  let currentUser = currentUserInfo.name
+
   const headers = {
     Authorization: `Bearer ${token}`,
   };

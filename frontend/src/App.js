@@ -54,7 +54,6 @@ function App() {
               <Route path="/balance/list" element={<BalanceList />} />
               <Route path="/balance/:id" element={<BalanceContent />} />
               <Route path="/balance/create" element={<BalanceCreate />} />
-              {/* id값으로 rerouting */}
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
@@ -67,8 +66,6 @@ function App() {
               <Route path="/boards/free/:id" element={<FreeDetail />} />
               <Route path="/boards/free/:id/edit" element={<EditFree />} />
               <Route path='/boards/tip' element={ <TipList /> } />
-              <Route path="/boards/free/detail" element={<FreeDetail />} />
-
               <Route path="/search" element={<SearchList />} />
             </Routes>
           </Grid>
