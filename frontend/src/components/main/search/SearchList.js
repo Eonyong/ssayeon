@@ -54,7 +54,7 @@ function SearchList() {
         />
 
         {list.map((item) => (
-          <Link href={`/boards/${item.board.id==1?'free':(item.board.id==2?'question':'tip')}/${item.id}`} style={{
+          <Link href={`/boards/${item.board.id===1 ? 'free' : (item.board.id === 2 ? 'question' : 'tip')}/${item.id}`} style={{
             marginBottom: 0,
             color: "black",
             textDecoration: "none"

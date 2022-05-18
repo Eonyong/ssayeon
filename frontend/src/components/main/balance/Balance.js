@@ -1,8 +1,8 @@
-import { Box, Button, Card, CardContent, Paper, Typography } from "@mui/material";
+import { Button, Card, CardContent, Typography } from "@mui/material";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-function Balance({balanceId, description, dir,ratio,setRatio}){
+function Balance({balanceId, dir,ratio,setRatio}){
 
     const [localRatio,setLocalRatio] = useState([]);
     const [flag,setFlag] = useState(false);
@@ -24,7 +24,7 @@ function Balance({balanceId, description, dir,ratio,setRatio}){
 
     const getData = async () =>{
         const response = await axios.get(process.env.REACT_APP_API_ROOT + `/balance/statics/${balanceId}`)
-        setLocalRatio(response.data.data)
+        setLocalRatio(response.data.data);
     }
 
     useEffect(()=>{
