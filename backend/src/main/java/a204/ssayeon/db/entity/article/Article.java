@@ -55,4 +55,8 @@ public class Article extends BaseEntity {
         this.likesCount = likesCount;
     }
 
+    public void updateViews() {
+        this.views += 1;
+    }
+
 }

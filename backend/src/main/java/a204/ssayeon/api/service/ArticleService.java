@@ -82,8 +82,12 @@ public class ArticleService {
     }
 
     public ArticleRes getArticleById(Long articleId, User user) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+        Article article1 = articleRepository.findById(articleId).orElseThrow(() ->
                 new NotExistException(ErrorMessage.ARTICLE_DOES_NOT_EXIST));
+
+        article1.updateViews();
+
+        Article article = articleRepository.save(article1);
 
         List<ArticleHasTag> tagList = articleHasTagRepository.findByArticleId(article.getId());
         List<TagRes> tagListRes = new ArrayList<>();
@@ -102,6 +106,8 @@ public class ArticleService {
                 isLiked = true;
             }
         }
+
+
 
         ArticleRes articleRes = ArticleRes.builder()
                 .id(article.getId())
