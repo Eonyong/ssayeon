@@ -1,11 +1,41 @@
-import React, { useState } from "react";
-import { Table, TableCell, TableHead, TableRow, Container, TextField, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Table, TableCell, TableHead, TableRow, 
+  Container, TextField, Button } from "@mui/material";
 
 import NoticeContent from './NoticeContent';
 import Pagination from './Pagination';
 
 function NoticeList() {
+  const API_BASE_URL = process.env.REACT_APP_API_ROOT
+
   const [list, setList] = useState([]);
+
+  // 인증 관련
+  let token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  // 자유게시판 목록 불러오기
+  const getNoticeList = async (page) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/notification`,
+        {
+          params: {page: page},
+          headers: headers,
+        })
+        .then(res => res.data);
+        setList(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+  };
+
+  useEffect(() => {
+    getNoticeList();
+  }, []);
 
   return (
     <div>
@@ -18,26 +48,17 @@ function NoticeList() {
                   <TableCell
                     style={{
                       fontSize: "1rem",
-                      width: "10%",
-                      textAlign: "left",
+                      width: "80%",
+                      textAlign: "center",
                     }}
                   >
-                    번호
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "1rem",
-                      width: "60%",
-                      textAlign: "left",
-                    }}
-                  >
-                    제목
+                   제목
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: "1rem",
                       width: "10%",
-                      textAlign: "left",
+                      textAlign: "center",
                     }}
                   >
                     작성일
@@ -46,7 +67,7 @@ function NoticeList() {
                     style={{
                       fontSize: "1rem",
                       width: "10%",
-                      textAlign: "left",
+                      textAlign: "center",
                     }}
                   >
                     조회수
