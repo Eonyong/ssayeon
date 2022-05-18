@@ -31,7 +31,7 @@ function FreeDetail() {
     }
   };
 
-  // 게시글 상세 내용 불러오기
+  // 댓글 불러오기
   const getComments = async () => {
     try {
       const response = await axios.get(
@@ -46,6 +46,7 @@ function FreeDetail() {
         console.log(err);
     }
   };
+
   
   useEffect(() => {
     getFreeDetail();
@@ -85,6 +86,17 @@ function FreeDetail() {
               </TableRow>
             </TableBody>
           </Table>
+
+          {/* 수정 버튼 */}
+          <Button style={{ 
+            display: "flex", 
+            marginTop: "15px", 
+            justifyContent: "center",
+            width: "10%" }}
+            variant="outlined"
+            href={`/boards/free/${params.id}/edit`}>
+            수정
+          </Button>
 
           {/* 댓글 */}
           <List component="nav" aria-label="mailbox folders">
