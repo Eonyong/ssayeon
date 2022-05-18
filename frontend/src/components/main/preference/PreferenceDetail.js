@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Check } from "@mui/icons-material";
 
 const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 const token = localStorage.getItem("token");
@@ -19,14 +20,9 @@ const headers = {
 
 function PreferenceDetail() {
   // 인증 관련
-  let token = localStorage.getItem("token");
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
   const [preference, setPreference] = useState({});
   const [choices, setChoices] = useState([]);
-  const [donut, setDonut] = useState([{ label: "", value: 1 }]);
+  const [donut, setDonut] = useState([{label:'', value:1}]);
   const [myChoice, setMyChoice] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -59,7 +55,8 @@ function PreferenceDetail() {
         })
         .catch((err) => console.log(err));
     }
-  }
+  };
+
 
   function onPoll(event) {
     setMyChoice(event.target.id);
@@ -79,26 +76,28 @@ function PreferenceDetail() {
   }, [myChoice]);
   return (
     <>
-      <Typography variant="h4" m={5}>
-        {preference.description}
-      </Typography>
-      {myChoice > 0 ? <DonutChart data={donut} /> : <></>}
-      <List>
+      <Typography variant='h4' m={5}><strong>{preference.description}</strong></Typography>
+      {
+        myChoice > 0 ?
+        <DonutChart
+          data={donut}
+        /> : <></>
+      }
+      <Typography variant='body1'>아래의 보기를 선택하세요.</Typography>
+      <List sx={{ display:'flex', flexDirection:'column' }}>
         {choices.map((item, index) => {
           return (
             <ListItem
-              divider
-              id={item.id}
-              key={index}
+              id={item.id} key={index}
               onClick={onPoll}
               sx={{
-                backgroundColor: myChoice === item.id ? "teal" : null,
+                marginY:1,
+                backgroundColor: myChoice > 0 ? `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})` : null,
+                width : item.percent > 0 ? `${item.percent}%` : 'fit-content',
               }}
             >
-              {item.text}{" "}
-              <Typography sx={{ mx: 3 }}>
-                {myChoice > 0 ? `${item.votes}명 투표` : null}
-              </Typography>
+              {item.text} {myChoice > 0 ? `(${item.votes} 명)`: null }
+              {myChoice===item.id ? <Check /> : null}
             </ListItem>
           );
         })}

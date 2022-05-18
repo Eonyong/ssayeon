@@ -8,9 +8,6 @@ import {
   TextField,
   Button,
   TableBody,
-  ListSubheader,
-  Card,
-  CardContent,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +24,6 @@ function PreferenceList() {
       method: "GET",
     })
       .then((res) => {
-        console.log(res.data.data);
         setList(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -44,7 +40,7 @@ function PreferenceList() {
   return (
     <div>
       <>
-        <Container sx={{ marginTop: "100px" }} fullWidth>
+        <Container sx={{ marginTop: "100px" }}>
           <h2 style={{ marginLeft: "50px" }}>선호도조사</h2>
           <Table style={{ marginTop: "2%" }}>
             <TableHead style={{ boxShadow: "0px 5px 10px rgb(207 206 206)" }}>
@@ -95,7 +91,7 @@ function PreferenceList() {
               ) : (
                 list.map((item, idx) => 
                 (
-                  <TableRow>
+                  <TableRow key={idx}>
                     <TableCell
                       style={{
                         fontSize: "1rem",
