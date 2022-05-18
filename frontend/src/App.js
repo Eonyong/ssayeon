@@ -22,6 +22,7 @@ import RegisterPreference from "./components/main/preference/RegisterPreference"
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 import ModifyPreference from "./components/main/preference/ModifyPreference";
 import BalanceCreate from "./components/main/balance/BalanceCreate";
+import SearchList from "./components/main/search/SearchList";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,8 @@ function App() {
               <Route path="/boards/free" element={<FreeList />} />
               <Route path="/boards/free/new" element={<NewFree />} />
               <Route path="/boards/free/detail" element={<FreeDetail />} />
+
+              <Route path="/search" element={<SearchList />} />
             </Routes>
           </Grid>
         </Grid>

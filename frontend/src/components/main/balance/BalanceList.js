@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Balance from "./Balance";
 
-import { LeafPoll, Result } from 'react-leaf-polls'
 import BalanceCreate from "./BalanceCreate";
 
 
