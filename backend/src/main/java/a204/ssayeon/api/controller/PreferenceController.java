@@ -73,9 +73,12 @@ public class PreferenceController {
                 percent = (double) num/total * 100;
             }
             list.add(PreferenceOptionsApiResponse.builder()
-                    .preferenceOptionsId(option.getId())
-                    .description(option.getDescription())
-                    .percent(percent)
+//                    .preferenceOptionsId(option.getId())
+                    .id(option.getId())
+//                    .description(option.getDescription())
+                    .text(option.getDescription())
+//                    .percent(percent)
+                    .votes(num)
                     .build());
         }
         Preference preference = preferenceService.getPreferenceById(preferenceId);
