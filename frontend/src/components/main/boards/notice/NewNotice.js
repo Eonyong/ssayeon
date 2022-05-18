@@ -13,8 +13,6 @@ function NewNotice() {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    board_id: "1",
-    category_id: "1"
   });
 
   const onChange = (event) => {
@@ -26,18 +24,14 @@ function NewNotice() {
     console.log(form);
   };
 
-  const createArticle = () => {
-    if (!form.board_id) {
-      alert("게시판을 선택하세요");
-    } else if (!form.category_id) {
-      alert("카테고리를 선택하세요");
-    } else if (!form.title) {
+  const createNotice = () => {
+    if (!form.title) {
       alert("제목을 입력하세요");
-    } else if (!form.content) {
+    } else if (!form.description) {
       alert("내용을 입력하세요");
     } else {
       axios.post(
-        `${process.env.REACT_APP_API_ROOT}/article`,
+        `${process.env.REACT_APP_API_ROOT}/notification`,
         {
           title: form.title,
           description: form.description,
@@ -52,12 +46,12 @@ function NewNotice() {
   };
 
   return (
-    <Container sx={{ display: 'flex' }}>
+    <Container>
       <Box
          sx={{
           marginTop: 2,
           width: 'auto',
-          display: 'flex',
+          display: "flex",
           flexDirection: 'column',
           alignItems: 'center',
         }}
@@ -77,6 +71,7 @@ function NewNotice() {
               sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
               id="description"
               name="description"
+              value={form.description}
               label="내용"
               onChange={onChange}
               multiline rows={20}
@@ -84,8 +79,8 @@ function NewNotice() {
             <Button 
               sx={{ display: "flex", width: "100%", marginTop: "10px" }} 
               variant="contained"
-              onClick={createArticle}>
-                작성
+              onClick={createNotice}>
+              작성
             </Button>
           </form>
         </FormControl>

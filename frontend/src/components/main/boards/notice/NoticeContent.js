@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableRow, Link } from "@mui/material";
 
 function NoticeContent({ list }) {
   return (
@@ -7,8 +7,11 @@ function NoticeContent({ list }) {
       <TableBody>
         {list.map((item, index) =>
           <TableRow key={index}>
-          <TableCell style={{ textAlign: 'center' }}>{item.id}</TableCell>
-          <TableCell style={{ textAlign: 'center' }}>{item.title}</TableCell>
+          <TableCell style={{ textAlign: 'center' }}>
+            <Link href={`/boards/notice/${item.id}`}>
+              {item.title}
+            </Link>
+          </TableCell>
           <TableCell style={{ textAlign: 'center' }}>{item.created_at.slice(0,10)}</TableCell>
           <TableCell style={{ textAlign: 'center' }}>{item.views}</TableCell>
           </TableRow>)
