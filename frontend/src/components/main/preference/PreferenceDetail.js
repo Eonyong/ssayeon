@@ -62,16 +62,16 @@ function PreferenceDetail() {
   }
 
   function onPoll(event) {
-    const option_id = event.target["id"];
-    setMyChoice(option_id);
-    // console.log(id, option_id);
+    setMyChoice(event.target.id);
     axios
       .post(
-        API_BASE_URL + `/preference/${id}/${option_id}`,
+        API_BASE_URL + `/preference/${id}/${event.target.id}`,
         {},
         { headers: headers }
       )
-      .then(() => {})
+      .then(() => {
+        navigate(0);
+      })
       .catch((err) => console.log(err));
   }
   useEffect(() => {
