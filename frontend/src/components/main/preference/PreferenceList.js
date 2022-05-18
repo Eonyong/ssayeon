@@ -8,15 +8,12 @@ import {
   TextField,
   Button,
   TableBody,
-  ListSubheader,
-  Card,
-  CardContent,
 } from "@mui/material";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 function PreferenceList() {
-  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
   const [list, setList] = useState([]);
   const navigate = useNavigate();
   function func() {
