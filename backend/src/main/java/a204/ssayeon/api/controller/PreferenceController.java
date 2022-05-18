@@ -77,7 +77,7 @@ public class PreferenceController {
                     .id(option.getId())
 //                    .description(option.getDescription())
                     .text(option.getDescription())
-//                    .percent(percent)
+                    .percent(percent)
                     .votes(num)
                     .build());
         }

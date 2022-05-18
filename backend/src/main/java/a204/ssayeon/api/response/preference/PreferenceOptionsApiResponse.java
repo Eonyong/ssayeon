@@ -15,6 +15,6 @@ public class PreferenceOptionsApiResponse {
     private Long id; // PK
 //    private String description; // 선택지 내용
     private String text; // 선택지 내용
-//    private Double percent; // 백분율
+    private Double percent; // 백분율
     private Long votes; // 투표수
 }
