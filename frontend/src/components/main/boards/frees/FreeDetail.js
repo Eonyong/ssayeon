@@ -15,6 +15,7 @@ function FreeDetail() {
 
   // 인증 관련
   let token = localStorage.getItem("token");
+  let currentUser = localStorage.getItem("user.name")
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -109,15 +110,17 @@ function FreeDetail() {
           </Table>
 
           {/* 수정 버튼 */}
-          <Button style={{ 
-            display: "flex", 
-            marginTop: "15px", 
-            justifyContent: "center",
-            width: "10%" }}
-            variant="outlined"
-            href={`/boards/free/${params.id}/edit`}>
-            수정
-          </Button>
+          {currentUser === detail.nickname ? (
+            <Button style={{ 
+              display: "flex", 
+              marginTop: "15px", 
+              justifyContent: "center",
+              width: "10%" }}
+              variant="outlined"
+              href={`/boards/free/${params.id}/edit`}>
+              수정
+            </Button>
+          ) : null }
 
           {/* 댓글 작성 */}
           <Container style={{ marginTop: "100px" }}>

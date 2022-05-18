@@ -5,7 +5,7 @@ import { FormControl, TextField, Container, Box, Button } from "@mui/material";
 
 function NewFree() {
   // 인증 관련
-  let token = sessionStorage.getItem("token");
+  let token = localStorage.getItem("token");
   const headers = {
     Authorization: `Bearer ${token}`,
   }
