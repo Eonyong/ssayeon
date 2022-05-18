@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { profileEdit, userProfile, withdrawal } from "../../../user/auth";
-import Companies from "./Companies";
 import SkillTech from "./Skilltech";
+import Companies from "./Companies";
 
 export default function Profile() {
 
@@ -108,10 +108,7 @@ export default function Profile() {
           {/* 회사, 선호 기술 스택 Text Field */}
           <Grid container spacing={1} sx={{ my:2 }}>
             <Grid item xs={12} sm={6}>
-              <Companies parentCallback={res => {
-                setUser({...User, company:res})
-              }
-                }/>
+              <Companies />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
               <SkillTech />

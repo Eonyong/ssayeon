@@ -87,10 +87,7 @@ function NoticeList() {
             href='/boards/notice/new'>작성
             </Button>
           </Container>
-          <Container style={{ marginTop: "15px" }}>
-           <TextField id="outlined-basic" size="small" label="검색어를 입력해주세요" variant="outlined" />
-           <Button variant="outlined" style={{ marginLeft: "10px" }}>검색</Button>
-          </Container>
+          
         </>
     </div>
   );

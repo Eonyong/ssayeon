@@ -10,7 +10,6 @@ import {
   CardContent,
   Container,
   Dialog,
-  DialogActions,
   Divider,
   Typography,
 } from "@mui/material";
@@ -20,9 +19,9 @@ import { logout } from "../../user/auth";
 import axios from "axios";
 import MessageModal from "./Messagemodal";
 
+
 function SideBar() {
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
@@ -65,11 +64,22 @@ function SideBar() {
       .catch((e) => console.log(e));
   };
 
-  UnReadMessageCnt();
+  if (user) {
+    UnReadMessageCnt();
+  };
 
   return (
     <Container>
-      {isLoggedIn ? (
+      <Box
+        component="img" alt="logo"
+        onClick={()=>{navigate('/')}} src={require("../images/ssayeon.png")}
+        sx={{
+          width: "150px",
+          marginTop: "20px",
+          cursor: "pointer"
+        }}
+      />
+      {user ? (
         <Box mt={1}>
           <Box
             sx={{
@@ -102,15 +112,12 @@ function SideBar() {
             </CardActions>
           </Box>
           <Dialog
-            open={open}
-            keepMounted
+            open={open} fullWidth
+            keepMounted maxWidth='md'
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
             <MessageModal />
-            <DialogActions>
-              <Button onClick={handleClose}>닫기</Button>
-            </DialogActions>
           </Dialog>
           <Box
             sx={{
@@ -162,7 +169,11 @@ function SideBar() {
       </ListItemButton>
       <Collapse in={openBoards} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4, py: 2 }} component={Link} to="/boards/free">
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/boards/free"
+          >
             <ListItemText primary="💚 자유 게시판" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4, py: 2 }}>
@@ -186,11 +197,13 @@ function SideBar() {
               <ListItemText primary="⚖️ 밸런스 게임" />
             </Link>
           </ListItemButton>
-          <Link to="/preference">
-            <ListItemButton sx={{ pl: 4, py: 2 }}>
-              <ListItemText primary="👍 선호도 조사" />
-            </ListItemButton>
-          </Link>
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/preference"
+          >
+            <ListItemText primary="👍 선호도 조사" />
+          </ListItemButton>
         </List>
       </Collapse>
 

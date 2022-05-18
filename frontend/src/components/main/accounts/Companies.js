@@ -27,7 +27,7 @@ export default function Companies() {
       onChange={(_, newValue)=>SetCp(newValue.value)}
       options={CompanySet}
       defaultValue={cp}
-      isOptionEqualToValue={(option)=>(option.value)}
+      isOptionEqualToValue={(option)=>option.value}
       renderInput={(params) => (
         <TextField
           {...params}

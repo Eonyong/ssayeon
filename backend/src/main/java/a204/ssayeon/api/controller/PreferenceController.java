@@ -65,10 +65,17 @@ public class PreferenceController {
         // 선택지 리스트 먼저 불러오기
         List<PreferenceOptions> options = preferenceOptionsService.getPreferenceOptionsByPreferenceId(preferenceId);
         List<PreferenceOptionsApiResponse> list = new ArrayList<>();
+        long total = preferenceOptionsUserSelectedService.getPreferenceOptionsUserSelectedNumByPreferenceId(preferenceId);
         for(PreferenceOptions option : options) {
+            long num = preferenceOptionsUserSelectedService.getPreferenceOptionsUserSelectedNumByPreferenceOptionsId(option.getId());
+            double percent = 0.0;
+            if(total!=0){
+                percent = (double) num/total * 100;
+            }
             list.add(PreferenceOptionsApiResponse.builder()
                     .preferenceOptionsId(option.getId())
                     .description(option.getDescription())
+                    .percent(percent)
                     .build());
         }
         Preference preference = preferenceService.getPreferenceById(preferenceId);
@@ -152,6 +159,27 @@ public class PreferenceController {
         }
         return AdvancedResponseBody.of(Status.OK);
     }
+
+    // 현재 유저의 특정 선호도조사의 특정 선택지 가져오기
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = {"/{preferenceId}/find"})
+    public AdvancedResponseBody<Long> getChoice(@PathVariable Long preferenceId, @CurrentUser User user) {
+        PreferenceOptionsUserSelected current = preferenceOptionsUserSelectedService.getPreferenceOptionsUserSelectedByPreferenceIdAndUserId(preferenceId, user.getId());
+
+        if(current!=null) { // 기존의 투표선택지가 있으면
+            return AdvancedResponseBody.of(Status.OK,current.getPreferenceOptions().getId());
+        }else { // 기존 선택지가 없으면 0 리턴
+            return AdvancedResponseBody.of(Status.OK,0L);
+        }
+    }
+
+    // 특정 선호도조사의 선택지 비율 가져오기
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping(value = {"/{preferenceId}/percent"})
+//    public AdvancedResponseBody<Double> getPercent(@PathVariable Long preferenceId) {
+//        Double[] list = preferenceOptionsUserSelectedService.getPreferenceOptionsUserSelectedByPreferenceIdAndUserId(preferenceId, user.getId());
+//        return AdvancedResponseBody.of(Status.OK, list);
+//    }
 
     // 댓글 생성
     @ResponseStatus(HttpStatus.CREATED)

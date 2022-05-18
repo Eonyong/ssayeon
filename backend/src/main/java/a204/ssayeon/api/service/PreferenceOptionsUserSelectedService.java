@@ -22,4 +22,12 @@ public class PreferenceOptionsUserSelectedService {
     public void deletePreferenceOptionsUserSelectedById(Long preferenceOptionsUserSelectedId) {
         preferenceOptionsUserSelectedRepository.deleteById(preferenceOptionsUserSelectedId);
     }
+
+    public Long getPreferenceOptionsUserSelectedNumByPreferenceId(Long preferenceId){
+        return preferenceOptionsUserSelectedRepository.countByPreferenceId(preferenceId);
+    }
+
+    public Long getPreferenceOptionsUserSelectedNumByPreferenceOptionsId(Long preferenceOptionsId){
+        return preferenceOptionsUserSelectedRepository.countByPreferenceOptionsId(preferenceOptionsId);
+    }
 }

@@ -8,17 +8,21 @@ import {
   TextField,
   Button,
   TableBody,
+  ListSubheader,
+  Card,
+  CardContent,
 } from "@mui/material";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function PreferenceList() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
   const [list, setList] = useState([]);
+  const navigate = useNavigate();
   function func() {
     axios({
-      url: `http://localhost:8081/api/preference`,
-      // url: API_BASE_URL + `api/preference`,
+      // url: `http://localhost:8081/api/preference`,
+      url: API_BASE_URL + `/preference`,
       method: "GET",
     })
       .then((res) => {
@@ -33,7 +37,7 @@ function PreferenceList() {
       <>
         <Container sx={{ marginTop: "100px" }} fullWidth>
           <h2 style={{ marginLeft: "50px" }}>선호도조사</h2>
-          <Table style={{ /* display: "flex", */ marginTop: "2%" }}>
+          <Table style={{ marginTop: "2%" }}>
             <TableHead style={{ boxShadow: "0px 5px 10px rgb(207 206 206)" }}>
               <TableRow style={{ backgroundColor: "#C2E2F5" }}>
                 <TableCell
@@ -80,17 +84,16 @@ function PreferenceList() {
                   </TableCell>
                 </TableRow>
               ) : (
-                list.map((item) => (
+                list.map((item, idx) => 
+                (
                   <TableRow>
                     <TableCell
                       style={{
                         fontSize: "1rem",
                         textAlign: "center",
-                      }}
+                      }} onClick={()=>{navigate(`/preference/${item.preference_id}`)}}
                     >
-                      <Link to={`/preference/${item.preference_id}`}>
-                        {item.description}
-                      </Link>
+                      {item.description}
                     </TableCell>
                     <TableCell
                       style={{
@@ -106,11 +109,11 @@ function PreferenceList() {
                         textAlign: "center",
                       }}
                     >
-                      {item.updated_at}
+                      {item.updated_at.substring(0, 10)}
                     </TableCell>
                   </TableRow>
-                ))
-              )}
+                )
+                ))}
             </TableBody>
           </Table>
           {/* <Pagination setList={setList} /> */}
