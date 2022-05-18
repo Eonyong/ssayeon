@@ -253,9 +253,9 @@ public class PreferenceController {
     }
 
     // 검색
-    @GetMapping(value = {"/search/type"})
-    public AdvancedResponseBody<List<PreferenceApiResponse>> searchPreference(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable, @PathVariable Integer type, @RequestParam String query) {
-        Page<Preference> preferences = preferenceService.searchPreferences(type, query, pageable);
+    @GetMapping(value = {"/search"})
+    public AdvancedResponseBody<List<PreferenceApiResponse>> searchPreference(@PageableDefault(sort="id",direction = Sort.Direction.DESC,size=10) Pageable pageable, @RequestParam String query) {
+        Page<Preference> preferences = preferenceService.searchPreferences(1, query, pageable);
         List<PreferenceApiResponse> list = new ArrayList<>();
         Pagination pagination = Pagination.getPagination(preferences);
         for(Preference preference : preferences) {
@@ -263,6 +263,7 @@ public class PreferenceController {
                     .preferenceId(preference.getId())
                     .userId(preference.getUser().getId())
                     .writer(preference.getUser().getNickname())
+                    .description(preference.getDescription())
                     .preferenceOptionsApiResponseList(null) // 선택지는 필요없으므로 null
                     .createAt(preference.getCreatedAt())
                     .updatedAt(preference.getUpdatedAt())
