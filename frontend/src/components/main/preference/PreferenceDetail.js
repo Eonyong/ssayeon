@@ -83,7 +83,14 @@ function PreferenceDetail() {
       </Typography>
       {myChoice > 0 ? <DonutChart data={donut} /> : <></>}
       <Typography variant="body1">아래의 보기를 선택하세요.</Typography>
-      <List sx={{ display: "flex", flexDirection: "column" }}>
+      <List
+        sx={{
+          maxWidth: "50%",
+          justifyContent: "center",
+          // display: "flex",
+          flexDirection: "column",
+        }}
+      >
         {choices.map((item, index) => {
           return (
             <ListItem
@@ -91,6 +98,7 @@ function PreferenceDetail() {
               key={index}
               onClick={onPoll}
               sx={{
+                justifyContent: "center",
                 marginY: 1,
                 backgroundColor:
                   myChoice > 0
@@ -125,12 +133,12 @@ function PreferenceDetail() {
         >
           삭제
         </Button>
-        <Box component="form">
+        {/* <Box component="form">
           <TextField type="text" placeholder="댓글을 입력하세요" />
           <Button type="submit" variant="contained">
             댓글 달기
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );
