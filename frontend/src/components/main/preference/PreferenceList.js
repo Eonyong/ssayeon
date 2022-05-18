@@ -8,6 +8,9 @@ import {
   TextField,
   Button,
   TableBody,
+  ListSubheader,
+  Card,
+  CardContent,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 function PreferenceList() {
   const [list, setList] = useState([]);
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
   function func() {
     axios({
@@ -24,6 +28,14 @@ function PreferenceList() {
     })
       .then((res) => {
         console.log(res.data.data);
+        setList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }
+  function search() {
+    axios
+      .get(API_BASE_URL + `/preference/search?query=${query}`)
+      .then((res) => {
         setList(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -132,8 +144,13 @@ function PreferenceList() {
             size="small"
             label="검색어를 입력해주세요"
             variant="outlined"
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <Button variant="outlined" style={{ marginLeft: "10px" }}>
+          <Button
+            variant="outlined"
+            style={{ marginLeft: "10px" }}
+            onClick={search}
+          >
             검색
           </Button>
         </Container>

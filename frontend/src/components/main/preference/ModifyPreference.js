@@ -79,7 +79,7 @@ function RegisterPreference() {
   const onRemove = (index) => {
     const arr = [];
     for (let i = 0, len = list.length; i < len; ++i) {
-      if (i != index) arr.push(list[i]);
+      if (i !== index) arr.push(list[i]);
     }
     setList(arr);
     // setUsers(users.filter(user => user.id !== id));
