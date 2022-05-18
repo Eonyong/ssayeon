@@ -18,7 +18,9 @@ const token = localStorage.getItem("token");
 const headers = {
   Authorization: `Bearer ${token}`,
 };
-const myId = JSON.parse(localStorage.getItem("user")).id;
+const myId = JSON.parse(localStorage.getItem("user"))
+  ? JSON.parse(localStorage.getItem("user")).id
+  : null;
 
 function PreferenceDetail() {
   const [preference, setPreference] = useState({});
@@ -34,7 +36,7 @@ function PreferenceDetail() {
     setPreference(response.data.data);
     setChoices(response.data.data.preference_options_api_response_list);
     if (myChoice > 0) {
-      const donuts = choices.map(({ text: label, votes: value }) => ({
+      const donuts = choices.map(({ description: label, votes: value }) => ({
         label,
         value,
       }));
@@ -99,7 +101,7 @@ function PreferenceDetail() {
                 width: item.percent > 0 ? `${item.percent}%` : "fit-content",
               }}
             >
-              {item.text} {myChoice > 0 ? `(${item.votes} 명)` : null}
+              {item.description} {myChoice > 0 ? `(${item.votes} 명)` : null}
               {myChoice === item.id ? <Check /> : null}
             </ListItem>
           );
@@ -110,13 +112,13 @@ function PreferenceDetail() {
         <Button variant="text" onClick={() => navigate("/preference")}>
           목록으로
         </Button>
-        <Button
+        {/* <Button
           variant="text"
           onClick={() => navigate(`/preference/${id}/modify`)}
           style={{ display: myId !== preference.user_id ? "none" : null }}
         >
           수정
-        </Button>
+        </Button> */}
         <Button
           onClick={onDelete}
           style={{ display: myId !== preference.user_id ? "none" : null }}
