@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell, TextField,
 Card, CardContent, Typography } from "@mui/material";
 
@@ -19,6 +19,9 @@ function FreeDetail() {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
+
+  // 페이지 이동
+  const navigate = useNavigate();
 
   // 게시글 상세 내용 불러오기
   const getFreeDetail = async () => {
@@ -65,7 +68,10 @@ function FreeDetail() {
           headers: headers,
         }
       )
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        navigate(0);
+      })
       .catch((err) => console.log(err));
     }
   };
