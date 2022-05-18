@@ -12,6 +12,7 @@ import FreeList from "./components/main/boards/frees/FreeList";
 import NewFree from "./components/main/boards/frees/NewFree";
 import Profile from "./components/main/accounts/Profile";
 import FreeDetail from "./components/main/boards/frees/FreeDetail";
+import TipList from './components/main/boards/tips/TipList';
 import EditFree from "./components/main/boards/frees/EditFree"
 import Main from "./components/common/Main";
 import { useDispatch } from "react-redux";
@@ -22,6 +23,7 @@ import PreferenceList from "./components/main/preference/PreferenceList";
 import RegisterPreference from "./components/main/preference/RegisterPreference";
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 import ModifyPreference from "./components/main/preference/ModifyPreference";
+import BalanceCreate from "./components/main/balance/BalanceCreate";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,17 +43,16 @@ function App() {
           <Divider orientation="vertical" flexItem variant="fullWidth" light />
           <Grid item sx={{ textAlign: "-webkit-center" }} xs={9}>
             <Routes>
-              <Route path='/' element={ <Main /> } />
-              <Route path='auth/login' element={ <Login /> } />
-              <Route path='auth/join' element={ <Signup /> } />
-              <Route path='/profile' element={ <Profile /> } />
-              <Route path='/boards/notice/new' element={ <NewNotice /> } />
-              <Route path='/boards/notice' element={ <NoticeList />}/>
+              <Route path="/" element={<Main />} />
+              <Route path="auth/login" element={<Login />} />
+              <Route path="auth/join" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/boards/notice" element={<NoticeList />} />
+              <Route path="/boards/notice/new" element={<NewNotice />} />
               <Route path='/boards/notice/:id' element={ <NoticeDetail />}/>
-              <Route path='/balance/list' element={ <BalanceList />}/>
-              <Route path='/balance/:id' element={ <BalanceContent />}/>
-              {/* id값으로 rerouting */}
-              <Route path="/boards/notice/detail" element={<NoticeDetail />} />
+              <Route path="/balance/list" element={<BalanceList />} />
+              <Route path="/balance/:id" element={<BalanceContent />} />
+              <Route path="/balance/create" element={<BalanceCreate />} />
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
@@ -63,6 +64,7 @@ function App() {
               <Route path="/boards/free/new" element={<NewFree />} />
               <Route path="/boards/free/:id" element={<FreeDetail />} />
               <Route path="/boards/free/:id/edit" element={<EditFree />} />
+              <Route path='/boards/tip' element={ <TipList /> } />
             </Routes>
           </Grid>
         </Grid>
