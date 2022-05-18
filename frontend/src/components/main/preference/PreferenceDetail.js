@@ -30,9 +30,10 @@ function PreferenceDetail() {
       })
       .catch((err) => console.log(err));
     axios
-      .get(API_BASE_URL + `/preference/${id}/find`, {}, { headers: headers })
+      .get(API_BASE_URL + `/preference/${id}/find`, { headers: headers })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.data);
+        setMyChoice(res.data.data);
       })
       .catch((err) => console.log(err));
   }
@@ -82,7 +83,7 @@ function PreferenceDetail() {
             }}
           >
             {index + 1}번:
-            {item.description} {item.percent}
+            {item.description} ({item.percent.toFixed(2)}%)
           </li>
         );
       })}
