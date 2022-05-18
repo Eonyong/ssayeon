@@ -1,16 +1,11 @@
-import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BalanceCreate = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, ] = useState(false);
     const navigate = useNavigate()
-    const [InputValue, setInputValue] = useState({
-        description: 'a',
-        left_description: 'b',
-        right_description: 'c'
-    });
 
     const [description,setDescription] = useState("")
     const [leftDescription,setLeftDescription] = useState("")
@@ -27,13 +22,6 @@ const BalanceCreate = () => {
         },{headers:header})
 
         navigate("/balance/list");
-    }
-
-    const onInputHandler = e => {
-        console.log(e.target.value)
-        setInputValue((cur)=>{
-            return cur.description = e.target.value
-        })
     }
 
     const onChangeDesc = (e)=>{

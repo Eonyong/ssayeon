@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell,
-List, ListItem, Divider } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell, TextField,
+Card, CardContent, Typography } from "@mui/material";
 
 function FreeDetail() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT
   let params = useParams();
   const [detail, setDetail] = useState([]);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
+  const onChangeNewComment = (event) => setNewComment(event.target.value);
 
   // 인증 관련
   let token = localStorage.getItem("token");
+  let currentUserInfo = JSON.parse(localStorage.getItem("user"))
+  let currentUser = currentUserInfo.name
+
   const headers = {
     Authorization: `Bearer ${token}`,
   };
+
+  // 페이지 이동
+  const navigate = useNavigate();
 
   // 게시글 상세 내용 불러오기
   const getFreeDetail = async () => {
@@ -31,7 +40,7 @@ function FreeDetail() {
     }
   };
 
-  // 게시글 상세 내용 불러오기
+  // 댓글 불러오기
   const getComments = async () => {
     try {
       const response = await axios.get(
@@ -46,7 +55,29 @@ function FreeDetail() {
         console.log(err);
     }
   };
-  
+
+  // 댓글 작성하기
+  const addNewComment = async () => {
+    if (!newComment) {
+      alert("댓글을 입력하세요")
+    } else {
+      axios.post(
+        `${API_BASE_URL}/article/${params.id}/comments/`,
+        {
+          description: newComment,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        navigate(0);
+      })
+      .catch((err) => console.log(err));
+    }
+  };
+
   useEffect(() => {
     getFreeDetail();
     getComments();
@@ -86,16 +117,57 @@ function FreeDetail() {
             </TableBody>
           </Table>
 
+          {/* 수정 버튼 */}
+          {currentUser === detail.nickname ? (
+            <Button style={{ 
+              display: "flex", 
+              marginTop: "15px", 
+              justifyContent: "center",
+              width: "10%" }}
+              variant="outlined"
+              href={`/boards/free/${params.id}/edit`}>
+              수정
+            </Button>
+          ) : null }
+
+          {/* 댓글 작성 */}
+          <Container style={{ marginTop: "100px" }}>
+            <form>
+              <TextField
+                id="outlined-basic"
+                size="small"
+                width="80%"
+                label="댓글을 입력하세요"
+                value={newComment}
+                onChange={onChangeNewComment}
+                variant="outlined"
+              />
+              <Button 
+                sx={{ marginLeft: "10px" }}
+                variant="outlined"  
+                onClick={addNewComment}
+              >
+                작성
+              </Button>
+            </form>
+          </Container>
+
           {/* 댓글 */}
-          <List component="nav" aria-label="mailbox folders">
-            {comments.map((comment) => (
-              <ListItem key={comment.id}>
-                {comment.description}
-              </ListItem>
-            ))}
-          </List>
+          {comments.map((comment) => (
+            <Card sx={{ minWidth: 275 }}>
+              <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  {comment.nickname}
+                </Typography>
+                <Typography sx={{ fontSize: 16 }}>
+                  {comment.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
           
-          <Table>
+          {/* 이전글, 다음글 */}
+          {/* <Table sx={{ marginTop: "100px" }}>
               <>
                 <TableRow>
                   <TableCell style={{ display: "flex" }}>
@@ -126,13 +198,13 @@ function FreeDetail() {
                   </TableCell>
                 </TableRow>
               </>
-          </Table>
+          </Table> */}
 
           <Button style={{ 
             display: "flex", 
             marginTop: "15px", 
             justifyContent: "center",
-            width: "100px" }}
+            width: "10%" }}
             variant="outlined"
             href="/boards/free">
               목록으로

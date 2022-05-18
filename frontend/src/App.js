@@ -12,6 +12,7 @@ import FreeList from './components/main/boards/frees/FreeList';
 import NewFree from './components/main/boards/frees/NewFree';
 import Profile from './components/main/accounts/Profile';
 import FreeDetail from './components/main/boards/frees/FreeDetail';
+import EditFree from "./components/main/boards/frees/EditFree";
 import TipList from './components/main/boards/tips/TipList';
 import Main from './components/common/Main';
 import { useDispatch } from 'react-redux';
@@ -23,6 +24,7 @@ import RegisterPreference from "./components/main/preference/RegisterPreference"
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 import ModifyPreference from "./components/main/preference/ModifyPreference";
 import BalanceCreate from "./components/main/balance/BalanceCreate";
+import SearchList from "./components/main/search/SearchList";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,7 +54,6 @@ function App() {
               <Route path="/balance/list" element={<BalanceList />} />
               <Route path="/balance/:id" element={<BalanceContent />} />
               <Route path="/balance/create" element={<BalanceCreate />} />
-              {/* id값으로 rerouting */}
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
@@ -63,7 +64,9 @@ function App() {
               <Route path="/boards/free" element={<FreeList />} />
               <Route path="/boards/free/new" element={<NewFree />} />
               <Route path="/boards/free/:id" element={<FreeDetail />} />
+              <Route path="/boards/free/:id/edit" element={<EditFree />} />
               <Route path='/boards/tip' element={ <TipList /> } />
+              <Route path="/search" element={<SearchList />} />
             </Routes>
           </Grid>
         </Grid>

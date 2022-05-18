@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -12,7 +10,6 @@ import Grid from '@mui/material/Grid';
 
 export default function TipList() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
-  const theme = useTheme();
 
   const [questionList, setQuestionList] = useState({
     articles: [],

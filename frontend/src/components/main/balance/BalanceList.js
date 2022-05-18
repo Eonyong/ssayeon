@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import {
     Box,
-    Button, Card, CardContent, CardMedia,
+    Button, Card, CardContent,
     Container, CssBaseline,
     Divider,
     Grid, Stack,
@@ -11,13 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Balance from "./Balance";
 
-
 const BalanceList = (props) => {
-
-    const sampleData = [
-        { id: 0, text: 'Answer 1', votes: 15 },
-        { id: 1, text: 'Answer 2', votes: 8 },
-    ]
 
     const [list,setList] = useState([]);
     const [ratio,setRatio] = useState([]);
@@ -78,7 +72,6 @@ const BalanceList = (props) => {
 
                 {
                     list.map((item,index) => {
-                        var date = new Date(item.created_at);
                         return(
                             <Card
                                 sx={{ display: 'flex', flexDirection: 'column-reverse', marginY: 2 }}
@@ -92,7 +85,6 @@ const BalanceList = (props) => {
                                                 ratio = {ratio}
                                                 setRatio={setRatio}
                                                 balanceId={item.balance_id}
-                                                description={item.left_description}
                                                 dir="LEFT"
                                             />
                                         </Grid>
@@ -107,7 +99,6 @@ const BalanceList = (props) => {
                                                 ratio = {ratio}
                                                 setRatio={setRatio}
                                                 balanceId={item.balance_id}
-                                                description={item.right_description}
                                                 dir="RIGHT"
                                             />
                                         </Grid>
