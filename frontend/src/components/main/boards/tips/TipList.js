@@ -44,7 +44,13 @@ export default function TipList() {
                   {article.title}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" component="div">
-                  {article.content}
+                  {article.nickname}
+                </Typography>
+                <Typography variant="subtitle1" color="text.secondary" component="div">
+                  👀{article.views}
+                </Typography>
+                <Typography variant="subtitle1" color="text.secondary" component="div">
+                  ❤️{article.likes_count}
                 </Typography>
               </CardContent>
             </Grid>
