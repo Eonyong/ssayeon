@@ -1,8 +1,8 @@
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-function Balance({balanceId, dir,ratio,setRatio}){
+function Balance({balanceId, dir,ratio,setRatio, description}){
 
     const [localRatio,setLocalRatio] = useState([]);
     const [flag,setFlag] = useState(false);
@@ -38,18 +38,18 @@ function Balance({balanceId, dir,ratio,setRatio}){
                 flag && dir === "LEFT" ? (localRatio["left_ratio"] > 0 ? `${localRatio["left_ratio"]}%` : '40%') : 
                 flag && dir === "RIGHT" ? (localRatio["right_ratio"] > 0 ? `${localRatio["right_ratio"]}%` : '40%' ) : '100%',
                 backgroundColor:
-                flag && dir === "LEFT" ? 'blue' : 
-                flag && dir === "RIGHT" ? 'red' : null,
+                flag && dir === "LEFT" ? '#1565c0' : 
+                flag && dir === "RIGHT" ? '#b4d877' : null,
             }}
         >
-            <CardContent>
+            <CardContent sx={{ padding:0 }}>
                 <Button
-                    size="small" sx={{ display:'flex' }}
+                    size='large' sx={{ display:'flex', flexWrap:'wrap', padding:0 }}
                     onClick={onClick}
                 >
-                    { !flag ? <Typography color='black' variant="body1" >선택!!</Typography> : null }
-                    {flag && dir === "LEFT" ? <Typography color='black' variant="h5" >{localRatio["left_ratio"]}%</Typography>  : null}
-                    {flag && dir === "RIGHT" ? <Typography color='black' variant="h5" >{localRatio["right_ratio"]}%</Typography> : null}
+                    <Typography color='black' variant='caption'>{description}</Typography>
+                    {flag && dir === "LEFT" ? <Typography color='black'>{localRatio["left_ratio"].toFixed(2)}%</Typography>  : null}
+                    {flag && dir === "RIGHT" ? <Typography color='black'>{localRatio["right_ratio"].toFixed(2)}%</Typography> : null}
                 </Button>
             </CardContent>
         </Card>
