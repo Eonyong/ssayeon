@@ -8,16 +8,14 @@ import {
   TextField,
   Button,
   TableBody,
-  ListSubheader,
-  Card,
-  CardContent,
 } from "@mui/material";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 function PreferenceList() {
-  const API_BASE_URL = process.env.REACT_APP_API_ROOT;
   const [list, setList] = useState([]);
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
   function func() {
     axios({
@@ -26,7 +24,14 @@ function PreferenceList() {
       method: "GET",
     })
       .then((res) => {
-        console.log(res.data.data);
+        setList(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }
+  function search() {
+    axios
+      .get(API_BASE_URL + `/preference/search?query=${query}`)
+      .then((res) => {
         setList(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -35,7 +40,7 @@ function PreferenceList() {
   return (
     <div>
       <>
-        <Container sx={{ marginTop: "100px" }} fullWidth>
+        <Container sx={{ marginTop: "100px" }}>
           <h2 style={{ marginLeft: "50px" }}>선호도조사</h2>
           <Table style={{ marginTop: "2%" }}>
             <TableHead style={{ boxShadow: "0px 5px 10px rgb(207 206 206)" }}>
@@ -86,7 +91,7 @@ function PreferenceList() {
               ) : (
                 list.map((item, idx) => 
                 (
-                  <TableRow>
+                  <TableRow key={idx}>
                     <TableCell
                       style={{
                         fontSize: "1rem",
@@ -135,8 +140,13 @@ function PreferenceList() {
             size="small"
             label="검색어를 입력해주세요"
             variant="outlined"
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <Button variant="outlined" style={{ marginLeft: "10px" }}>
+          <Button
+            variant="outlined"
+            style={{ marginLeft: "10px" }}
+            onClick={search}
+          >
             검색
           </Button>
         </Container>

@@ -12,6 +12,10 @@ import FreeList from "./components/main/boards/frees/FreeList";
 import NewFree from "./components/main/boards/frees/NewFree";
 import Profile from "./components/main/accounts/Profile";
 import FreeDetail from "./components/main/boards/frees/FreeDetail";
+import EditFree from "./components/main/boards/frees/EditFree";
+import TipList from "./components/main/boards/tips/TipList";
+import TipDetail from "./components/main/boards/tips/TipDetail";
+import QnaList from "./components/main/boards/qna/QnaList";
 import Main from "./components/common/Main";
 import { useDispatch } from "react-redux";
 import { userProfile } from "./user/auth";
@@ -22,6 +26,7 @@ import RegisterPreference from "./components/main/preference/RegisterPreference"
 import PreferenceDetail from "./components/main/preference/PreferenceDetail";
 import ModifyPreference from "./components/main/preference/ModifyPreference";
 import BalanceCreate from "./components/main/balance/BalanceCreate";
+import SearchList from "./components/main/search/SearchList";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,23 +50,27 @@ function App() {
               <Route path="auth/login" element={<Login />} />
               <Route path="auth/join" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/boards/notice/new" element={<NewNotice />} />
               <Route path="/boards/notice" element={<NoticeList />} />
+              <Route path="/boards/notice/new" element={<NewNotice />} />
+              <Route path="/boards/notice/:id" element={<NoticeDetail />} />
               <Route path="/balance/list" element={<BalanceList />} />
               <Route path="/balance/:id" element={<BalanceContent />} />
               <Route path="/balance/create" element={<BalanceCreate />} />
-              {/* id값으로 rerouting */}
-              <Route path="/boards/notice/detail" element={<NoticeDetail />} />
               <Route path="/preference" element={<PreferenceList />} />
               <Route path="/preference/new" element={<RegisterPreference />} />
               <Route path="/preference/:id" element={<PreferenceDetail />} />
-              <Route
+              {/* <Route
                 path="/preference/:id/modify"
                 element={<ModifyPreference />}
-              />
+              /> */}
               <Route path="/boards/free" element={<FreeList />} />
               <Route path="/boards/free/new" element={<NewFree />} />
-              <Route path="/boards/free/detail" element={<FreeDetail />} />
+              <Route path="/boards/free/:id" element={<FreeDetail />} />
+              <Route path="/boards/free/:id/edit" element={<EditFree />} />
+              <Route path="/boards/tip" element={<TipList />} />
+              <Route path="/boards/tip/:id" element={<TipDetail />} />
+              <Route path="/boards/question" element={<QnaList />} />
+              <Route path="/search" element={<SearchList />} />
             </Routes>
           </Grid>
         </Grid>

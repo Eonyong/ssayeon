@@ -12,6 +12,7 @@ function MessageModal() {
   const [messageDetail, setMessageDetail] = useState([]);
   const [otherUser, setOtherUser] = useState(0);
   const [IsClick, setIsClick] = useState(false);
+  const [msgFlag, setMsgFlag] = useState(false);
   const [chatting, setChatting] = useState('');
   const onChatHandler = e => {
     const {value} = e.target;
@@ -28,6 +29,7 @@ function MessageModal() {
     .then(res=> {
       setMessageList([res.data.data[0], ...messageList]);
       messageList.reverse();
+      setMsgFlag(true);
     })
     .catch(e=> console.log(e));
   };
@@ -89,10 +91,12 @@ function MessageModal() {
               })
             }
           </List>
-        :
+        : msgFlag ?
         <List>
           {
+            messageList[0] !== undefined ?
             messageList.map((data, idx) => {
+              console.log(messageList);
               var date = new Date(data.created_at);
               return (
                 <ListItemButton divider key={idx}>
@@ -105,9 +109,9 @@ function MessageModal() {
                   />
                 </ListItemButton>
               );
-            })
-          }
-        </List>
+            }) : null 
+          } 
+        </List> : <></>
         }
       </DialogContent>
       <DialogActions>

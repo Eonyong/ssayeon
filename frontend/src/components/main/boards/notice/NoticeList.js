@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, TableCell, TableHead, TableRow, 
-  Container, TextField, Button } from "@mui/material";
+  Container, Button } from "@mui/material";
 
 import NoticeContent from './NoticeContent';
 import Pagination from './Pagination';

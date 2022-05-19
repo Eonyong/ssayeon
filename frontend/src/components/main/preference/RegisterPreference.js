@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { FormControl, TextField, Container, Box, Button, List, ListItem, Input, IconButton, Grid } from "@mui/material";
+import { TextField, Container, Box, Button, List, ListItem, IconButton, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Add, AddBox, IndeterminateCheckBox, PlusOne } from "@mui/icons-material";
+import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 
 function RegisterPreference() {
   // 인증 관련
