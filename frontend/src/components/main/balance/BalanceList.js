@@ -69,46 +69,41 @@ const BalanceList = (props) => {
                         </Stack>
                     </Container>
                 </Box>
-
+                <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12 }} mt={2}>
                 {
                     list.map((item,index) => {
                         return(
-                            <Card
-                                sx={{ display: 'flex', flexDirection: 'column-reverse', marginY: 2 }}
-                                key={index}
-                            >
-                                <CardContent>
-                                    <Grid container >
-                                        <Grid item xs={5}>
-                                            <Typography>{item.left_description}</Typography>
-                                            <Balance
-                                                ratio = {ratio}
-                                                setRatio={setRatio}
-                                                balanceId={item.balance_id}
-                                                dir="LEFT"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={2}>
-                                            <Typography gutterBottom variant="body1" component="h2">
-                                                VS
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={5}>
-                                            <Typography>{item.right_description}</Typography>
-                                            <Balance
-                                                ratio = {ratio}
-                                                setRatio={setRatio}
-                                                balanceId={item.balance_id}
-                                                dir="RIGHT"
-                                            />
-                                        </Grid>
+                            <Grid item xs={2} sm={4} md={4} key={index}
+                            sx={{ paddingBottom:1 }}>
+                                <Grid container sx={{ backgroundColor: `rgba(0,0,0,0.04)` }} height='117.98px'>
+                                    <Grid item xs={5}>
+                                        <Balance
+                                            ratio = {ratio}
+                                            setRatio={setRatio}
+                                            balanceId={item.balance_id}
+                                            description={item.left_description}
+                                            dir="LEFT"
+                                        />
+                                        
                                     </Grid>
-                                </CardContent>
-                                <Divider />
-                            </Card>
+                                    <Grid item xs={2} alignSelf='center'>
+                                        <Typography variant="body1" component="h2">VS</Typography>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <Balance
+                                            ratio = {ratio}
+                                            setRatio={setRatio}
+                                            balanceId={item.balance_id}
+                                            description={item.right_description}
+                                            dir="RIGHT"
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         );
                     })
                 }
+                </Grid>
         </Container>
     );
 };
