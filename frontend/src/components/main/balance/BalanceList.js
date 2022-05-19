@@ -141,7 +141,7 @@ const BalanceList = (props) => {
                                                         {/*    isVoted={false}*/}
                                                         {/*/>*/}
                                                     {/*</Link>*/}
-                                                    <Typography gutterBottom variant="h2" component="h2">
+                                                    <Typography gutterBottom variant="h3" component="h2">
                                                         {item.description}
                                                     </Typography>
                                                     <Typography gutterBottom variant="body1" component="h5">
