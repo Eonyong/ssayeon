@@ -7,6 +7,7 @@ import { Link } from "@mui/material";
 function SearchList() {
   const [list, setList] = useState([]); //상태값 관리 //현재상태, setter함수
   const [keyword, setKeyword] = useState("");
+  
   const createArticle = async (data) => {
     const response = await axios.get(
       `${process.env.REACT_APP_API_ROOT}/article`,
@@ -24,16 +25,21 @@ function SearchList() {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    let search = params.get("search");
+    setKeyword(search);
+  }, []);
+
+  useEffect(() => {
     createArticle();
   }, [keyword]); //keyword의 값이 변경될 때, 렌더링 될 때 createArticle() 사용
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
       setKeyword(e.target.value);
+      window.history.pushState("", "", `/search?search=${e.target.value}`);
     }
   };
-
-  //TODO : 검색어로 검색하기 기능
 
   return (
     <div>
