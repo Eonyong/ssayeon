@@ -87,7 +87,7 @@ function TipDetail() {
     <div>
       <>
         <Container style={{ marginTop: "100px"}}>
-          <h2 style={{ marginLeft: "50px" }}>자유게시판</h2>
+          <h2 style={{ marginLeft: "50px" }}>꿀팁게시판</h2>
           <Table style={{ marginTop: "2%" }}>
             <TableHead>
               <TableRow
