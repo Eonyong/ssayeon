@@ -181,7 +181,10 @@ function SideBar() {
           >
             <ListItemText primary="💚 자유 게시판" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4, py: 2 }}>
+          <ListItemButton
+            sx={{ pl: 4, py: 2 }}
+            component={Link}
+            to="/boards/question">
             <ListItemText primary="❓ 질문 게시판" />
           </ListItemButton>
           <ListItemButton
