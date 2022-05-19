@@ -66,8 +66,6 @@ const BalanceList = (props) => {
                             spacing={2}
                             justifyContent="center"
                         >
-                            <Button variant="contained" sx={{ backgroundColor: '#1565c0' }} >왼쪽 선택!</Button>
-                            <Button variant="contained" sx={{ backgroundColor: '#b4d877' }}>오른쪽 선택!</Button>
                         </Stack>
                     </Container>
                 </Box>
