@@ -7,6 +7,7 @@ import styles from "./Tip.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Grid from '@mui/material/Grid';
+import { Link } from "@mui/material";
 
 export default function TipList() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT;
@@ -36,7 +37,7 @@ export default function TipList() {
   return (
     <div className={styles.container}>
       {questionList.articles.map((article) => (
-        <Card key={article.id} sx={{ display: 'flex', height: "170px", marginBottom: "40px" }}>
+        <Link href={`/boards/tip/${article.id}`} style={{textDecoration: "none"}}><Card key={article.id} sx={{ display: 'flex', height: "170px", marginBottom: "40px" }}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <CardContent sx={{ flex: '1 0 auto', textAlign: "left", margin: "10px" }}>
@@ -64,7 +65,7 @@ export default function TipList() {
               />
             </Grid>
           </Grid>
-        </Card>
+        </Card></Link>
       ))}
     </div>
   );
