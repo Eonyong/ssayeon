@@ -15,6 +15,7 @@ import FreeDetail from "./components/main/boards/frees/FreeDetail";
 import EditFree from "./components/main/boards/frees/EditFree";
 import TipList from "./components/main/boards/tips/TipList";
 import TipDetail from "./components/main/boards/tips/TipDetail";
+import QnaList from "./components/main/boards/qna/QnaList";
 import Main from "./components/common/Main";
 import { useDispatch } from "react-redux";
 import { userProfile } from "./user/auth";
@@ -68,6 +69,7 @@ function App() {
               <Route path="/boards/free/:id/edit" element={<EditFree />} />
               <Route path="/boards/tip" element={<TipList />} />
               <Route path="/boards/tip/:id" element={<TipDetail />} />
+              <Route path="/boards/question" element={<QnaList />} />
               <Route path="/search" element={<SearchList />} />
             </Routes>
           </Grid>
