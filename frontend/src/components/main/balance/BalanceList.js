@@ -28,7 +28,7 @@ const BalanceList = (props) => {
     },[list])
 
     return (
-        <Container>
+        <Container sx={{ padding:0 }}>
             <CssBaseline />
                 {/* Hero unit */}
                 <Box
@@ -54,8 +54,11 @@ const BalanceList = (props) => {
                             spacing={2}
                             justifyContent="center"
                         >
-                            <Button variant="contained">왼쪽 선택!</Button>
-                            <Button variant="outlined">오른쪽 선택!</Button>
+                            <Link to={`/balance/create`} style={{ textDecoration:'auto' }}>
+                                <Button variant="contained">
+                                    밸런스 게임 생성하기
+                                </Button>
+                            </Link>
                         </Stack>
                         <Stack
                             sx={{ pt: 4 }}
@@ -63,9 +66,8 @@ const BalanceList = (props) => {
                             spacing={2}
                             justifyContent="center"
                         >
-                            <Link to={`/balance/create`}>
-                                <Button variant="contained">밸런스 게임 생성하기</Button>
-                            </Link>
+                            <Button variant="contained" sx={{ backgroundColor: '#1565c0' }} >왼쪽 선택!</Button>
+                            <Button variant="contained" sx={{ backgroundColor: '#b4d877' }}>오른쪽 선택!</Button>
                         </Stack>
                     </Container>
                 </Box>
@@ -73,7 +75,7 @@ const BalanceList = (props) => {
                 {
                     list.map((item,index) => {
                         return(
-                            <Grid item xs={2} sm={4} md={4} key={index}
+                            <Grid item xs={2} sm={4} md={4} key={index} 
                             sx={{ paddingBottom:1 }}>
                                 <Grid container sx={{ backgroundColor: `rgba(0,0,0,0.04)` }} height='117.98px'>
                                     <Grid item xs={5}>

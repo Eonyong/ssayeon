@@ -32,7 +32,7 @@ function Balance({balanceId, dir,ratio,setRatio, description}){
     },[ratio])
 
     return(
-        <Card
+        <Card elevation={4}
             sx={{
                 height: 
                 flag && dir === "LEFT" ? (localRatio["left_ratio"] > 0 ? `${localRatio["left_ratio"]}%` : '40%') : 
@@ -40,17 +40,13 @@ function Balance({balanceId, dir,ratio,setRatio, description}){
                 backgroundColor:
                 flag && dir === "LEFT" ? '#1565c0' : 
                 flag && dir === "RIGHT" ? '#b4d877' : null,
-            }}
+                padding:0
+            }} onClick={onClick}
         >
             <CardContent sx={{ padding:0 }}>
-                <Button
-                    size='large' sx={{ display:'flex', flexWrap:'wrap', padding:0 }}
-                    onClick={onClick}
-                >
-                    <Typography color='black' variant='caption'>{description}</Typography>
-                    {flag && dir === "LEFT" ? <Typography color='black'>{localRatio["left_ratio"].toFixed(2)}%</Typography>  : null}
-                    {flag && dir === "RIGHT" ? <Typography color='black'>{localRatio["right_ratio"].toFixed(2)}%</Typography> : null}
-                </Button>
+                <Typography color='black' variant='caption'>{description}</Typography>
+                {flag && dir === "LEFT" ? <Typography color='black'>{localRatio["left_ratio"].toFixed(2)}%</Typography>  : null}
+                {flag && dir === "RIGHT" ? <Typography color='black'>{localRatio["right_ratio"].toFixed(2)}%</Typography> : null}
             </CardContent>
         </Card>
     )
