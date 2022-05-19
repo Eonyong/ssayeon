@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell, TextField,
-Card, CardContent, Typography } from "@mui/material";
+Card, CardContent, Typography, Divider } from "@mui/material";
 
 function TipDetail() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT
@@ -109,7 +109,7 @@ function TipDetail() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow style={{ height: "30rem" }}>
+              <TableRow style={{ height: "30rem", border: "solid grey" }}>
                 <TableCell style={{ fontSize: "1rem", textAlign: "start" }}>
                   {detail.content}
                 </TableCell>
@@ -125,25 +125,32 @@ function TipDetail() {
               justifyContent: "center",
               width: "10%" }}
               variant="outlined"
-              href={`/boards/free/${params.id}/edit`}>
+              href={`/boards/tip/${params.id}/edit`}>
               수정
             </Button>
           ) : null }
+          </Container>
+
+          {/* 댓글 */}
+          <Container sx={{ marginTop: "30px", width: "80%" }} >
+            <Typography variant="h6" align="left" sx={{ marginBottom: "20px" }}>
+              댓글 ({comments.length})
+            </Typography>
 
           {/* 댓글 작성 */}
-          <Container style={{ marginTop: "100px" }}>
+          <Container style={{ marginTop: "30px", marginBottom: "30px" }}>
             <form>
               <TextField
+                sx={{ width: "80%" }}
                 id="outlined-basic"
                 size="small"
-                width="80%"
                 label="댓글을 입력하세요"
                 value={newComment}
                 onChange={onChangeNewComment}
                 variant="outlined"
               />
               <Button 
-                sx={{ marginLeft: "10px" }}
+                sx={{ width: "80px", marginLeft: "20px" }}
                 variant="outlined"  
                 onClick={addNewComment}
               >
@@ -152,27 +159,29 @@ function TipDetail() {
             </form>
           </Container>
 
-          {/* 댓글 */}
           {comments.map((comment) => (
-            <Card sx={{ minWidth: 275 }}>
-              <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            <Card key={comment.id}>
+              <CardContent sx={{ bgcolor: "#F1F1F1" }}>
+                <Typography sx={{ fontSize: 14, marginLeft: "20px" }} align="left" color="text.secondary">
                   {comment.nickname}
                 </Typography>
-                <Typography sx={{ fontSize: 16 }}>
+                <Typography sx={{ fontSize: 16, marginLeft: "20px", marginTop: "10px" }} align="left">
                   {comment.description}
                 </Typography>
+                {comments.indexOf(comment) === (comments.length - 1) ? null : (
+                  <Divider sx={{ marginTop: "20px" }} />
+                )}
               </CardContent>
             </Card>
           ))}
-          
+
           <Button style={{ 
             display: "flex", 
             marginTop: "15px", 
             justifyContent: "center",
             width: "10%" }}
             variant="outlined"
-            href="/boards/free">
+            href="/boards/tip">
               목록으로
           </Button>
         </Container>
