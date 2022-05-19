@@ -28,7 +28,7 @@ function SearchList() {
     const params = new URLSearchParams(window.location.search);
     let search = params.get("search");
     setKeyword(search);
-  }, []);
+  });
 
   useEffect(() => {
     createArticle();
