@@ -110,7 +110,7 @@ function TipDetail() {
             </TableHead>
             <TableBody>
               <TableRow style={{ height: "30rem", border: "solid grey" }}>
-                <TableCell style={{ fontSize: "1rem", textAlign: "start" }}>
+                <TableCell style={{ fontSize: "1rem", textAlign: "start", overflowWrap:'anywhere' }}>
                   {detail.content}
                 </TableCell>
               </TableRow>
