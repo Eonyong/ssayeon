@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Container, Table, TableHead, TableBody, TableRow, TableCell, TextField,
-Card, CardContent, Typography } from "@mui/material";
+Card, CardContent, Typography, Divider, Box } from "@mui/material";
 
 function FreeDetail() {
   const API_BASE_URL = process.env.REACT_APP_API_ROOT
@@ -129,21 +129,28 @@ function FreeDetail() {
               수정
             </Button>
           ) : null }
+          </Container>
+
+          {/* 댓글 */}
+          <Container sx={{ marginTop: "30px", width: "80%" }} >
+            <Typography variant="h6" align="left" sx={{ marginBottom: "20px" }}>
+              댓글 ({comments.length})
+            </Typography>
 
           {/* 댓글 작성 */}
-          <Container style={{ marginTop: "100px" }}>
+          <Container style={{ marginTop: "30px", marginBottom: "30px" }}>
             <form>
               <TextField
+                sx={{ width: "80%" }}
                 id="outlined-basic"
                 size="small"
-                width="80%"
                 label="댓글을 입력하세요"
                 value={newComment}
                 onChange={onChangeNewComment}
                 variant="outlined"
               />
               <Button 
-                sx={{ marginLeft: "10px" }}
+                sx={{ width: "80px", marginLeft: "20px" }}
                 variant="outlined"  
                 onClick={addNewComment}
               >
@@ -152,16 +159,18 @@ function FreeDetail() {
             </form>
           </Container>
 
-          {/* 댓글 */}
           {comments.map((comment) => (
-            <Card sx={{ minWidth: 275 }}>
-              <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            <Card>
+              <CardContent sx={{ bgcolor: "#F1F1F1" }}>
+                <Typography sx={{ fontSize: 14, marginLeft: "20px" }} align="left" color="text.secondary">
                   {comment.nickname}
                 </Typography>
-                <Typography sx={{ fontSize: 16 }}>
+                <Typography sx={{ fontSize: 16, marginLeft: "20px", marginTop: "10px" }} align="left">
                   {comment.description}
                 </Typography>
+                {comments.indexOf(comment) === (comments.length - 1) ? null : (
+                  <Divider sx={{ marginTop: "20px" }} />
+                )}
               </CardContent>
             </Card>
           ))}
