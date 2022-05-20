@@ -94,6 +94,8 @@
 
 시스템 구성도
 
+![un](./backend/ssayeon_architecture.png)
+
 
 # ERD 및 테이블 소개
 
