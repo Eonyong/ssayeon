@@ -178,198 +178,44 @@
      ┃ ┃ ┃ ┃ ┗ 📂ssayeon
      ┃ ┃ ┃ ┃ ┃ ┣ 📂api
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NotificationController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserController.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂request
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleAnswerCreateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleAnswerUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleCreateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜CommentCreateReq.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthDuplicateNicknameReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthJoinReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthLoginReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthVerifyEmailReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜AuthVerifyUserReq.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceCommentsReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ModifyBalanceReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜RegisterBalanceReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜RegisterPollReq.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NotificationCreateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜NotificationUpdateReq.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceApiRequest.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PreferenceCommentsApiRequest.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserAlarmReadReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserEditPasswordReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserEditUserReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserFindUserRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserSendMessageReq.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂response
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleAnswerRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleCommentsRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BoardRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CategoryRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜TagRes.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜AuthJoinRes.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceCommentsRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜GetAllBalanceRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜GetBalanceRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GetBalanceStaticsRes.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜NotificationShowListRes.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceApiResponse.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceCommentsApiResponse.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PreferenceOptionsApiResponse.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowAlarmRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowMessageDetailRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowMessageListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowMessageListView.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowMyPageRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowUserActivityRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserShowUserRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserUnreadMessageCntRes.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AlarmService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜EmailService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NotificationService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceCommentsLikesService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceCommentsService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceOptionsService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceOptionsUserSelectedService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserService.java
      ┃ ┃ ┃ ┃ ┃ ┣ 📂common
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exceptions
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂handler
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ErrorResponse.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜ExceptionsHandler.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AlreadyExistException.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CustomException.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ForbiddenException.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜InternalServerException.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NotExistException.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NotJoinedUserException.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UnAuthorizedException.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂model
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂enums
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ErrorMessage.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Status.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂response
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AdvancedResponseBody.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BaseResponseBody.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PaginationResponseBody.java
      ┃ ┃ ┃ ┃ ┃ ┣ 📂config
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CurrentUser.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CustomAuthenticationProvider.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PrincipalDetails.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PrincipalDetailsService.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂aws
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AwsS3Config.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜S3Util.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂jwt
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JwtAccessDeniedHandler.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JwtAuthenticationEntryPoint.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JwtFilter.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜TokenProvider.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜EmailConfig.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜QuerydslConfiguration.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SecurityConfig.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜TomcatWebCustomConfig.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜WebConfig.java
      ┃ ┃ ┃ ┃ ┃ ┣ 📂db
      ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Article.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleAnswer.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleComments.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleCommentsLikes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleHasTag.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleLikes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleScrap.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Board.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Category.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CategoryHasBoard.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Tag.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Balance.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceComments.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceCommentsLikes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceSelected.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Poll.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Notification.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Preference.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceComments.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceCommentsLikes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceOptions.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PreferenceOptionsUserSelected.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Alarm.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Message.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Scrap.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜TechStack.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜User.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserCertification.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserHasTechStack.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BaseEntity.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Pagination.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂repository
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂Notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜NotificationRepository.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleAnswerRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleCommentsLikesRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleCommentsRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleHasTagRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleLikesRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ArticleScrapRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BoardRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CategoryRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CommentRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜TagRepository.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceCommentsLikesRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceCommentsRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceOptionsRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PreferenceOptionsUserSelectedRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PreferenceRepository.java
      ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AlarmRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MessageRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜TechStackRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserCertificationRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserHasTechStackRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceCommentsLikesRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceCommentsRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BalanceRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜BalanceSelectedRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜SsayeonApplication.java
      ┃ ┃ ┗ 📂resources
-     ┃ ┃ ┃ ┣ 📜application.properties
-     ┃ ┃ ┗ 📜email.properties
      ┣ 📜Dockerfile
      ┗ 📜build.gradle
     ```
