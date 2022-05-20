@@ -1,17 +1,15 @@
 version: "3"
 services:
-    web:
-        image: nginx:latest
-        # build: /mnt/c/hotsixturtles/nginx
-        ports:
-          - 80:80
-        volumes:
-          - ./nginx/conf.d:/etc/nginx/conf.d
-          - ./front/dist
-        depends_on:
-          - application
+  nginx:
+    build: 
+      context: ./frontend
+    ports:
+      - 80:80
+    depends_on:
+      - spring
 
-    application:
-        build: ./back
-        ports:
-          - 8080:8080
+  spring:
+    build: 
+      context: ./backend
+    ports:
+      - 8082:8081 #로컬포트:컨테이너포트

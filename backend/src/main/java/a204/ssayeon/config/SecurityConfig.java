@@ -1,5 +1,6 @@
 package a204.ssayeon.config;
 
+import a204.ssayeon.config.auth.CustomAuthenticationProvider;
 import a204.ssayeon.config.auth.PrincipalDetailsService;
 import a204.ssayeon.config.jwt.JwtAccessDeniedHandler;
 import a204.ssayeon.config.jwt.JwtAuthenticationEntryPoint;
@@ -41,16 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public CustomAuthenticationProvider customAuthenticationProvider() {
+        return new CustomAuthenticationProvider(principalDetailsService, encode());
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(principalDetailsService)
-                .passwordEncoder(encode());
+                .authenticationProvider(customAuthenticationProvider());
     }
 
     @Override
@@ -82,7 +81,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(tokenAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);
-
     }
 
 
