@@ -92,7 +92,7 @@
     
     Gitlab
 
-시스템 구성도
+## 시스템 구성도
 
 ![un](./backend/ssayeon_architecture.png)
 
