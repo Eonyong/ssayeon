@@ -388,70 +388,21 @@
      ┣ 📂src
      ┃ ┣ 📂components
      ┃ ┃ ┣ 📂common
-     ┃ ┃ ┃ ┣ 📜Main.js
-     ┃ ┃ ┃ ┣ 📜Main.module.css
-     ┃ ┃ ┃ ┣ 📜MainArticleList.js
-     ┃ ┃ ┃ ┣ 📜Messagemodal.js
-     ┃ ┃ ┃ ┗ 📜Sidebar.js
      ┃ ┃ ┣ 📂images
-     ┃ ┃ ┃ ┗ 📜ssayeon.png
      ┃ ┃ ┣ 📂main
      ┃ ┃ ┃ ┣ 📂accounts
-     ┃ ┃ ┃ ┃ ┣ 📜Companies.js
-     ┃ ┃ ┃ ┃ ┣ 📜Login.js
-     ┃ ┃ ┃ ┃ ┣ 📜Profile.js
-     ┃ ┃ ┃ ┃ ┣ 📜Signup.js
-     ┃ ┃ ┃ ┃ ┗ 📜Skilltech.js
      ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┣ 📂css
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜Backround.module.css
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜Image.moudle.css
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜Picture.module.css
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜background.jpeg
-     ┃ ┃ ┃ ┃ ┣ 📜Background.js
-     ┃ ┃ ┃ ┃ ┣ 📜Balance.js
-     ┃ ┃ ┃ ┃ ┣ 📜BalanceComments.js
-     ┃ ┃ ┃ ┃ ┣ 📜BalanceContent.js
-     ┃ ┃ ┃ ┃ ┣ 📜BalanceCreate.js
-     ┃ ┃ ┃ ┃ ┣ 📜BalanceList.js
-     ┃ ┃ ┃ ┃ ┣ 📜Image.js
-     ┃ ┃ ┃ ┃ ┗ 📜Picture.js
+     ┃ ┃ ┃ ┃ ┗ 📂css
      ┃ ┃ ┃ ┣ 📂boards
      ┃ ┃ ┃ ┃ ┣ 📂frees
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜EditFree.js
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜FreeDetail.js
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜FreeList.js
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜NewFree.js
      ┃ ┃ ┃ ┃ ┣ 📂notice
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜NewNotice.js
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜NoticeContent.js
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜NoticeDetail.js
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜NoticeList.js
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜Pagination.js
      ┃ ┃ ┃ ┃ ┣ 📂polls
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜PollDetail.js
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜PollList.js
      ┃ ┃ ┃ ┃ ┣ 📂qna
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜QnaDetail.js
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜QnaList.js
      ┃ ┃ ┃ ┃ ┗ 📂tips
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜Tip.module.css
-     ┃ ┃ ┃ ┃ ┃ ┣ 📜TipDetail.js
-     ┃ ┃ ┃ ┃ ┃ ┗ 📜TipList.js
      ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┣ 📜ModifyPreference.js
-     ┃ ┃ ┃ ┃ ┣ 📜PreferenceDetail.js
-     ┃ ┃ ┃ ┃ ┣ 📜PreferenceList.js
-     ┃ ┃ ┃ ┃ ┗ 📜RegisterPreference.js
      ┃ ┃ ┃ 📂search
-     ┃ ┃ ┃ ┣ 📜Pagination.js
-     ┃ ┃ ┃ ┗ 📜SearchList.js
      ┃ ┣ 📂services
-     ┃ ┃ ┣ 📜auth-header.js
-     ┃ ┃ ┗ 📜auth.service.js
      ┃ ┣ 📂user
-     ┃ ┃ ┣ 📜auth.js
-     ┃ ┃ ┗ 📜message.js
      ┃ ┣ 📜App.js
      ┃ ┣ 📜index.css
      ┃ ┣ 📜index.js
