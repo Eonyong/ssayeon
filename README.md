@@ -97,7 +97,7 @@
 
 # ERD 및 테이블 소개
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/360bacd9-e63d-4a09-8ccb-60942badf8e5/Untitled.png)
+![Untitled](./backend/ssayeon_erd.png)
 
 1. 사용자 정보를 저장하는 `User` 테이블
 2. 사용자 간 메시지를 저장하기 위한 `Message` 테이블
