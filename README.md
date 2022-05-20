@@ -263,3 +263,6 @@
      ┣ 📜package-lock.json
      ┗ 📜package.json
     ```
+
+## 저희는 노션으로 소통했어요!
+[노션링크](!https://www.notion.so/SSAYEON-SSA-cdab675594be41d1964f56f2eadd7e8f)
