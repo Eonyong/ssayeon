@@ -56,8 +56,6 @@
 
 # 기술 스택
 
-<br>
-
 #### Front-End
 
 <img src="https://img.shields.io/badge/VS Code-007ACC?style=for-the-badge&logo=Visual Studio Code&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-DC6839?style=for-the-badge&logo=&logoColor=white"/>
