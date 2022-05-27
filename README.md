@@ -33,73 +33,61 @@
 
 # 팀원소개
 
+```
 강동석: 팀장, BE, 선호도조사
 
+정언용: FE, 회원관리
 김종우: FE, 공지사항, 게시판
 
 박소율: BE, 게시판
-
 임형준: BE, 밸런스게임, CI/CD
-
-정언용: FE, 회원관리
-
 최정민: BE, 회원관리, CI/CD
+```
 <br><br>
 
 
 # 기술 스택
 
-- **Front-End**
+## Frontend
     
-     **VS Code**
+```
+* VS Code
+* JavaScript
+* React 18.0
+* Redux 4.2
+* React Router 6.3
+* Axios
+```
     
-    **JavaScript**
+## Backend
     
-    **React 18.0**
+```
+* Spring Boot(Java) 2.6.2
+* Amazon RDS
+* Intellij
+* JPA
+* JWT
+* Postman
+* Amazon S3
+```
+
+## CI/CD
     
-    **Redux 4.2**
-    
-    **React Router 6.3**
-    
-    **Axios**
-    
-- back
-    
-    Spring Boot(Java) 2.6.2
-    
-    Amazon RDS
-    
-    Intellij
-    
-    JPA
-    
-    JWT
-    
-    Postman
-    
-    Amazon S3
-    
-- ci/cd
-    
-    Gitlab
-    
-    AWS EC2 Ubuntu 20.04.4
-    
-    Docker 20.10.12
-    
-    Docker-Compose 1.29.2
-    
-    Nginx 1.18.0
-    
-    Jenkins 2.332.3
-    
+```
+* Gitlab
+* AWS EC2 Ubuntu 20.04.4    
+* Docker 20.10.12    
+* Docker-Compose 1.29.2    
+* Nginx 1.18.0    
+* Jenkins 2.332.3
+```
+
 - 협업툴
-    
-    JIRA
-    
-    Notion
-    
-    Gitlab
+```
+* JIRA
+* Notion 
+* Gitlab
+```
 <br><br>
 
 
