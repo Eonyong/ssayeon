@@ -32,7 +32,7 @@
 - 놀이터
     - 밸런스 게임
     - 선호도 조사
-<br><br>
+    <br><br>
 
 
 <br>
@@ -64,7 +64,7 @@
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"/><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"/><img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white"/>
 
-<br>
+
 
 #### Back-End
 
@@ -72,13 +72,13 @@
 
 <img src="https://img.shields.io/badge/Amazon S3-06AC38?style=for-the-badge&logo=Amazon S3&logoColor=white"/><img src="https://img.shields.io/badge/AMAZON RDS-7A1FA2?style=for-the-badge&logo=&logoColor=white"/><img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/>
 
-<br>
+
 
 #### CI/CD
 
 <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white"/><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/><img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"/><img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
 
-<br>
+
 
 #### 협업툴
 
@@ -176,104 +176,104 @@
 
 
 
-폴더 구조
+# 폴더 구조
 
-- Back-end
-    
-    ```
-    📦backend
-     ┣ 📂src
-     ┃ ┣ 📂main
-     ┃ ┃ ┣ 📂java
-     ┃ ┃ ┃ ┗ 📂a204
-     ┃ ┃ ┃ ┃ ┗ 📂ssayeon
-     ┃ ┃ ┃ ┃ ┃ ┣ 📂api
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂request
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂response
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
-     ┃ ┃ ┃ ┃ ┃ ┣ 📂common
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exceptions
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂handler
-     ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂model
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂enums
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂response
-     ┃ ┃ ┃ ┃ ┃ ┣ 📂config
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂aws
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂jwt
-     ┃ ┃ ┃ ┃ ┃ ┣ 📂db
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
-     ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂repository
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂Notification
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
-     ┃ ┃ ┗ 📂resources
-     ┣ 📜Dockerfile
-     ┗ 📜build.gradle
-    ```
-    
-- Front-end
-    
-    ```
-    📦frontend
-     ┣ 📂nginx
-     ┃ ┗ 📜default.conf
-     ┣ 📂public
-     ┃ ┣ 📜background.jpeg
-     ┃ ┣ 📜index.html
-     ┃ ┣ 📜manifest.json
-     ┃ ┗ 📜robots.txt
-     ┣ 📂src
-     ┃ ┣ 📂components
-     ┃ ┃ ┣ 📂common
-     ┃ ┃ ┣ 📂images
-     ┃ ┃ ┣ 📂main
-     ┃ ┃ ┃ ┣ 📂accounts
-     ┃ ┃ ┃ ┣ 📂balance
-     ┃ ┃ ┃ ┃ ┗ 📂css
-     ┃ ┃ ┃ ┣ 📂boards
-     ┃ ┃ ┃ ┃ ┣ 📂frees
-     ┃ ┃ ┃ ┃ ┣ 📂notice
-     ┃ ┃ ┃ ┃ ┣ 📂polls
-     ┃ ┃ ┃ ┃ ┣ 📂qna
-     ┃ ┃ ┃ ┃ ┗ 📂tips
-     ┃ ┃ ┃ ┣ 📂preference
-     ┃ ┃ ┃ 📂search
-     ┃ ┣ 📂services
-     ┃ ┣ 📂user
-     ┃ ┣ 📜App.js
-     ┃ ┣ 📜index.css
-     ┃ ┣ 📜index.js
-     ┃ ┣ 📜reportWebVitals.js
-     ┃ ┣ 📜serviceWorker.js
-     ┃ ┣ 📜setupTests.js
-     ┃ ┗ 📜store.js
-     ┣ 📜.env
-     ┣ 📜.gitignore
-     ┣ 📜Dockerfile
-     ┣ 📜README.md
-     ┣ 📜package-lock.json
-     ┗ 📜package.json
-    ```
+##### Back-end
+
+```
+📦backend
+ ┣ 📂src
+ ┃ ┣ 📂main
+ ┃ ┃ ┣ 📂java
+ ┃ ┃ ┃ ┗ 📂a204
+ ┃ ┃ ┃ ┃ ┗ 📂ssayeon
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂api
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂request
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂response
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exceptions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂handler
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂model
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂enums
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂response
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂aws
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂jwt
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂db
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂balance
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notification
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂Notification
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂article
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂preference
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┗ 📂resources
+ ┣ 📜Dockerfile
+ ┗ 📜build.gradle
+```
+
+#### Front-end
+
+```
+📦frontend
+ ┣ 📂nginx
+ ┃ ┗ 📜default.conf
+ ┣ 📂public
+ ┃ ┣ 📜background.jpeg
+ ┃ ┣ 📜index.html
+ ┃ ┣ 📜manifest.json
+ ┃ ┗ 📜robots.txt
+ ┣ 📂src
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┣ 📂images
+ ┃ ┃ ┣ 📂main
+ ┃ ┃ ┃ ┣ 📂accounts
+ ┃ ┃ ┃ ┣ 📂balance
+ ┃ ┃ ┃ ┃ ┗ 📂css
+ ┃ ┃ ┃ ┣ 📂boards
+ ┃ ┃ ┃ ┃ ┣ 📂frees
+ ┃ ┃ ┃ ┃ ┣ 📂notice
+ ┃ ┃ ┃ ┃ ┣ 📂polls
+ ┃ ┃ ┃ ┃ ┣ 📂qna
+ ┃ ┃ ┃ ┃ ┗ 📂tips
+ ┃ ┃ ┃ ┣ 📂preference
+ ┃ ┃ ┃ 📂search
+ ┃ ┣ 📂services
+ ┃ ┣ 📂user
+ ┃ ┣ 📜App.js
+ ┃ ┣ 📜index.css
+ ┃ ┣ 📜index.js
+ ┃ ┣ 📜reportWebVitals.js
+ ┃ ┣ 📜serviceWorker.js
+ ┃ ┣ 📜setupTests.js
+ ┃ ┗ 📜store.js
+ ┣ 📜.env
+ ┣ 📜.gitignore
+ ┣ 📜Dockerfile
+ ┣ 📜README.md
+ ┣ 📜package-lock.json
+ ┗ 📜package.json
+```
 <br><br>
 
 
