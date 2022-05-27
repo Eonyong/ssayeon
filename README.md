@@ -1,6 +1,14 @@
-싸피인의 소통을 위한 커뮤니티 서비스
-<br><br>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/70699213/170642205-94255773-1b1c-4018-8a66-9af5e2c3134e.png"/>
+</div>
 
+# 싸피인의 소통을 위한 커뮤니티 서비스
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/70699213/170642581-eacab5b4-2dd5-472a-8ee5-84ffc64e4b0b.gif" width="900" height="400"/>
+</div>
+<br/>
 
 ## 프로젝트 소개 및 기능
 
