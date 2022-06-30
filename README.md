@@ -1,6 +1,14 @@
-싸피인의 소통을 위한 커뮤니티 서비스
-<br><br>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/70699213/170642205-94255773-1b1c-4018-8a66-9af5e2c3134e.png"/>
+</div>
 
+# 싸피인의 소통을 위한 커뮤니티 서비스
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/70699213/170642581-eacab5b4-2dd5-472a-8ee5-84ffc64e4b0b.gif" width="900" height="400"/>
+</div>
+<br/>
 
 ## 프로젝트 소개 및 기능
 
@@ -40,11 +48,10 @@
 # 팀원소개
 
 ```
-강동석: 팀장, BE, 선호도조사
-
 정언용: FE, 회원관리
 김종우: FE, 공지사항, 게시판
 
+강동석: 팀장, BE, 선호도조사
 박소율: BE, 게시판
 임형준: BE, 밸런스게임, CI/CD
 최정민: BE, 회원관리, CI/CD
@@ -56,9 +63,7 @@
 
 # 기술 스택
 
-<br>
-
-#### **Front-End**
+#### Front-End
 
 <img src="https://img.shields.io/badge/VS Code-007ACC?style=for-the-badge&logo=Visual Studio Code&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-DC6839?style=for-the-badge&logo=&logoColor=white"/>
 
